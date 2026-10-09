@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Wikz Store- SMM</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="mobile.css" media="screen and (max-width: 767px)">
+<link rel="stylesheet" href="desktop.css" media="screen and (min-width: 768px)">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="brand">
+    <div class="logo">
+      <img src="/home/klogo.png" alt="Shine Shop Logo" width="40" height="40" loading="lazy">
+    </div>
+    <h1>Wikz Store</h1>
+  </div>
+  <button class="hamburger-btn" id="menuToggle" aria-label="Menu" type="button">
+    <div class="hamburger-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+</header>
+
+<div id="menuOverlay" class="overlay"></div>
+
+<nav id="siteMenu" class="offcanvas" aria-label="Menu utama">
+  <div class="offcanvas-header">
+    <strong>Menu Utama</strong>
+    <button class="close-offcanvas" id="menuClose" type="button" aria-label="Tutup">✕</button>
+  </div>
+  <ul class="menu-list">
+    <li><a href="/sosmed-2/cekstatus">Cek Pesanan</a></li>
+    <li><a href="https://whatsapp.com/channel/0029Vb8pYHd0G0XjnloL680y" target="_blank" rel="noopener">Channel WhatsApp</a></li>
+  </ul>
+</nav>
+
+<!-- FORM -->
+<main class="container">
+  <h2>Suntik Sosmed 2 - Wikz Store/h2>
+<marquee bgcolor="black" scrollamount="5" style="color: white; font-family: Arial, sans-serif; padding: 10px; font-size: 16px;">
+    Jika ada Kendala hubungi WhatsApp +62 881-0382-03194 
+    <b style="color: red; margin-left: 10px;">HARAP BERHATI HATI TERHADAP PENIPUAN YANG MENGATASNAMAKAN WIKZ STORE</b>
+</marquee>
+
+  <label for="search">Cari Layanan</label>
+  <input type="text" id="search" placeholder="Contoh: Instagram / 14444" autocomplete="off">
+
+  <div class="filter-row">
+    <div class="filter-item">
+      <label>Kategori</label>
+      <div class="cselect" id="cselectKategori" data-placeholder="-- Pilih Kategori --">
+        <button type="button" class="cselect-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="cselect-value placeholder">-- Pilih Kategori --</span>
+          <span class="cselect-arrow" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+        <input type="hidden" id="kategori" value="">
+      </div>
+    </div>
+    <div class="filter-item">
+      <label for="sortHarga">Urutkan</label>
+      <select id="sortHarga">
+        <option value="default">📋 Default</option>
+        <option value="asc" selected>⬆️ Termurah</option>
+        <option value="desc">⬇️ Termahal</option>
+      </select>
+    </div>
+  </div>
+
+  <label>Layanan</label>
+  <div class="cselect" id="cselectLayanan" data-placeholder="-- Pilih Layanan --">
+    <button type="button" class="cselect-trigger" aria-haspopup="listbox" aria-expanded="false">
+      <span class="cselect-value placeholder">-- Pilih Layanan --</span>
+      <span class="cselect-arrow" aria-hidden="true">
+        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+    <input type="hidden" id="layanan" value="">
+  </div>
+
+  <div class="desc" id="infoLayanan"></div>
+
+  <label>Waktu rata-rata selesai</label>
+  <div class="aver" id="average">—</div>
+
+  <div class="mode-toggle">
+    <button class="mode-btn active" data-mode="single" id="modeSingle">📋 Single Order</button>
+    <button class="mode-btn" data-mode="massal" id="modeMassal">📦 Massal Order</button>
+  </div>
+
+  <div id="singleSection">
+    <label for="jumlah">Jumlah Pesanan</label>
+    <input type="number" id="jumlah" min="1" inputmode="numeric" placeholder="Masukkan jumlah">
+
+    <div class="price-display" id="priceDisplay">
+      <span class="label">💰 Total Harga</span>
+      <span class="amount" id="priceAmount"><span class="currency">Rp</span> 0</span>
+      <div class="detail" id="priceDetail"></div>
+    </div>
+
+    <label for="target">Target / Link</label>
+    <input type="text" id="target" placeholder="Masukkan username atau link" autocomplete="off">
+
+    <div id="commentSection">
+      <label for="comments">📝 Komentar (1 baris = 1 unit)</label>
+      <textarea id="comments" placeholder="Masukkan komentar per baris&#10;Contoh:&#10;Komentar 1&#10;Komentar 2&#10;Komentar 3"></textarea>
+      <div class="comment-info" id="commentInfo">
+        📊 Jumlah komentar: <span class="count" id="commentCount">0</span> / <span id="commentRequired">0</span> unit
+        <span id="commentStatus"></span>
+      </div>
+    </div>
+
+    <button class="single-checkout-btn" id="btnSingleCheckout" type="button">
+      💳 Lanjut ke Pembayaran (Single)
+    </button>
+    <div style="color:#64748b;font-size:11px;text-align:center;margin-top:6px;">
+      ⚡ Single order langsung checkout tanpa daftar
+    </div>
+  </div>
+
+  <div id="massalSection" style="display:none;margin-top:12px;">
+    <div class="alert" style="border-left-color:var(--warning);color:var(--warning);background:rgba(251,191,36,0.06);">
+      📦 Mode Massal: Isi jumlah dan target, lalu klik "Tambahkan" untuk menambah ke daftar.
+    </div>
+
+    <label for="massalJumlah">Jumlah Pesanan</label>
+    <input type="number" id="massalJumlah" min="1" inputmode="numeric" placeholder="Masukkan jumlah">
+
+    <div class="price-display" id="priceDisplayMassal">
+      <span class="label">💰 Total Harga</span>
+      <span class="amount" id="priceAmountMassal"><span class="currency">Rp</span> 0</span>
+      <div class="detail" id="priceDetailMassal"></div>
+    </div>
+
+    <label for="massalTarget">Target / Link</label>
+    <input type="text" id="massalTarget" placeholder="Masukkan username atau link" autocomplete="off">
+
+    <button class="btn-secondary" id="btnAddMassal" type="button" style="width:100%;margin-top:12px;">
+      ➕ Tambahkan ke Daftar Massal
+    </button>
+
+    <div id="orderListContainer" style="margin-top:16px;display:none;">
+      <label style="margin-top:0;">📋 Daftar Pesanan Massal (<span id="orderCount">0</span>)</label>
+      <div id="orderList"></div>
+      <div class="order-summary">
+        <span class="count">Total <strong id="orderCountSummary">0</strong> pesanan</span>
+        <span class="total">Total: Rp <span id="orderTotalSummary">0</span></span>
+      </div>
+      <button class="btn-secondary" id="btnClearOrders" type="button" style="width:100%;">
+        🗑️ Kosongkan Semua
+      </button>
+      <button class="single-checkout-btn" id="btnMassalCheckout" type="button" style="margin-top:12px;">
+        📦 Checkout Massal
+      </button>
+    </div>
+  </div>
+
+  <label for="total">Total Harga (Rp)</label>
+  <input type="text" id="total" readonly>
+
+  <div class="alert">
+    PERLU DIPERHATIKAN!! INI SERING TERJADI.<br> 
+    TIKTOK LIKE/VIEW/SHARE/REPOST <b>ISI LINK POSTINGAN</b> BUKAN USERNAME AKUN!!! <br> 
+    FOLLOWERS, SUBSCRIBER ISI DENGAN LINK ATAU USERNAME AKUN!!! <br>
+    Bila ada kendala hubungi CS:<br>
+    WhatsApp: <strong>+62 881-0382-03194</strong><br>
+
+  </div>
+
+  <div class="terms-container" id="termsContainer">
+    <div class="terms-header" id="termsHeader">
+      <div class="terms-check">
+        <input type="checkbox" id="termsCheckbox" aria-describedby="termsError">
+        <span class="terms-check-box" aria-hidden="true">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 7.2L5.5 10.2L11.5 3.8" stroke="#0b1220" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+      <label for="termsCheckbox">
+        Saya menyetujui
+        <span class="terms-link" id="termsLink">Syarat &amp; Ketentuan</span>
+        yang berlaku
+      </label>
+    </div>
+    <div class="terms-content" id="termsContent">
+      <div class="terms-content-inner" id="termsContentInner">
+        <div style="text-align:center;color:#64748b;padding:16px;">⏳ Memuat syarat &amp; ketentuan...</div>
+      </div>
+      <button class="terms-toggle" id="termsToggleBtn" type="button">📖 Baca Syarat &amp; Ketentuan</button>
+    </div>
+    <div class="terms-error" id="termsError">⚠️ Anda harus menyetujui syarat &amp; ketentuan terlebih dahulu!</div>
+  </div>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  let providerBalance = 0;
+
+  // ===== MENU =====
+  const toggleBtn = document.getElementById('menuToggle');
+  const closeBtn = document.getElementById('menuClose');
+  const offcanvas = document.getElementById('siteMenu');
+  const overlay = document.getElementById('menuOverlay');
+
+  function openMenu() {
+    offcanvas.classList.add('open');
+    overlay.classList.add('show');
+    toggleBtn.classList.add('active');
+  }
+  function closeMenu() {
+    offcanvas.classList.remove('open');
+    overlay.classList.remove('show');
+    toggleBtn.classList.remove('active');
+  }
+
+  toggleBtn.addEventListener('click', () =>
+    offcanvas.classList.contains('open') ? closeMenu() : openMenu()
+  );
+  closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  // ===== TERMS =====
+  const termsCheckbox = document.getElementById('termsCheckbox');
+  const termsError = document.getElementById('termsError');
+  const termsContent = document.getElementById('termsContent');
+  const termsContentInner = document.getElementById('termsContentInner');
+  const termsToggleBtn = document.getElementById('termsToggleBtn');
+  const termsLink = document.getElementById('termsLink');
+
+  let isTermsLoaded = false;
+  let requiresComment = false;
+  let selectedService = null;
+  let layananData = {};
+  let isLoading = false;
+  let refreshTimer = null;
+  let currentSort = 'asc';
+
+  let orders = [];
+  let currentServiceForOrder = null;
+  let currentMode = 'single';
+
+  termsLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open('/rules/', '_blank');
+  });
+
+  async function loadTerms() {
+    try {
+      const res = await fetch('/rules/?t=' + Date.now());
+      if (!res.ok) throw new Error('Gagal mengambil syarat & ketentuan');
+      const html = await res.text();
+      termsContentInner.innerHTML = html || 'Syarat & ketentuan belum tersedia.';
+      isTermsLoaded = true;
+    } catch (err) {
+      termsContentInner.innerHTML =
+        '<div style="color:#f87171">❌ Gagal memuat syarat & ketentuan.<br>' +
+        '<span style="font-size:12px;color:#64748b">' + (err.message || '') + '</span><br><br>' +
+        '<a href="/rules/" target="_blank" style="color:#06b6d4">📖 Buka di halaman terpisah</a></div>';
+    }
+  }
+
+  function toggleTerms(e) {
+    if (e) e.preventDefault();
+    const isOpen = termsContent.classList.contains('open');
+    if (!isOpen) {
+      if (!isTermsLoaded) loadTerms();
+      termsContent.classList.add('open');
+      termsToggleBtn.textContent = '📖 Sembunyikan';
+    } else {
+      termsContent.classList.remove('open');
+      termsToggleBtn.textContent = '📖 Baca Syarat & Ketentuan';
+    }
+  }
+
+  termsToggleBtn.addEventListener('click', toggleTerms);
+
+  function updateTermsUI() {
+    const container = document.getElementById('termsContainer');
+    if (termsCheckbox.checked) {
+      termsError.classList.remove('show');
+      container.classList.add('terms-ok');
+    } else {
+      container.classList.remove('terms-ok');
+    }
+  }
+
+  termsCheckbox.addEventListener('change', function () {
+    updateTermsUI();
+    if (this.checked) {
+      if (!termsContent.classList.contains('open') && !isTermsLoaded) {
+        loadTerms();
+        termsContent.classList.add('open');
+        termsToggleBtn.textContent = '📖 Sembunyikan';
+      }
+    }
+  });
+
+  updateTermsUI();
+
+  // ===== MODE TOGGLE =====
+  const modeSingle = document.getElementById('modeSingle');
+  const modeMassal = document.getElementById('modeMassal');
+  const singleSection = document.getElementById('singleSection');
+  const massalSection = document.getElementById('massalSection');
+
+  function setMode(mode) {
+    currentMode = mode;
+    modeSingle.classList.toggle('active', mode === 'single');
+    modeMassal.classList.toggle('active', mode === 'massal');
+    singleSection.style.display = mode === 'single' ? 'block' : 'none';
+    massalSection.style.display = mode === 'massal' ? 'block' : 'none';
+    if (mode === 'single') {
+      updatePriceDisplay();
+    } else {
+      updatePriceDisplayMassal();
+    }
+    checkBalanceAndToggleButtons();
+  }
+
+  modeSingle.addEventListener('click', () => setMode('single'));
+  modeMassal.addEventListener('click', () => setMode('massal'));
+
+  const SERVICES_ENDPOINT = '/api/fayupedia-services';
+
+  function formatRp(n) {
+    return 'Rp' + Number(n || 0).toLocaleString('id-ID');
+  }
+
+  function calcTotal(jumlah, hargaPerThousand) {
+    return Math.round((Number(jumlah) / 1000) * Number(hargaPerThousand));
+  }
+
+  function getActivePrice(service) {
+    if (!service) return 0;
+    return Number(service.pricePerFollower) || 0;
+  }
+
+  function getRawRate(service) {
+    if (!service) return 0;
+    return Number(service.rawPricePerFollower) || 0;
+  }
+
+  function getSortedServices(services, sortMode) {
+    if (!services || !Array.isArray(services)) return services;
+    const sorted = [...services];
+    if (sortMode === 'asc') {
+      sorted.sort((a, b) => getActivePrice(a) - getActivePrice(b));
+    } else if (sortMode === 'desc') {
+      sorted.sort((a, b) => getActivePrice(b) - getActivePrice(a));
+    }
+    return sorted;
+  }
+
+  function checkBalanceAndToggleButtons() {
+    const btnSingle = document.getElementById('btnSingleCheckout');
+    const btnMassal = document.getElementById('btnMassalCheckout');
+
+    let singleCostRaw = 0;
+    if (selectedService && currentMode === 'single') {
+      const jumlah = parseInt(document.getElementById('jumlah').value || '0', 10);
+      const rawRate = getRawRate(selectedService);
+      singleCostRaw = calcTotal(jumlah, rawRate);
+    }
+
+    let massalCostRaw = 0;
+    if (orders.length > 0) {
+      massalCostRaw = orders.reduce((sum, o) => {
+        return sum + calcTotal(o.jumlah, o.rawRate || 0);
+      }, 0);
+    }
+
+    if (btnSingle) {
+      if (selectedService && singleCostRaw > providerBalance && singleCostRaw > 0) {
+        btnSingle.disabled = true;
+        btnSingle.textContent = '❌ maaf saldo Shine Shop tidak cukup';
+      } else {
+        btnSingle.disabled = false;
+        btnSingle.textContent = '💳 Lanjut ke Pembayaran (Single)';
+      }
+    }
+
+    if (btnMassal) {
+      if (orders.length > 0 && massalCostRaw > providerBalance) {
+        btnMassal.disabled = true;
+        btnMassal.textContent = '❌ maaf saldo Shine Shop tidak cukup';
+      } else {
+        btnMassal.disabled = false;
+        btnMassal.textContent = '📦 Checkout Massal';
+      }
+    }
+  }
+
+  /* ============================================================
+     CUSTOM SELECT ENGINE — FIXED
+     Desktop: tanpa backdrop. Close via document click listener.
+     Mobile: pakai backdrop + bottom sheet.
+  ============================================================ */
+  let activeCSelect = null;
+  let kategoriItems = [];
+  let layananItems = [];
+  let outsideClickHandler = null;
+
+  function isMobileViewport() {
+    return window.matchMedia('(max-width: 767px)').matches;
+  }
+
+  function cleanupOutsideListener() {
+    if (outsideClickHandler) {
+      document.removeEventListener('click', outsideClickHandler, true);
+      outsideClickHandler = null;
+    }
+  }
+
+  function closeAllCSelect() {
+    // hapus listener click-outside
+    cleanupOutsideListener();
+
+    document.querySelectorAll('.cselect.open').forEach(function (el) {
+      el.classList.remove('open');
+      const trigger = el.querySelector('.cselect-trigger');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    });
+    document.querySelectorAll('.cselect-panel.open').forEach(function (p) {
+      p.classList.remove('open');
+    });
+    document.querySelectorAll('.cselect-backdrop.show').forEach(function (b) {
+      b.classList.remove('show');
+    });
+
+    setTimeout(function () {
+      document.querySelectorAll('.cselect-panel').forEach(function (p) {
+        if (!p.classList.contains('open') && p.parentNode) p.parentNode.removeChild(p);
+      });
+      document.querySelectorAll('.cselect-backdrop').forEach(function (b) {
+        if (!b.classList.contains('show') && b.parentNode) b.parentNode.removeChild(b);
+      });
+    }, 320);
+
+    activeCSelect = null;
+
+    // hanya reset overflow untuk mobile
+    if (isMobileViewport()) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  function setTriggerLabel(cselectEl, text, isPlaceholder) {
+    const valEl = cselectEl.querySelector('.cselect-value');
+    if (!valEl) return;
+    valEl.textContent = text;
+    if (isPlaceholder) valEl.classList.add('placeholder');
+    else valEl.classList.remove('placeholder');
+  }
+
+  function renderList(listEl, items, selectedValue, onPick) {
+    listEl.innerHTML = '';
+    if (!items.length) {
+      listEl.innerHTML = '<li class="cselect-empty">Tidak ada hasil</li>';
+      return;
+    }
+    items.forEach(function (item) {
+      const li = document.createElement('li');
+      li.className = 'cselect-item' + (String(item.value) === String(selectedValue) ? ' selected' : '');
+      li.setAttribute('role', 'option');
+      li.dataset.value = item.value;
+
+      let badgesHtml = '';
+      if (item.badges && item.badges.length) {
+        item.badges.forEach(function (b) {
+          badgesHtml += '<span class="badge ' + b.cls + '">' + b.text + '</span>';
+        });
+      }
+
+      li.innerHTML =
+        '<span class="cselect-radio"></span>' +
+        '<span class="cselect-item-text">' +
+          item.label + badgesHtml +
+          (item.meta ? '<span class="cselect-item-meta">' + item.meta + '</span>' : '') +
+        '</span>';
+
+      li.addEventListener('click', function (e) {
+        e.stopPropagation();
+        onPick(item);
+        closeAllCSelect();
+      });
+      listEl.appendChild(li);
+    });
+  }
+
+  function openCSelect(cselectEl, title, items, selectedValue, onPick) {
+    // Kalau cselect yang sama sudah terbuka → tutup saja (toggle)
+    if (activeCSelect === cselectEl && cselectEl.classList.contains('open')) {
+      closeAllCSelect();
+      return;
+    }
+
+    closeAllCSelect();
+
+    const mobile = isMobileViewport();
+
+    const panel = document.createElement('div');
+    panel.className = 'cselect-panel';
+    panel.innerHTML =
+      '<div class="cselect-panel-header">' +
+        '<div class="cselect-handle"></div>' +
+        '<div class="cselect-panel-title">' + title + '</div>' +
+        '<input type="text" class="cselect-search" placeholder="Cari..." autocomplete="off" inputmode="search">' +
+      '</div>' +
+      '<ul class="cselect-list" role="listbox"></ul>';
+
+    const listEl = panel.querySelector('.cselect-list');
+    const searchEl = panel.querySelector('.cselect-search');
+
+    // Cegah klik di dalam panel menutup dropdown
+    panel.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+
+    function filterAndRender(q) {
+      const query = (q || '').toLowerCase().trim();
+      const filtered = !query
+        ? items
+        : items.filter(function (it) {
+            return (
+              String(it.label).toLowerCase().includes(query) ||
+              String(it.value).toLowerCase().includes(query) ||
+              (it.meta && String(it.meta).toLowerCase().includes(query))
+            );
+          });
+      renderList(listEl, filtered, selectedValue, function (item) {
+        onPick(item);
+        closeAllCSelect();
+      });
+    }
+
+    filterAndRender('');
+
+    searchEl.addEventListener('input', function () {
+      filterAndRender(searchEl.value);
+    });
+
+    if (mobile) {
+      // ===== MOBILE: bottom sheet + backdrop =====
+      const backdrop = document.createElement('div');
+      backdrop.className = 'cselect-backdrop';
+      backdrop.addEventListener('click', closeAllCSelect);
+
+      document.body.appendChild(backdrop);
+      document.body.appendChild(panel);
+      document.body.style.overflow = 'hidden';
+
+      void panel.offsetHeight;
+      requestAnimationFrame(function () {
+        backdrop.classList.add('show');
+        panel.classList.add('open');
+        cselectEl.classList.add('open');
+        cselectEl.querySelector('.cselect-trigger').setAttribute('aria-expanded', 'true');
+        activeCSelect = cselectEl;
+        setTimeout(function () { searchEl.focus(); }, 280);
+      });
+    } else {
+      // ===== DESKTOP: dropdown, tanpa backdrop =====
+      cselectEl.appendChild(panel);
+
+      void panel.offsetHeight;
+      requestAnimationFrame(function () {
+        panel.classList.add('open');
+        cselectEl.classList.add('open');
+        cselectEl.querySelector('.cselect-trigger').setAttribute('aria-expanded', 'true');
+        activeCSelect = cselectEl;
+        searchEl.focus();
+      });
+
+      // Listener click-outside: tutup hanya kalau klik di luar cselect & panel
+      setTimeout(function () {
+        outsideClickHandler = function (e) {
+          if (activeCSelect && !activeCSelect.contains(e.target)) {
+            closeAllCSelect();
+          }
+        };
+        document.addEventListener('click', outsideClickHandler, true);
+      }, 0);
+    }
+  }
+
+  // ===== KATEGORI =====
+  function populateKategori(keepValue) {
+    const hidden = document.getElementById('kategori');
+    const current = keepValue ? hidden.value : '';
+    const sortedKeys = Object.keys(layananData).sort(function (a, b) {
+      return a.localeCompare(b, 'id');
+    });
+
+    kategoriItems = sortedKeys.map(function (k) {
+      return { value: k, label: k };
+    });
+
+    if (current && layananData[current]) {
+      hidden.value = current;
+      setTriggerLabel(document.getElementById('cselectKategori'), current, false);
+    } else if (!keepValue) {
+      hidden.value = '';
+      setTriggerLabel(
+        document.getElementById('cselectKategori'),
+        document.getElementById('cselectKategori').dataset.placeholder,
+        true
+      );
+    }
+  }
+
+  function openKategoriPicker(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const hidden = document.getElementById('kategori');
+    openCSelect(
+      document.getElementById('cselectKategori'),
+      'Pilih Kategori',
+      kategoriItems,
+      hidden.value,
+      function (item) {
+        hidden.value = item.value;
+        setTriggerLabel(document.getElementById('cselectKategori'), item.label, false);
+        loadLayanan();
+      }
+    );
+  }
+
+  // ===== LAYANAN =====
+  function loadLayanan() {
+    const kategori = document.getElementById('kategori').value;
+    const hidden = document.getElementById('layanan');
+    const sortMode = document.getElementById('sortHarga').value;
+    currentSort = sortMode;
+
+    layananItems = [];
+    hidden.value = '';
+    setTriggerLabel(
+      document.getElementById('cselectLayanan'),
+      document.getElementById('cselectLayanan').dataset.placeholder,
+      true
+    );
+
+    if (kategori && layananData[kategori]) {
+      const services = layananData[kategori];
+      const sortedServices = getSortedServices(services, sortMode);
+
+      layananItems = sortedServices.map(function (l) {
+        const harga = getActivePrice(l);
+        const badges = [];
+        if (l.comment === true) {
+          badges.push({ cls: 'badge-comment', text: 'Komentar' });
+        }
+        return {
+          value: l.id,
+          label: l.name || ('Layanan #' + l.id),
+          meta: formatRp(harga) + ' / 1rb' + (l.id ? '  ·  ID ' + l.id : ''),
+          badges: badges,
+          service: l
+        };
+      });
+
+      if (layananItems.length > 0) {
+        const first = layananItems[0];
+        hidden.value = first.value;
+        setTriggerLabel(document.getElementById('cselectLayanan'), first.label, false);
+        showInfo();
+        currentServiceForOrder = first.service;
+      }
+    } else {
+      document.getElementById('infoLayanan').innerHTML = '';
+      document.getElementById('average').textContent = '—';
+      selectedService = null;
+      currentServiceForOrder = null;
+      document.getElementById('commentSection').style.display = 'none';
+      requiresComment = false;
+      hidePriceDisplay();
+      hidePriceDisplayMassal();
+      checkBalanceAndToggleButtons();
+    }
+  }
+
+  function openLayananPicker(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const hidden = document.getElementById('layanan');
+    if (!layananItems.length) {
+      alert('Pilih kategori terlebih dahulu!');
+      return;
+    }
+    openCSelect(
+      document.getElementById('cselectLayanan'),
+      'Pilih Layanan',
+      layananItems,
+      hidden.value,
+      function (item) {
+        hidden.value = item.value;
+        setTriggerLabel(document.getElementById('cselectLayanan'), item.label, false);
+        currentServiceForOrder = item.service;
+        showInfo();
+      }
+    );
+  }
+
+  // ===== SHOW INFO =====
+  function showInfo() {
+    const kategori = document.getElementById('kategori').value;
+    const layananID = document.getElementById('layanan').value;
+    if (!kategori || !layananData[kategori]) return;
+
+    selectedService = layananData[kategori].find(l => String(l.id) === String(layananID));
+    if (!selectedService) return;
+    currentServiceForOrder = selectedService;
+
+    const priceDisplay = formatRp(getActivePrice(selectedService)) + ' <span class="text-muted">/ 1.000 unit</span>';
+
+    requiresComment = selectedService.comment === true;
+    const commentSection = document.getElementById('commentSection');
+    const commentInfo = document.getElementById('commentInfo');
+
+    if (requiresComment) {
+      commentSection.style.display = 'block';
+      commentInfo.classList.add('show');
+      document.getElementById('commentRequired').textContent = '0';
+      document.getElementById('commentCount').textContent = '0';
+      validateComments();
+    } else {
+      commentSection.style.display = 'none';
+      commentInfo.classList.remove('show');
+    }
+
+    document.getElementById('average').innerHTML = '<b>' + (selectedService.average || '-') + '</b>';
+    document.getElementById('infoLayanan').innerHTML =
+      '<b>' + selectedService.name + '</b><br>' +
+      'ID Produk: ' + selectedService.id + '<br>' +
+      'Harga: ' + priceDisplay + '<br><br>' +
+      'Min: ' + (selectedService.min || 0).toLocaleString('id-ID') +
+      ' | Max: ' + (selectedService.max || 0).toLocaleString('id-ID') + '<br>' +
+      (selectedService.desc || '');
+
+    if (currentMode === 'single') {
+      updatePriceDisplay();
+    } else {
+      updatePriceDisplayMassal();
+    }
+    checkBalanceAndToggleButtons();
+  }
+
+  function updatePriceDisplay() {
+    const displayEl = document.getElementById('priceDisplay');
+    const amountEl = document.getElementById('priceAmount');
+    const detailEl = document.getElementById('priceDetail');
+
+    if (!selectedService) {
+      hidePriceDisplay();
+      checkBalanceAndToggleButtons();
+      return;
+    }
+
+    const jumlah = parseInt(document.getElementById('jumlah').value || '0', 10);
+
+    if (jumlah < selectedService.min || jumlah > selectedService.max || jumlah === 0) {
+      displayEl.classList.remove('show');
+      document.getElementById('total').value = '';
+      checkBalanceAndToggleButtons();
+      return;
+    }
+
+    const hargaAktif = getActivePrice(selectedService);
+    const total = calcTotal(jumlah, hargaAktif);
+
+    displayEl.classList.add('show');
+    amountEl.innerHTML = '<span class="currency">Rp</span> ' + total.toLocaleString('id-ID');
+    detailEl.innerHTML = 'Harga per 1.000: ' + formatRp(hargaAktif);
+    document.getElementById('total').value = total.toLocaleString('id-ID');
+
+    checkBalanceAndToggleButtons();
+  }
+
+  function hidePriceDisplay() {
+    document.getElementById('priceDisplay').classList.remove('show');
+    checkBalanceAndToggleButtons();
+  }
+
+  function updatePriceDisplayMassal() {
+    const displayEl = document.getElementById('priceDisplayMassal');
+    const amountEl = document.getElementById('priceAmountMassal');
+    const detailEl = document.getElementById('priceDetailMassal');
+
+    if (!selectedService) {
+      hidePriceDisplayMassal();
+      return;
+    }
+
+    const jumlah = parseInt(document.getElementById('massalJumlah').value || '0', 10);
+
+    if (jumlah < selectedService.min || jumlah > selectedService.max || jumlah === 0) {
+      displayEl.classList.remove('show');
+      return;
+    }
+
+    const hargaAktif = getActivePrice(selectedService);
+    const total = calcTotal(jumlah, hargaAktif);
+
+    displayEl.classList.add('show');
+    amountEl.innerHTML = '<span class="currency">Rp</span> ' + total.toLocaleString('id-ID');
+    detailEl.innerHTML = 'Harga per 1.000: ' + formatRp(hargaAktif);
+  }
+
+  function hidePriceDisplayMassal() {
+    document.getElementById('priceDisplayMassal').classList.remove('show');
+  }
+
+  function validateComments() {
+    if (!requiresComment) return;
+
+    const commentsEl = document.getElementById('comments');
+    const commentCountEl = document.getElementById('commentCount');
+    const commentRequiredEl = document.getElementById('commentRequired');
+    const commentStatusEl = document.getElementById('commentStatus');
+    const jumlah = parseInt(document.getElementById('jumlah').value || '0', 10);
+
+    const lines = commentsEl.value.split('\n').filter(line => line.trim() !== '');
+    const count = lines.length;
+
+    commentCountEl.textContent = count;
+    commentRequiredEl.textContent = jumlah;
+
+    if (jumlah === 0) {
+      commentStatusEl.innerHTML = ' ⚠️ Masukkan jumlah pesanan terlebih dahulu';
+      commentStatusEl.style.color = '#fbbf24';
+      return;
+    }
+
+    if (count === jumlah) {
+      commentStatusEl.innerHTML = ' ✅ Jumlah komentar sesuai!';
+      commentStatusEl.style.color = '#22c55e';
+    } else if (count < jumlah) {
+      commentStatusEl.innerHTML = ' ⚠️ Kurang ' + (jumlah - count) + ' komentar lagi';
+      commentStatusEl.style.color = '#fbbf24';
+    } else {
+      commentStatusEl.innerHTML = ' ❌ Terlalu banyak! Maksimal ' + jumlah + ' komentar';
+      commentStatusEl.style.color = '#f87171';
+    }
+  }
+
+  function singleCheckout() {
+    if (!termsCheckbox.checked) {
+      termsError.classList.add('show');
+      document.getElementById('termsContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function () { termsError.classList.remove('show'); }, 3000);
+      return;
+    }
+
+    if (!selectedService) {
+      alert('Pilih layanan terlebih dahulu!');
+      return;
+    }
+
+    const jumlah = parseInt(document.getElementById('jumlah').value || '0', 10);
+    const target = document.getElementById('target').value.trim();
+
+    if (jumlah < selectedService.min || jumlah > selectedService.max) {
+      alert('Jumlah harus antara ' + selectedService.min + ' dan ' + selectedService.max);
+      return;
+    }
+
+    if (!target) {
+      alert('Masukkan target / link!');
+      return;
+    }
+
+    const rawRate = getRawRate(selectedService);
+    const singleCostRaw = calcTotal(jumlah, rawRate);
+    if (singleCostRaw > providerBalance) {
+      Swal.fire({
+        title: '🚫 Saldo Tidak Cukup',
+        html: '<div style="text-align:left;color:#ddd;font-size:14px;">' +
+              '<p><strong style="color:#ef4444;">maaf saldo Shine Shop tidak cukup</strong> untuk memproses pesanan ini.</p>' +
+              '<p style="margin-top:8px;color:#ffaa00;">💡 Silakan kurangi jumlah atau hubungi admin</p></div>',
+        icon: 'error',
+        confirmButtonColor: '#ef4444'
+      });
+      return;
+    }
+
+    if (requiresComment) {
+      const lines = document.getElementById('comments').value
+        .split('\n')
+        .filter(line => line.trim() !== '');
+      if (lines.length === 0) {
+        alert('⚠️ Layanan ini membutuhkan komentar!');
+        document.getElementById('comments').focus();
+        return;
+      }
+      if (lines.length !== jumlah) {
+        alert('⚠️ Jumlah komentar (' + lines.length + ') harus sama dengan jumlah pesanan (' + jumlah + ')!');
+        document.getElementById('comments').focus();
+        return;
+      }
+    }
+
+    const hargaAktif = getActivePrice(selectedService);
+    const total = calcTotal(jumlah, hargaAktif);
+
+    const trxID = 'TRX' + Date.now() + Math.floor(Math.random() * 1000);
+
+    const orderData = [{
+      serviceId: selectedService.id,
+      serviceName: selectedService.name,
+      kategori: document.getElementById('kategori').value,
+      jumlah: jumlah,
+      target: target,
+      total: total,
+      comment: requiresComment ? document.getElementById('comments').value : null
+    }];
+
+    let url = 'payment/?trx=' + trxID +
+      '&total=' + total +
+      '&mass=0' +
+      '&orders=' + encodeURIComponent(JSON.stringify(orderData));
+
+    window.location.href = url;
+  }
+
+  function addMassalOrder() {
+    if (!selectedService) {
+      alert('Pilih layanan terlebih dahulu!');
+      return;
+    }
+
+    const jumlah = parseInt(document.getElementById('massalJumlah').value || '0', 10);
+    const target = document.getElementById('massalTarget').value.trim();
+
+    if (jumlah < 1) { alert('Jumlah minimal 1!'); return; }
+    if (!target) { alert('Masukkan target / link!'); return; }
+
+    if (jumlah < selectedService.min || jumlah > selectedService.max) {
+      alert('Jumlah harus antara ' + selectedService.min + ' dan ' + selectedService.max);
+      return;
+    }
+
+    const hargaAktif = getActivePrice(selectedService);
+    const total = calcTotal(jumlah, hargaAktif);
+    const rawRate = getRawRate(selectedService);
+
+    orders.push({
+      id: Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+      serviceId: selectedService.id,
+      serviceName: selectedService.name,
+      kategori: document.getElementById('kategori').value,
+      jumlah: jumlah,
+      target: target,
+      total: total,
+      hargaPerUnit: hargaAktif,
+      rawRate: rawRate,
+      comment: null
+    });
+
+    renderOrders();
+    updateOrderCount();
+    updateMassalTotal();
+
+    document.getElementById('massalJumlah').value = '';
+    document.getElementById('massalTarget').value = '';
+    hidePriceDisplayMassal();
+
+    if (typeof Swal !== 'undefined') {
+      Swal.fire({
+        title: '✅ Ditambahkan!',
+        text: selectedService.name + ' x' + jumlah + ' berhasil ditambahkan.',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end'
+      });
+    }
+  }
+
+  function removeOrder(index) {
+    orders.splice(index, 1);
+    renderOrders();
+    updateOrderCount();
+    updateMassalTotal();
+  }
+
+  function clearOrders() {
+    if (orders.length === 0) return;
+    if (typeof Swal !== 'undefined') {
+      Swal.fire({
+        title: '🗑️ Kosongkan Semua?',
+        text: 'Semua pesanan massal akan dihapus.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '✅ Ya, Kosongkan',
+        cancelButtonText: '❌ Batal',
+        confirmButtonColor: '#f87171'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          orders = [];
+          renderOrders();
+          updateOrderCount();
+          updateMassalTotal();
+        }
+      });
+    } else {
+      if (confirm('Kosongkan semua pesanan massal?')) {
+        orders = [];
+        renderOrders();
+        updateOrderCount();
+        updateMassalTotal();
+      }
+    }
+  }
+
+  function renderOrders() {
+    const container = document.getElementById('orderList');
+    const wrapper = document.getElementById('orderListContainer');
+
+    if (orders.length === 0) {
+      container.innerHTML = '<div class="empty-state"><span class="icon">📭</span>Tidak ada pesanan massal</div>';
+      wrapper.style.display = 'none';
+      checkBalanceAndToggleButtons();
+      return;
+    }
+
+    wrapper.style.display = 'block';
+    let html = '';
+    orders.forEach((order, index) => {
+      html += `
+        <div class="order-item">
+          <span class="order-index">#${index + 1}</span>
+          <div class="order-info">
+            <div class="row">
+              <span class="label">Layanan</span>
+              <span class="value">${order.serviceName}</span>
+            </div>
+            <div class="row">
+              <span class="label">Target</span>
+              <span class="value">${order.target}</span>
+            </div>
+            <div class="row">
+              <span class="label">Jumlah</span>
+              <span class="value">${order.jumlah.toLocaleString('id-ID')}</span>
+            </div>
+            <div class="row">
+              <span class="label">Total</span>
+              <span class="value" style="color:#06b6d4;">${formatRp(order.total)}</span>
+            </div>
+          </div>
+          <div class="order-actions">
+            <button class="btn-remove" onclick="window.removeOrder(${index})">✕</button>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+    checkBalanceAndToggleButtons();
+  }
+
+  function updateOrderCount() {
+    const count = orders.length;
+    document.getElementById('orderCount').textContent = count;
+    document.getElementById('orderCountSummary').textContent = count;
+  }
+
+  function updateMassalTotal() {
+    const total = orders.reduce((sum, o) => sum + o.total, 0);
+    document.getElementById('orderTotalSummary').textContent = total.toLocaleString('id-ID');
+    document.getElementById('total').value = total.toLocaleString('id-ID');
+    checkBalanceAndToggleButtons();
+  }
+
+  window.removeOrder = removeOrder;
+  window.clearOrders = clearOrders;
+
+  function massalCheckout() {
+    if (!termsCheckbox.checked) {
+      termsError.classList.add('show');
+      document.getElementById('termsContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function () { termsError.classList.remove('show'); }, 3000);
+      return;
+    }
+
+    if (orders.length === 0) {
+      alert('Tambahkan pesanan massal terlebih dahulu!');
+      return;
+    }
+
+    const massalCostRaw = orders.reduce((sum, o) => {
+      return sum + calcTotal(o.jumlah, o.rawRate || 0);
+    }, 0);
+
+    if (massalCostRaw > providerBalance) {
+      Swal.fire({
+        title: '🚫 Saldo Tidak Cukup',
+        html: '<div style="text-align:left;color:#ddd;font-size:14px;">' +
+              '<p><strong style="color:#ef4444;">maaf saldo Shine Shop tidak cukup</strong> untuk memproses pesanan ini.</p>' +
+              '<p style="margin-top:8px;color:#ffaa00;">💡 Silakan kurangi jumlah pesanan</p></div>',
+        icon: 'error',
+        confirmButtonColor: '#ef4444'
+      });
+      return;
+    }
+
+    const trxID = 'TRX' + Date.now() + Math.floor(Math.random() * 1000);
+    const totalBayar = orders.reduce((sum, o) => sum + o.total, 0);
+
+    const ordersData = orders.map(o => ({
+      serviceId: o.serviceId,
+      serviceName: o.serviceName,
+      kategori: o.kategori,
+      jumlah: o.jumlah,
+      target: o.target,
+      total: o.total,
+      comment: o.comment
+    }));
+
+    let url = 'payment/?trx=' + trxID +
+      '&total=' + totalBayar +
+      '&mass=1' +
+      '&orders=' + encodeURIComponent(JSON.stringify(ordersData));
+
+    window.location.href = url;
+  }
+
+  let searchTimer = null;
+  function searchLayanan() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+      const q = document.getElementById('search').value.toLowerCase().trim();
+      if (!q) return;
+
+      for (const k in layananData) {
+        if (!Array.isArray(layananData[k])) continue;
+        for (let i = 0; i < layananData[k].length; i++) {
+          const l = layananData[k][i];
+          if ((l.name || '').toLowerCase().includes(q) || String(l.id).includes(q)) {
+            document.getElementById('kategori').value = k;
+            setTriggerLabel(document.getElementById('cselectKategori'), k, false);
+            loadLayanan();
+            document.getElementById('layanan').value = l.id;
+            setTriggerLabel(document.getElementById('cselectLayanan'), l.name, false);
+            currentServiceForOrder = l;
+            showInfo();
+            return;
+          }
+        }
+      }
+    }, 280);
+  }
+
+  async function loadData(silent) {
+    if (isLoading) return;
+    isLoading = true;
+
+    const infoLayanan = document.getElementById('infoLayanan');
+    if (infoLayanan && !silent) {
+      infoLayanan.innerHTML = '⏳ Memuat data layanan dari Shine Shop...';
+    }
+
+    try {
+      const [servicesRes, balanceRes] = await Promise.allSettled([
+        fetch(SERVICES_ENDPOINT + '?action=services&ts=' + Date.now(), {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        }),
+        fetch(SERVICES_ENDPOINT + '?action=balance&ts=' + Date.now(), {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        })
+      ]);
+
+      if (servicesRes.status === 'fulfilled' && servicesRes.value.ok) {
+        const data = await servicesRes.value.json();
+        if (data && data.status === false) {
+          throw new Error(data.msg || 'Gagal memuat layanan Shine Shop');
+        }
+        layananData = data;
+        populateKategori(true);
+        loadLayanan();
+
+        if (selectedService) {
+          const kategoriVal = document.getElementById('kategori').value;
+          const layananVal = document.getElementById('layanan').value;
+          if (kategoriVal && layananVal && layananData[kategoriVal]) {
+            const found = layananData[kategoriVal].find(l => String(l.id) === String(layananVal));
+            if (found) {
+              selectedService = found;
+              currentServiceForOrder = found;
+              setTriggerLabel(document.getElementById('cselectLayanan'), found.name, false);
+              showInfo();
+            }
+          }
+        }
+      } else {
+        throw new Error('Gagal memuat data layanan Shine Shop');
+      }
+
+      if (balanceRes.status === 'fulfilled' && balanceRes.value.ok) {
+        const balanceData = await balanceRes.value.json();
+        if (balanceData.status === true) {
+          providerBalance = Number(balanceData.balance) || 0;
+        }
+      }
+
+      checkBalanceAndToggleButtons();
+
+    } catch (err) {
+      if (!silent) {
+        console.error('❌ Error load data:', err);
+        alert('Data layanan gagal dimuat.\n' + (err.message || 'Silakan refresh halaman.'));
+      }
+      if (infoLayanan && !silent) {
+        infoLayanan.innerHTML = '❌ Gagal memuat data: ' + (err.message || '');
+      }
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  function startSmartRefresh() {
+    if (refreshTimer) clearInterval(refreshTimer);
+    refreshTimer = setInterval(function () {
+      if (document.visibilityState === 'visible') {
+        loadData(true);
+      }
+    }, 60000);
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') {
+      loadData(true);
+    }
+  });
+
+  // ===== EVENT BINDING TRIGGER =====
+  // Pakai e.preventDefault + stopPropagation agar tidak bentrok dengan listener click-outside
+  document.getElementById('cselectKategori')
+    .querySelector('.cselect-trigger')
+    .addEventListener('click', openKategoriPicker);
+
+  document.getElementById('cselectLayanan')
+    .querySelector('.cselect-trigger')
+    .addEventListener('click', openLayananPicker);
+
+  document.getElementById('sortHarga').addEventListener('change', loadLayanan);
+
+  document.getElementById('jumlah').addEventListener('input', function() {
+    updatePriceDisplay();
+    if (requiresComment) {
+      const jumlah = parseInt(this.value || '0', 10);
+      document.getElementById('commentRequired').textContent = jumlah;
+      validateComments();
+    }
+  });
+  document.getElementById('comments').addEventListener('input', validateComments);
+  document.getElementById('btnSingleCheckout').addEventListener('click', singleCheckout);
+
+  document.getElementById('massalJumlah').addEventListener('input', updatePriceDisplayMassal);
+  document.getElementById('btnAddMassal').addEventListener('click', addMassalOrder);
+  document.getElementById('btnClearOrders').addEventListener('click', clearOrders);
+  document.getElementById('btnMassalCheckout').addEventListener('click', massalCheckout);
+
+  document.getElementById('search').addEventListener('input', searchLayanan);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAllCSelect();
+  });
+
+  window.addEventListener('load', function () {
+    loadData(false);
+    startSmartRefresh();
+    loadTerms();
+    renderOrders();
+    updateOrderCount();
+    updateMassalTotal();
+    setMode('single');
+  });
+
+  window.addEventListener('beforeunload', function () {
+    if (refreshTimer) clearInterval(refreshTimer);
+  });
+})();
+</script>
+</body>
+</html>
