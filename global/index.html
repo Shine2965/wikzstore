@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wikz Store - Menu Global</title>
+    <title>Shine Shop</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
@@ -21,80 +21,42 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #1b3a1b;
+        background:
+            linear-gradient(rgba(0, 40, 20, 0.85), rgba(0, 60, 30, 0.85)),
+            url('/home/klogo.png') center/cover no-repeat fixed;
+        color: white;
         padding: 20px;
-        position: relative;
-        overflow-x: hidden;
-        background: linear-gradient(180deg, 
-            #4fc3f7 0%, 
-            #81d4fa 25%, 
-            #a5d6a7 55%, 
-            #66bb6a 75%, 
-            #2e7d32 100%);
     }
 
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 55%;
-        background: 
-            radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.85) 0%, transparent 50%),
-            radial-gradient(ellipse 70% 45% at 70% 15%, rgba(255,255,255,0.7) 0%, transparent 50%),
-            radial-gradient(ellipse 60% 40% at 45% 30%, rgba(255,255,255,0.6) 0%, transparent 45%),
-            radial-gradient(ellipse 90% 50% at 85% 25%, rgba(255,255,255,0.75) 0%, transparent 50%);
-        z-index: 0;
-        pointer-events: none;
-    }
-
-    body::after {
-        content: '';
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 45%;
-        background: 
-            radial-gradient(ellipse 120% 80% at 10% 100%, #43a047 0%, transparent 60%),
-            radial-gradient(ellipse 100% 70% at 50% 100%, #2e7d32 0%, transparent 55%),
-            radial-gradient(ellipse 110% 75% at 90% 100%, #1b5e20 0%, transparent 60%);
-        z-index: 0;
-        pointer-events: none;
-        opacity: 0.7;
+    :root{
+        --border: rgba(255,255,255,0.15);
     }
 
     .container{
         width: 100%;
         max-width: 480px;
-        background: rgba(255,255,255,0.85);
-        backdrop-filter: blur(16px) saturate(160%);
-        -webkit-backdrop-filter: blur(16px) saturate(160%);
-        border-radius: 22px;
+        background: rgba(255,255,255,0.07);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 18px;
         padding: 35px 25px;
         text-align: center;
-        border: 2px solid rgba(46,125,50,0.25);
-        box-shadow: 0 25px 60px rgba(27,94,32,0.18), inset 0 1px 0 rgba(255,255,255,0.7);
-        position: relative;
-        z-index: 1;
+        border: 1px solid rgba(76, 175, 80, 0.25);
+        box-shadow: 0 0 40px rgba(76, 175, 80, 0.15);
     }
 
     h1{
         font-size: 22px;
-        font-weight: 700;
-        margin-bottom: 24px;
-        letter-spacing: 0.5px;
-        background: linear-gradient(135deg, #1b5e20, #2e7d32, #43a047);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        font-weight: 600;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+        color: #a5f3b0;
     }
 
     .gmail-display {
-        background: rgba(76,175,80,0.1);
-        border: 1px solid rgba(46,125,50,0.25);
-        border-radius: 12px;
+        background: rgba(76, 175, 80, 0.08);
+        border: 1px solid rgba(76, 175, 80, 0.2);
+        border-radius: 10px;
         padding: 10px 14px;
         margin: 10px 0 16px 0;
         display: flex;
@@ -106,13 +68,13 @@
     }
 
     .gmail-display .label {
-        color: #2e7d32;
-        font-weight: 500;
+        color: #b0e0b8;
+        font-weight: 400;
     }
 
     .gmail-display .value {
-        color: #1b5e20;
-        font-weight: 600;
+        color: #66ff99;
+        font-weight: 500;
         word-break: break-all;
         flex: 1;
         text-align: left;
@@ -120,30 +82,1436 @@
     }
 
     .gmail-display .value.not-set {
-        color: #c62828;
+        color: #ff6666;
         font-style: italic;
-        font-weight: 500;
+        font-weight: 400;
     }
 
     .gmail-display .btn-change {
-        background: rgba(46,125,50,0.15);
-        border: 1px solid rgba(46,125,50,0.3);
-        color: #1b5e20;
+        background: rgba(76, 175, 80, 0.15);
+        border: 1px solid rgba(76, 175, 80, 0.3);
+        color: #fff;
         padding: 4px 14px;
         border-radius: 8px;
         font-size: 11px;
         cursor: pointer;
         transition: 0.3s;
         font-family: 'Poppins', sans-serif;
-        font-weight: 600;
     }
 
     .gmail-display .btn-change:hover {
-        background: rgba(46,125,50,0.28);
+        background: rgba(76, 175, 80, 0.3);
     }
 
+    /* ===== DROPDOWN PENGUMUMAN ===== */
     .announcement-dropdown {
-        background: rgba(76,175,80,0.08);
-        border: 1px solid rgba(46,125,50,0.2);
+        background: rgba(76, 175, 80, 0.06);
+        border: 1px solid rgba(76, 175, 80, 0.2);
         border-radius: 14px;
-        margin: 8px 0 14px 0
+        margin: 8px 0 14px 0;
+        overflow: hidden;
+        display: none;
+    }
+
+    .announcement-dropdown.show {
+        display: block;
+        animation: fadeSlide 0.5s ease both;
+    }
+
+    @keyframes fadeSlide {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .announcement-dropdown .dropdown-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        cursor: pointer;
+        user-select: none;
+        transition: 0.3s;
+        border-bottom: 1px solid transparent;
+    }
+
+    .announcement-dropdown .dropdown-header:hover {
+        background: rgba(76, 175, 80, 0.08);
+    }
+
+    .announcement-dropdown .dropdown-header .title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #81c784;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .announcement-dropdown .dropdown-header .title .icon {
+        font-size: 16px;
+    }
+
+    .announcement-dropdown .dropdown-header .badge-count {
+        background: #4caf50;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 1px 10px;
+        border-radius: 30px;
+        margin-left: 6px;
+    }
+
+    .announcement-dropdown .dropdown-header .arrow {
+        font-size: 14px;
+        color: #81c784;
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .announcement-dropdown .dropdown-header .arrow.open {
+        transform: rotate(180deg);
+    }
+
+    .announcement-dropdown .dropdown-body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        padding: 0 16px;
+    }
+
+    .announcement-dropdown .dropdown-body.open {
+        max-height: 600px;
+        padding: 0 16px 16px 16px;
+        overflow-y: auto;
+    }
+
+    .announcement-dropdown .dropdown-body::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .announcement-dropdown .dropdown-body::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .announcement-dropdown .dropdown-body::-webkit-scrollbar-thumb {
+        background: #4caf5088;
+        border-radius: 10px;
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item {
+        padding: 12px 14px;
+        margin-top: 10px;
+        background: rgba(76, 175, 80, 0.06);
+        border-radius: 10px;
+        border-left: 3px solid #4caf50;
+        font-size: 13px;
+        color: #d5f0d8;
+        line-height: 1.7;
+        transition: 0.3s;
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item:first-child {
+        margin-top: 6px;
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item:hover {
+        background: rgba(76, 175, 80, 0.12);
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item a {
+        color: #66ff99;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item a:hover {
+        text-decoration: underline;
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item .item-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #81c784;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item .item-label .badge {
+        background: rgba(76, 175, 80, 0.2);
+        padding: 0 8px;
+        border-radius: 4px;
+        font-size: 9px;
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item .item-label .badge.all {
+        color: #81c784;
+    }
+
+    .announcement-dropdown .dropdown-body .announce-item .item-label .badge.user {
+        color: #a5f3b0;
+        background: rgba(76, 175, 80, 0.3);
+    }
+
+    .note-box {
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #e8f5e9;
+        background-color: rgba(76, 175, 80, 0.12);
+        border-left: 4px solid #4caf50;
+        padding: 12px 14px;
+        border-radius: 4px;
+        margin: 12px 0;
+        text-align: left;
+    }
+
+    .note-box strong {
+        color: #a5f3b0;
+    }
+
+    /* ===== NAV BUTTONS ===== */
+    .nav-btn{
+        width: 100%;
+        padding: 14px;
+        margin: 10px 0;
+        border-radius: 12px;
+        border: 1px solid rgba(76, 175, 80, 0.3);
+        background: rgba(76, 175, 80, 0.12);
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.25s;
+        font-family: 'Poppins', sans-serif;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .nav-btn:hover:not(:disabled):not(.checking):not([data-locked="true"]) {
+        background: rgba(76, 175, 80, 0.28);
+        border-color: rgba(76, 175, 80, 0.5);
+    }
+
+    /* ===== HARD LOCK STATE ===== */
+    .nav-btn.checking,
+    .nav-btn[data-locked="true"],
+    .nav-btn:disabled {
+        cursor: not-allowed !important;
+        opacity: 0.4 !important;
+        background: rgba(76, 175, 80, 0.04) !important;
+        border-color: rgba(76, 175, 80, 0.15) !important;
+        color: rgba(255,255,255,0.5) !important;
+        pointer-events: none !important;
+        user-select: none !important;
+        filter: grayscale(40%);
+        transform: none !important;
+    }
+
+    .nav-btn.checking *,
+    .nav-btn[data-locked="true"] *,
+    .nav-btn:disabled * {
+        pointer-events: none !important;
+        cursor: not-allowed !important;
+    }
+
+    /* ===== BADGE STATUS ===== */
+    .nav-btn .badge-status {
+        font-size: 9px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-left: 6px;
+    }
+
+    /* 🔥 GANGGUAN — merah nyala */
+    .nav-btn .badge-status.gangguan {
+        background: #dc2626 !important;
+        color: #ffffff !important;
+        border: 1.5px solid #ffffff !important;
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+        box-shadow: 0 0 8px rgba(220, 38, 38, 0.8), 0 0 16px rgba(220, 38, 38, 0.4);
+        animation: pulseGangguan 1.4s ease-in-out infinite;
+        font-weight: 800;
+        opacity: 1 !important;
+        filter: none !important;
+    }
+
+    @keyframes pulseGangguan {
+        0%, 100% {
+            box-shadow: 0 0 8px rgba(220, 38, 38, 0.8), 0 0 16px rgba(220, 38, 38, 0.4);
+            transform: scale(1);
+        }
+        50% {
+            box-shadow: 0 0 12px rgba(220, 38, 38, 1), 0 0 24px rgba(220, 38, 38, 0.6);
+            transform: scale(1.05);
+        }
+    }
+
+    /* 🔥 CHECKING / MOHON TUNGGU — kuning nyala */
+    .nav-btn .badge-status.checking-badge {
+        background: #f59e0b !important;
+        color: #1a0e2e !important;
+        border: 1.5px solid #fbbf24 !important;
+        text-shadow: none;
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.6), 0 0 16px rgba(245, 158, 11, 0.3);
+        animation: pulseChecking 1.4s ease-in-out infinite;
+        font-weight: 800;
+        opacity: 1 !important;
+        filter: none !important;
+    }
+
+    @keyframes pulseChecking {
+        0%, 100% {
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.6), 0 0 16px rgba(245, 158, 11, 0.3);
+            transform: scale(1);
+        }
+        50% {
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.9), 0 0 24px rgba(245, 158, 11, 0.5);
+            transform: scale(1.05);
+        }
+    }
+
+    /* OK — hijau normal */
+    .nav-btn .badge-status.ok-badge {
+        background: rgba(76, 175, 80, 0.25);
+        color: #a5f3b0;
+        border: 1px solid rgba(76, 175, 80, 0.5);
+        animation: none;
+        font-weight: 700;
+    }
+
+    .footer{
+        margin-top: 25px;
+        font-size: 12px;
+        opacity: 0.6;
+        color: #a5f3b0;
+    }
+
+    /* ===== BANNED PAGE ===== */
+    .banned-page {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+        background: linear-gradient(135deg, #0f2027, #1b3a2a, #2c5364);
+        color: white;
+        text-align: center;
+        width: 100%;
+    }
+
+    .banned-page.show {
+        display: flex;
+    }
+
+    .banned-card {
+        max-width: 460px;
+        background: rgba(255,255,255,0.06);
+        backdrop-filter: blur(20px);
+        padding: 40px 30px;
+        border-radius: 24px;
+        border: 1px solid rgba(255,68,68,0.3);
+        box-shadow: 0 0 60px rgba(255,68,68,0.1);
+        width: 100%;
+    }
+
+    .banned-card .icon {
+        font-size: 64px;
+        display: block;
+        margin-bottom: 16px;
+    }
+
+    .banned-card h1 {
+        color: #ff4444;
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+
+    .banned-card .banned-gmail {
+        color: #66ff99;
+        font-size: 16px;
+        font-weight: 600;
+        word-break: break-all;
+        margin: 8px 0;
+    }
+
+    .banned-card .banned-reason {
+        color: #f1f5f9;
+        font-size: 14px;
+        line-height: 1.8;
+        background: rgba(255,68,68,0.08);
+        padding: 14px 18px;
+        border-radius: 12px;
+        border-left: 3px solid #ff4444;
+        text-align: left;
+        margin: 12px 0;
+    }
+
+    .banned-card .banned-until {
+        color: #ffaa00;
+        font-size: 13px;
+        font-weight: 600;
+        margin: 8px 0;
+    }
+
+    .banned-card .banned-current-time {
+        color: #94a3b8;
+        font-size: 12px;
+        margin: 4px 0 16px 0;
+    }
+
+    .banned-card .btn-appeal {
+        display: inline-block;
+        background: #ffaa0044;
+        color: #ffaa00;
+        border: 1px solid #ffaa0055;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: 0.3s;
+        font-family: 'Poppins', sans-serif;
+        margin-top: 8px;
+        cursor: pointer;
+    }
+
+    .banned-card .btn-appeal:hover {
+        background: #ffaa0066;
+        transform: scale(1.02);
+    }
+
+    .banned-card .banned-id {
+        color: #666;
+        font-size: 11px;
+        margin-top: 12px;
+        word-break: break-all;
+    }
+
+    .container.hidden {
+        display: none !important;
+    }
+
+    @media (max-width: 480px) {
+        .container { padding: 24px 16px; }
+        h1 { font-size: 18px; }
+        .gmail-display { font-size: 12px; }
+        .note-box { font-size: 12px; }
+        .banned-card { padding: 28px 20px; }
+        .banned-card h1 { font-size: 22px; }
+        .announcement-dropdown .dropdown-body .announce-item {
+            font-size: 12px;
+            padding: 10px 12px;
+        }
+        .nav-btn { font-size: 13px; padding: 12px; }
+        .nav-btn .badge-status { font-size: 8px; padding: 2px 6px; letter-spacing: 0.3px; }
+    }
+    </style>
+
+</head>
+<body>
+
+    <!-- ===== BANNED PAGE ===== -->
+    <div class="banned-page" id="bannedPage">
+        <div class="banned-card">
+            <span class="icon">🚫</span>
+            <h1>Akses Diblokir</h1>
+            <p style="color:#94a3b8;font-size:14px;border:none;background:none;padding:0;margin:0;">Akun Anda telah diblokir</p>
+            <div class="banned-gmail" id="bannedGmail">-</div>
+            <div class="banned-reason" id="bannedReason">-</div>
+            <div class="banned-until" id="bannedUntil">-</div>
+            <div class="banned-current-time" id="bannedCurrentTime">-</div>
+            <a href="https://wa.me/6289518103883?text=Halo%20Admin%2C%20saya%20ingin%20mengajukan%20banding%20atas%20ban%20akun%20saya.%20Gmail%3A%20" 
+               target="_blank" 
+               class="btn-appeal">
+               📱 Ajukan Banding
+            </a>
+            <div class="banned-id" id="bannedUserId">-</div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <div class="container" id="mainContainer">
+        <h1>Shine Shop Menu Global</h1>
+
+        <!-- GMAIL DISPLAY -->
+        <div class="gmail-display" id="gmailDisplayContainer">
+            <span class="label">📧 Gmail:</span>
+            <span class="value" id="gmailDisplay">Belum diatur</span>
+            <button class="btn-change" id="changeGmailBtn">✏️ Ubah</button>
+        </div>
+
+        <!-- ===== DROPDOWN PENGUMUMAN ===== -->
+        <div class="announcement-dropdown" id="announcementDropdown">
+            <div class="dropdown-header" id="dropdownHeader">
+                <div class="title">
+                    <span class="icon">📢</span> Pengumuman
+                    <span class="badge-count" id="announcementCount">0</span>
+                </div>
+                <span class="arrow" id="dropdownArrow">▼</span>
+            </div>
+            <div class="dropdown-body" id="dropdownBody">
+                <!-- Diisi dari pesan.json -->
+            </div>
+        </div>
+
+        <!-- NOTE -->
+        <div class="note-box">
+            <strong>📌 Catatan Penting:</strong><br>
+            Status pesanan: Partial / Canceled / Error<br>
+            Silahkan mengajukan refund hubungi Customer Service melalui:<br>
+            WhatsApp: +62 895-1810-3883<br>
+            Instagram: onivla_
+        </div>
+
+        <!-- ===== TOMBOL PROVIDER (HANYA SOSMED 2) ===== -->
+        <button class="nav-btn" 
+                id="btnSosmed2" 
+                data-provider="fayupedia" 
+                data-url="/sosmed-2/"
+                disabled
+                data-locked="true"
+                aria-disabled="true">
+            <span>📱 Suntik Sosmed 2 🔥 (Paling MURAHHH)</span>
+            <span class="badge-status checking-badge" id="badgeSosmed2">MOHON TUNGGU</span>
+        </button>
+
+        <button class="nav-btn" data-url="/event/">
+            💲 Daftar Event - Balap Transaksi 
+        </button>
+
+        <button class="nav-btn" data-url="/informasi/">
+            ‼️ HARAP DIBACA - PENTING‼️
+        </button>
+
+        <button class="nav-btn" data-url="https://wa.me/6289518103883">
+            🎧 CUSTOMER SERVICE (WhatsApp)
+        </button>
+
+        <div class="footer">
+            &copy; Shine Shop - 2026
+        </div>
+    </div>
+
+    <script>
+    // ============================================================
+    // 🔒 DRAGON PROTOCOL: GMAIL, BAN, DISCORD, USER ID
+    // ============================================================
+
+    const GMAIL_KEY = 'user_gmail';
+    const USER_ID_KEY = 'user_id';
+    const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1519652321661816934/WZPBjYrFhWIhacLctBPNekIFwRx337NORr47uogQdKj0nEkeuVJGSC47NAPvk8X9nURH';
+    const BAN_JSON_URL = '/sosmed-2/payment/gmail.json';
+    const WHATSAPP_NUMBER = '6289518103883';
+
+    // ===== MINIMAL SALDO PROVIDER =====
+    const MIN_BALANCE = 5000;
+
+    // ===== LOCK & GUARD STATE =====
+    let gmailPromptActive = false;
+    let isBanned = false;
+    let isCheckingProviders = false;
+    let globalCheckLock = false;
+    let lastCheckFinishTime = 0;
+    const DEBOUNCE_MS = 800;
+    let swalActive = false;
+
+    // Hanya fayupedia yang tersisa
+    const providerLocks = {
+        fayupedia: false
+    };
+
+    let forceLockInterval = null;
+
+    let userID = localStorage.getItem(USER_ID_KEY);
+
+    if (!userID) {
+        userID = 'user-' + Math.random().toString(36).substring(2,10) + '-' + Date.now().toString(36);
+        localStorage.setItem(USER_ID_KEY, userID);
+    }
+
+    // ============================================================
+    // 🔥 EKSEKUSI INSTAN
+    // ============================================================
+    (function immediatelyLockProviderButtons() {
+        const el = document.getElementById('btnSosmed2');
+        if (el) {
+            el.disabled = true;
+            el.setAttribute('data-locked', 'true');
+            el.setAttribute('aria-disabled', 'true');
+        }
+    })();
+
+    // ===== UTILITY FUNCTIONS =====
+    function validateEmail(email) {
+        return email && typeof email === 'string' && email.includes('@') && email.includes('.') && email.length > 5;
+    }
+
+    function getWIBTime() {
+        const now = new Date();
+        return new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+    }
+
+    function formatWIB(date) {
+        return new Intl.DateTimeFormat('id-ID', {
+            timeZone: 'Asia/Jakarta',
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        }).format(date);
+    }
+
+    function getStoredGmail() {
+        try {
+            return localStorage.getItem(GMAIL_KEY) || null;
+        } catch (e) {
+            console.error('❌ Error get Gmail:', e);
+            return null;
+        }
+    }
+
+    function saveGmailToStorage(newGmail) {
+        try {
+            if (!newGmail || !validateEmail(newGmail)) {
+                console.error('❌ Gmail tidak valid:', newGmail);
+                return false;
+            }
+            localStorage.setItem(GMAIL_KEY, newGmail);
+            console.log('✅ Gmail tersimpan:', newGmail);
+            return true;
+        } catch (e) {
+            console.error('❌ Error simpan Gmail:', e);
+            return false;
+        }
+    }
+
+    function updateGmailDisplay() {
+        try {
+            const gmail = getStoredGmail();
+            const displayEl = document.getElementById('gmailDisplay');
+            if (!displayEl) return;
+
+            if (gmail && validateEmail(gmail)) {
+                displayEl.textContent = gmail;
+                displayEl.className = 'value';
+            } else {
+                displayEl.textContent = '⚠️ Wajib diatur!';
+                displayEl.className = 'value not-set';
+            }
+            return true;
+        } catch (e) {
+            console.error('❌ Error update display:', e);
+            return false;
+        }
+    }
+
+    function updateBannedWIBDisplay() {
+        const timeEl = document.getElementById('bannedCurrentTime');
+        if (timeEl && document.getElementById('bannedPage').classList.contains('show')) {
+            timeEl.textContent = '🕐 WIB (GMT+7): ' + formatWIB(getWIBTime());
+        }
+    }
+
+    // ============================================================
+    // 🔥 FORCE DISABLE PROVIDER BUTTON
+    // ============================================================
+    function forceDisableAllProviderButtons() {
+        const btn = document.getElementById('btnSosmed2');
+        if (!btn) return;
+        if (btn.getAttribute('data-locked') === 'true') {
+            btn.disabled = true;
+            btn.setAttribute('aria-disabled', 'true');
+        }
+    }
+
+    function startForceLockInterval() {
+        if (forceLockInterval) clearInterval(forceLockInterval);
+        forceLockInterval = setInterval(() => {
+            if (globalCheckLock || isCheckingProviders) {
+                forceDisableAllProviderButtons();
+            }
+        }, 200);
+    }
+
+    function stopForceLockInterval() {
+        if (forceLockInterval) {
+            clearInterval(forceLockInterval);
+            forceLockInterval = null;
+        }
+    }
+
+    // ============================================================
+    // 🔥 CEK BANNED GMAIL
+    // ============================================================
+    async function checkGmailBanned(gmail) {
+        if (!gmail || !validateEmail(gmail)) return null;
+        try {
+            const res = await fetch(BAN_JSON_URL + '?t=' + Date.now(), { cache: "no-store" });
+            if (!res.ok) return null;
+            const list = await res.json();
+            if (!Array.isArray(list)) return null;
+
+            const banned = list.find(item => 
+                item.Gmail && item.Gmail.toLowerCase() === gmail.toLowerCase()
+            );
+            if (!banned) return null;
+
+            if (banned["Dibanned sampai"]) {
+                const untilDate = new Date(banned["Dibanned sampai"]);
+                if (isNaN(untilDate.getTime())) return banned;
+                const now = getWIBTime();
+                if (now > untilDate) return null;
+            }
+            return banned;
+        } catch (err) {
+            console.error('❌ Error check banned:', err);
+            return null;
+        }
+    }
+
+    function showBannedPage(bannedData, gmail) {
+        isBanned = true;
+        document.getElementById('bannedPage').classList.add('show');
+        document.getElementById('mainContainer').classList.add('hidden');
+
+        document.getElementById('bannedGmail').textContent = gmail || '-';
+        document.getElementById('bannedReason').textContent = bannedData.Alasan || 'Tidak ada keterangan';
+        document.getElementById('bannedUserId').textContent = '🆔 User ID: ' + userID;
+
+        let untilText = '-';
+        if (bannedData["Dibanned sampai"]) {
+            const d = new Date(bannedData["Dibanned sampai"]);
+            if (!isNaN(d.getTime())) untilText = formatWIB(d);
+        }
+        document.getElementById('bannedUntil').textContent = '⏳ Dibanned sampai: ' + untilText;
+
+        updateBannedWIBDisplay();
+
+        const appealLink = document.querySelector('.btn-appeal');
+        if (appealLink && gmail) {
+            appealLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Admin%2C%20saya%20ingin%20mengajukan%20banding%20atas%20ban%20akun%20saya.%20Gmail%3A%20${encodeURIComponent(gmail)}%0AUser%20ID%3A%20${encodeURIComponent(userID)}`;
+        }
+
+        if (window.bannedInterval) clearInterval(window.bannedInterval);
+        window.bannedInterval = setInterval(updateBannedWIBDisplay, 1000);
+    }
+
+    // ============================================================
+    // 🔥 KIRIM NOTIFIKASI KE DISCORD
+    // ============================================================
+    async function sendNewUserToDiscord(gmail) {
+        try {
+            const now = getWIBTime();
+            const timestamp = formatWIB(now);
+            const message = `🆕 **USER BARU LOGIN**
+━━━━━━━━━━━━━━━━━━━━━
+📧 **Gmail:** ${gmail}
+🆔 **User ID:** ${userID}
+📅 **Tanggal & Jam Login:** ${timestamp}
+━━━━━━━━━━━━━━━━━━━━━
+✅ **User baru terdaftar!**`;
+
+            const response = await fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: message })
+            });
+            return response.ok;
+        } catch (err) {
+            console.error('❌ Error kirim ke Discord:', err);
+            return false;
+        }
+    }
+
+    async function processNewGmail(gmail) {
+        if (!gmail || !validateEmail(gmail)) return false;
+        const bannedData = await checkGmailBanned(gmail);
+        if (bannedData) {
+            showBannedPage(bannedData, gmail);
+            return false;
+        }
+
+        const notifKey = `discord_notif_${gmail.toLowerCase()}`;
+        const alreadySent = localStorage.getItem(notifKey) === 'true';
+
+        if (!alreadySent) {
+            const sent = await sendNewUserToDiscord(gmail);
+            if (sent) {
+                try { localStorage.setItem(notifKey, 'true'); } catch (e) {}
+            }
+        }
+        return true;
+    }
+
+    // ============================================================
+    // 🔥 LOAD PENGUMUMAN DROPDOWN
+    // ============================================================
+    let announcementCount = 0;
+    let isDropdownOpen = false;
+
+    async function loadAnnouncement() {
+        const dropdown = document.getElementById('announcementDropdown');
+        const body = document.getElementById('dropdownBody');
+        const countEl = document.getElementById('announcementCount');
+
+        if (!dropdown || !body) return;
+        const gmail = getStoredGmail();
+        if (!gmail || !validateEmail(gmail)) return;
+
+        try {
+            const res = await fetch("/home2/pesan.json?t=" + Date.now(), { cache: "no-store" });
+            if (!res.ok) return;
+
+            const data = await res.json();
+            const items = [];
+            const normalizedGmail = gmail.toLowerCase().trim();
+
+            for (const key in data) {
+                if (key.toLowerCase().trim() === normalizedGmail) {
+                    items.push({
+                        key: key,
+                        priority: 9999,
+                        type: 'user',
+                        label: '📩 Pesan Khusus Untukmu',
+                        content: data[key]
+                    });
+                }
+            }
+
+            for (const key in data) {
+                if (key.startsWith('all')) {
+                    let priority = 0;
+                    if (key === 'all') {
+                        priority = 0;
+                    } else {
+                        const num = parseInt(key.replace('all', ''));
+                        if (!isNaN(num)) priority = num;
+                    }
+                    items.push({
+                        key: key,
+                        priority: priority,
+                        type: 'all',
+                        label: '📢 Pengumuman',
+                        content: data[key]
+                    });
+                }
+            }
+
+            if (data && data[userID]) {
+                items.push({
+                    key: userID,
+                    priority: -1,
+                    type: 'user',
+                    label: '🔒 Pesan Sistem (User ID)',
+                    content: data[userID]
+                });
+            }
+
+            if (items.length === 0) return;
+            items.sort((a, b) => b.priority - a.priority);
+
+            let html = '';
+            items.forEach((item, index) => {
+                const badgeClass = item.type === 'user' ? 'user' : 'all';
+                const badgeLabel = item.type === 'user' ? '👤 Personal' : '🌐 Semua';
+                const priorityLabel = (item.type === 'all' && item.priority > 0) ? ` #${item.priority}` : '';
+
+                html += `
+                    <div class="announce-item" style="animation-delay: ${index * 0.05}s;">
+                        <span class="item-label">
+                            ${item.label}${priorityLabel}
+                            <span class="badge ${badgeClass}">${badgeLabel}</span>
+                        </span>
+                        ${item.content}
+                    </div>
+                `;
+            });
+
+            body.innerHTML = html;
+            announcementCount = items.length;
+            countEl.textContent = announcementCount;
+            dropdown.classList.add('show');
+
+            if (announcementCount > 3) toggleAnnouncement(true);
+        } catch (e) {
+            console.log('ℹ️ Gagal memuat pengumuman:', e.message);
+        }
+    }
+
+    function toggleAnnouncement(forceOpen) {
+        const body = document.getElementById('dropdownBody');
+        const arrow = document.getElementById('dropdownArrow');
+        if (!body || !arrow) return;
+
+        if (forceOpen === true) {
+            body.classList.add('open');
+            arrow.classList.add('open');
+            isDropdownOpen = true;
+            return;
+        }
+        if (forceOpen === false) {
+            body.classList.remove('open');
+            arrow.classList.remove('open');
+            isDropdownOpen = false;
+            return;
+        }
+
+        if (isDropdownOpen) {
+            body.classList.remove('open');
+            arrow.classList.remove('open');
+            isDropdownOpen = false;
+        } else {
+            body.classList.add('open');
+            arrow.classList.add('open');
+            isDropdownOpen = true;
+        }
+    }
+
+    document.getElementById('dropdownHeader').addEventListener('click', function() {
+        toggleAnnouncement();
+    });
+
+    // ============================================================
+    // 🔥 HEALTH CHECK PROVIDER (HANYA FAYUPEDIA)
+    // ============================================================
+    const PROVIDERS = {
+        fayupedia: { endpoint: '/api/fayupedia-services', btn: 'btnSosmed2', badge: 'badgeSosmed2', label: 'Sosmed 2' }
+    };
+
+    function setBadge(badgeId, text, type) {
+        const el = document.getElementById(badgeId);
+        if (!el) return;
+        el.textContent = text;
+        el.className = 'badge-status ' + (type || '');
+    }
+
+    function showLockedAlert(type) {
+        if (swalActive) return;
+        if (Swal.isVisible()) return;
+        swalActive = true;
+
+        const config = type === 'checking' ? {
+            title: '⏳ Mohon Tunggu',
+            text: 'Sistem sedang memeriksa status layanan. Mohon tunggu sebentar.',
+            icon: 'info',
+            confirmButtonColor: '#4caf50',
+            timer: 1500,
+            showConfirmButton: false
+        } : {
+            title: '⚠️ Layanan Gangguan',
+            text: 'Provider ini sedang dalam gangguan. Silakan coba layanan lain.',
+            icon: 'warning',
+            confirmButtonColor: '#ffaa00'
+        };
+
+        Swal.fire({
+            ...config,
+            background: '#0a2a15',
+            color: '#fff'
+        }).then(() => {
+            swalActive = false;
+        });
+    }
+
+    function lockBtn(btnId) {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.disabled = true;
+        btn.classList.add('checking');
+        btn.setAttribute('data-locked', 'true');
+        btn.setAttribute('aria-disabled', 'true');
+    }
+
+    function unlockBtnOK(btnId) {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.disabled = false;
+        btn.classList.remove('checking');
+        btn.removeAttribute('data-locked');
+        btn.removeAttribute('aria-disabled');
+    }
+
+    function lockBtnGangguan(btnId) {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.disabled = true;
+        btn.classList.remove('checking');
+        btn.setAttribute('data-locked', 'true');
+        btn.setAttribute('aria-disabled', 'true');
+    }
+
+    async function checkProviderHealth(providerKey) {
+        const prov = PROVIDERS[providerKey];
+        if (!prov) return;
+
+        if (providerLocks[providerKey]) {
+            console.log(`🔒 ${prov.label} masih dicek, skip`);
+            return;
+        }
+        providerLocks[providerKey] = true;
+
+        lockBtn(prov.btn);
+        setBadge(prov.badge, 'MOHON TUNGGU', 'checking-badge');
+
+        let balance = 0;
+        let checkFailed = false;
+
+        const minLoadingPromise = new Promise(r => setTimeout(r, 800));
+
+        try {
+            let fetchPromise;
+
+            if (providerKey === 'fayupedia') {
+                fetchPromise = fetch(prov.endpoint + '?action=balance&t=' + Date.now(), { cache: 'no-store' })
+                    .then(async res => {
+                        if (res.ok) {
+                            const data = await res.json();
+                            balance = Number(data.balance) || 0;
+                        } else {
+                            checkFailed = true;
+                        }
+                    });
+            }
+
+            await Promise.all([fetchPromise, minLoadingPromise]);
+
+        } catch (err) {
+            console.error(`❌ Error cek ${prov.label}:`, err);
+            checkFailed = true;
+            await minLoadingPromise;
+        }
+
+        if (checkFailed) {
+            setBadge(prov.badge, 'GANGGUAN', 'gangguan');
+            lockBtnGangguan(prov.btn);
+            console.log(`❌ ${prov.label}: GANGGUAN (check failed)`);
+        } else if (balance < MIN_BALANCE) {
+            setBadge(prov.badge, 'GANGGUAN', 'gangguan');
+            lockBtnGangguan(prov.btn);
+            console.log(`⚠️ ${prov.label}: GANGGUAN (saldo: ${balance})`);
+        } else {
+            setBadge(prov.badge, 'OK', 'ok-badge');
+            unlockBtnOK(prov.btn);
+            console.log(`✅ ${prov.label}: OK (saldo: ${balance})`);
+        }
+
+        providerLocks[providerKey] = false;
+    }
+
+    async function checkAllProviders() {
+        if (globalCheckLock) {
+            console.log('🔒 Global lock aktif, skip check');
+            return;
+        }
+
+        globalCheckLock = true;
+        isCheckingProviders = true;
+
+        forceDisableAllProviderButtons();
+        startForceLockInterval();
+
+        try {
+            await checkProviderHealth('fayupedia');
+        } finally {
+            globalCheckLock = false;
+            isCheckingProviders = false;
+            lastCheckFinishTime = Date.now();
+            stopForceLockInterval();
+        }
+    }
+
+    // ============================================================
+    // 🔥 CEK & MINTA GMAIL
+    // ============================================================
+    async function ensureGmail() {
+        if (gmailPromptActive || isBanned) return false;
+        const gmail = getStoredGmail();
+
+        if (gmail && validateEmail(gmail)) {
+            const bannedData = await checkGmailBanned(gmail);
+            if (bannedData) {
+                showBannedPage(bannedData, gmail);
+                return false;
+            }
+            updateGmailDisplay();
+            return true;
+        }
+
+        gmailPromptActive = true;
+
+        const result = await Swal.fire({
+            title: '📧 Wajib Login Terlebih Dahulu',
+            text: 'Masukkan Gmail untuk melanjutkan. Hal ini dilakukan agar mempermudah pelacakan transaksi Anda.',
+            input: 'email',
+            inputPlaceholder: 'contoh: email@gmail.com',
+            inputAttributes: { autocomplete: 'email' },
+            showCancelButton: true,
+            cancelButtonText: '❌ Batal',
+            confirmButtonText: '✅ Simpan',
+            confirmButtonColor: '#4caf50',
+            cancelButtonColor: '#666',
+            allowOutsideClick: false,
+            background: '#0a2a15',
+            color: '#fff',
+            preConfirm: (email) => {
+                if (!validateEmail(email)) {
+                    Swal.showValidationMessage('⚠️ Format Gmail tidak valid!');
+                    return false;
+                }
+                return email;
+            }
+        });
+
+        gmailPromptActive = false;
+        if (result.isDismissed) return false;
+
+        if (result.isConfirmed && result.value) {
+            const newGmail = result.value.trim();
+            const saved = saveGmailToStorage(newGmail);
+            if (saved) {
+                updateGmailDisplay();
+                const processed = await processNewGmail(newGmail);
+                if (!processed) return false;
+                await loadAnnouncement();
+                await Swal.fire({
+                    title: '✅ Gmail Tersimpan!',
+                    text: `Gmail ${newGmail} berhasil disimpan.`,
+                    icon: 'success',
+                    confirmButtonColor: '#4caf50',
+                    background: '#0a2a15',
+                    color: '#fff',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ============================================================
+    // 🔥 UBAH GMAIL DENGAN PASSWORD
+    // ============================================================
+    async function changeGmailWithPassword() {
+        if (isBanned) {
+            Swal.fire({
+                title: '🚫 Akun Diblokir',
+                text: 'Anda tidak dapat mengubah Gmail karena akun sedang dibanned.',
+                icon: 'error',
+                confirmButtonColor: '#ff4444',
+                background: '#0a2a15',
+                color: '#fff'
+            });
+            return;
+        }
+
+        const currentGmail = getStoredGmail();
+        let correctPassword = '';
+        try {
+            const res = await fetch('/pass.json?t=' + Date.now());
+            if (res.ok) {
+                const data = await res.json();
+                correctPassword = data.password || '';
+            }
+        } catch (e) {}
+
+        if (!correctPassword) correctPassword = 'ALb17';
+
+        const { value: password } = await Swal.fire({
+            title: '🔑 Verifikasi Password',
+            text: 'Masukkan password yang diberikan admin untuk mengubah Gmail:',
+            input: 'password',
+            inputPlaceholder: 'Masukkan password...',
+            showCancelButton: true,
+            confirmButtonText: '✅ Verifikasi',
+            cancelButtonText: '❌ Batal',
+            confirmButtonColor: '#4caf50',
+            cancelButtonColor: '#666',
+            background: '#0a2a15',
+            color: '#fff',
+            preConfirm: (pass) => {
+                if (!pass || pass.trim() === '') {
+                    Swal.showValidationMessage('⚠️ Password tidak boleh kosong!');
+                    return false;
+                }
+                return pass.trim();
+            }
+        });
+
+        if (!password) return;
+
+        if (password !== correctPassword) {
+            Swal.fire({
+                title: '❌ Password Salah!',
+                text: 'Password yang Anda masukkan tidak valid.',
+                icon: 'error',
+                confirmButtonColor: '#ff4444',
+                background: '#0a2a15',
+                color: '#fff'
+            });
+            return;
+        }
+
+        const { value: newGmail } = await Swal.fire({
+            title: '📧 Ganti Gmail',
+            text: `Gmail saat ini: ${currentGmail || 'Belum diatur'}`,
+            input: 'email',
+            inputPlaceholder: 'Masukkan Gmail baru...',
+            inputValue: currentGmail || '',
+            showCancelButton: true,
+            confirmButtonText: '✅ Ganti',
+            cancelButtonText: '❌ Batal',
+            confirmButtonColor: '#4caf50',
+            cancelButtonColor: '#666',
+            background: '#0a2a15',
+            color: '#fff',
+            preConfirm: (email) => {
+                if (!validateEmail(email)) {
+                    Swal.showValidationMessage('⚠️ Format Gmail tidak valid!');
+                    return false;
+                }
+                return email.trim();
+            }
+        });
+
+        if (newGmail && newGmail !== currentGmail) {
+            const bannedData = await checkGmailBanned(newGmail);
+            if (bannedData) {
+                showBannedPage(bannedData, newGmail);
+                return;
+            }
+            const saved = saveGmailToStorage(newGmail);
+            if (saved) {
+                updateGmailDisplay();
+                await loadAnnouncement();
+                await processNewGmail(newGmail);
+                Swal.fire({
+                    title: '✅ Gmail Diubah!',
+                    text: `Gmail berhasil diubah menjadi: ${newGmail}`,
+                    icon: 'success',
+                    confirmButtonColor: '#4caf50',
+                    background: '#0a2a15',
+                    color: '#fff',
+                    timer: 2000,
+                    timerProgressBar: true
+                });
+            }
+        }
+    }
+
+    // ============================================================
+    // 🔥 CORE HANDLE CLICK
+    // ============================================================
+    async function handleButtonClick(url, btnElement) {
+        if (isBanned) {
+            if (!Swal.isVisible()) {
+                Swal.fire({
+                    title: '🚫 Akun Diblokir',
+                    text: 'Anda tidak dapat mengakses menu karena akun sedang dibanned.',
+                    icon: 'error',
+                    confirmButtonColor: '#ff4444',
+                    background: '#0a2a15',
+                    color: '#fff'
+                });
+            }
+            return;
+        }
+
+        if (isCheckingProviders || globalCheckLock) {
+            showLockedAlert('checking');
+            return;
+        }
+
+        const timeSinceFinish = Date.now() - lastCheckFinishTime;
+        if (timeSinceFinish < DEBOUNCE_MS && lastCheckFinishTime > 0) {
+            showLockedAlert('checking');
+            return;
+        }
+
+        if (btnElement) {
+            if (btnElement.disabled) {
+                showLockedAlert('gangguan');
+                return;
+            }
+            if (btnElement.classList.contains('checking')) {
+                showLockedAlert('checking');
+                return;
+            }
+            if (btnElement.getAttribute('data-locked') === 'true') {
+                const badge = btnElement.querySelector('.badge-status');
+                if (badge && badge.textContent.includes('MOHON TUNGGU')) {
+                    showLockedAlert('checking');
+                } else {
+                    showLockedAlert('gangguan');
+                }
+                return;
+            }
+        }
+
+        const gmailOk = await ensureGmail();
+        if (!gmailOk && !getStoredGmail()) return;
+        if (isBanned) return;
+
+        if (btnElement) {
+            if (btnElement.disabled || btnElement.classList.contains('checking') || btnElement.getAttribute('data-locked') === 'true') {
+                showLockedAlert('checking');
+                return;
+            }
+        }
+
+        if (url) {
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                window.open(url, '_blank');
+            } else {
+                window.location.href = url;
+            }
+        }
+    }
+
+    // ============================================================
+    // 🔥 BIND ALL NAV BUTTONS
+    // ============================================================
+    function bindNavButtons() {
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            if (btn.dataset.bound === 'true') return;
+            btn.dataset.bound = 'true';
+
+            function shouldBlock() {
+                if (btn.disabled) return 'gangguan-or-checking';
+                if (btn.classList.contains('checking')) return 'checking';
+                if (btn.getAttribute('data-locked') === 'true') {
+                    const badge = btn.querySelector('.badge-status');
+                    if (badge && badge.textContent.includes('MOHON TUNGGU')) return 'checking';
+                    return 'gangguan';
+                }
+                if (isCheckingProviders || globalCheckLock) return 'checking';
+
+                const timeSinceFinish = Date.now() - lastCheckFinishTime;
+                if (timeSinceFinish < DEBOUNCE_MS && lastCheckFinishTime > 0) return 'checking';
+
+                return false;
+            }
+
+            btn.addEventListener('click', function(e) {
+                const blockReason = shouldBlock();
+                if (blockReason) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+
+                    if (blockReason === 'checking') {
+                        showLockedAlert('checking');
+                    } else {
+                        showLockedAlert('gangguan');
+                    }
+                    return false;
+                }
+
+                e.preventDefault();
+                const url = btn.dataset.url;
+                if (url) handleButtonClick(url, btn);
+            }, true);
+
+            btn.addEventListener('pointerdown', function(e) {
+                const blockReason = shouldBlock();
+                if (blockReason) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+            }, true);
+
+            btn.addEventListener('touchstart', function(e) {
+                const blockReason = shouldBlock();
+                if (blockReason) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+            }, { capture: true, passive: false });
+
+            btn.addEventListener('mousedown', function(e) {
+                const blockReason = shouldBlock();
+                if (blockReason) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+            }, true);
+
+            btn.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    const blockReason = shouldBlock();
+                    if (blockReason) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        return false;
+                    }
+                }
+            }, true);
+        });
+    }
+
+    // ============================================================
+    // 🔥 ANTI INSPECT
+    // ============================================================
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", function(e) {
+        const key = e.key.toLowerCase();
+        if (e.key === "F12") e.preventDefault();
+        if (e.ctrlKey && e.shiftKey && ["i", "c", "j"].includes(key)) e.preventDefault();
+        if (e.ctrlKey && key === "u") e.preventDefault();
+    });
+
+    // ============================================================
+    // 🔥 INIT
+    // ============================================================
+    window.addEventListener('load', async function() {
+        forceDisableAllProviderButtons();
+        bindNavButtons();
+
+        document.getElementById('changeGmailBtn').addEventListener('click', changeGmailWithPassword);
+
+        const gmail = getStoredGmail();
+
+        if (gmail && validateEmail(gmail)) {
+            const bannedData = await checkGmailBanned(gmail);
+            if (bannedData) {
+                showBannedPage(bannedData, gmail);
+                updateGmailDisplay();
+                return;
+            }
+            await processNewGmail(gmail);
+        }
+
+        updateGmailDisplay();
+        await loadAnnouncement();
+
+        setTimeout(() => {
+            checkAllProviders();
+        }, 300);
+
+        setInterval(checkAllProviders, 60000);
+    });
+
+    </script>
+
+</body>
+</html>
