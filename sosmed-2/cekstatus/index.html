@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Status Pesanan - Wikz Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            padding: 30px 20px;
+            background: radial-gradient(circle at 20% 30%, #00ffaa10, transparent 50%),
+                        radial-gradient(circle at 80% 70%, #00c6ff10, transparent 50%),
+                        #0a0a0a;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #1a1a1a;
+            border-radius: 24px;
+            padding: 30px 28px;
+            border: 1px solid #00ffaa33;
+            box-shadow: 0 0 40px rgba(0,255,170,0.05);
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            color: #00ffaa;
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+        .card .sub {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            color: #ccc;
+            font-size: 13px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .form-group label .required {
+            color: #ff6666;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #00ffaa33;
+            background: #0d0d0d;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #00ffaa;
+            box-shadow: 0 0 20px rgba(0,255,170,0.1);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #555;
+        }
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .form-group .hint {
+            color: #666;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-back {
+            background: #444;
+            color: #fff;
+        }
+        .btn-back:hover {
+            background: #555;
+        }
+        .btn-primary {
+            background: #00ffaa;
+            color: #0a0a0a;
+        }
+        .btn-primary:hover {
+            background: #00dd99;
+            transform: scale(0.97);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-refresh {
+            background: #00ffaa22;
+            color: #00ffaa;
+            border: 1px solid #00ffaa44;
+        }
+        .btn-refresh:hover {
+            background: #00ffaa44;
+        }
+        .btn-refill {
+            background: #ffaa0044;
+            color: #ffaa00;
+            border: 1px solid #ffaa0055;
+        }
+        .btn-refill:hover {
+            background: #ffaa0066;
+        }
+        .btn-refill:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-refill-success {
+            background: #00ffaa44;
+            color: #00ffaa;
+            border: 1px solid #00ffaa55;
+        }
+        .btn-refill-success:hover {
+            background: #00ffaa66;
+        }
+        .btn-copy {
+            background: #ffaa0044;
+            color: #ffaa00;
+            border: 1px solid #ffaa0055;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-copy:hover {
+            background: #ffaa0066;
+        }
+        .btn-small {
+            padding: 6px 14px;
+            font-size: 11px;
+        }
+        .btn-refill-check {
+            background: #00ccff44;
+            color: #00ccff;
+            border: 1px solid #00ccff55;
+        }
+        .btn-refill-check:hover {
+            background: #00ccff66;
+        }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .text-muted {
+            color: #666;
+            font-size: 12px;
+        }
+        .text-success {
+            color: #00ffaa;
+        }
+        .text-danger {
+            color: #ff4444;
+        }
+        .text-warning {
+            color: #ffaa00;
+        }
+        .text-info {
+            color: #00ccff;
+        }
+        .security-badge {
+            text-align: center;
+            font-size: 10px;
+            color: #444;
+            margin-top: 12px;
+            border-top: 1px solid #00ffaa15;
+            padding-top: 12px;
+        }
+        .env-status {
+            text-align: center;
+            font-size: 11px;
+            color: #555;
+            margin-top: 8px;
+        }
+
+        /* ===== RESULT ===== */
+        .result-card {
+            background: #0d0d0d;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #00ffaa15;
+            margin-top: 12px;
+            display: none;
+            animation: fadeUp 0.4s ease both;
+        }
+        .result-card.show {
+            display: block;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-card .status-badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .result-card .status-badge.pending {
+            background: #ffaa0022;
+            color: #ffaa00;
+            border: 1px solid #ffaa0044;
+        }
+        .result-card .status-badge.processing {
+            background: #00ccff22;
+            color: #00ccff;
+            border: 1px solid #00ccff44;
+        }
+        .result-card .status-badge.completed {
+            background: #00ffaa22;
+            color: #00ffaa;
+            border: 1px solid #00ffaa44;
+        }
+        .result-card .status-badge.canceled {
+            background: #ff444422;
+            color: #ff4444;
+            border: 1px solid #ff444444;
+        }
+        .result-card .status-badge.partial {
+            background: #ffaa0044;
+            color: #ffaa00;
+            border: 1px solid #ffaa0066;
+        }
+        .result-card .status-badge.not-found {
+            background: #444;
+            color: #888;
+            border: 1px solid #555;
+        }
+        .result-card .status-badge.rejected {
+            background: #ff444422;
+            color: #ff4444;
+            border: 1px solid #ff444444;
+        }
+        .result-card .status-badge.failed {
+            background: #ff444422;
+            color: #ff4444;
+            border: 1px solid #ff444444;
+        }
+        .result-card .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #00ffaa08;
+        }
+        .result-card .detail-row:last-child {
+            border-bottom: none;
+        }
+        .result-card .detail-row .label {
+            color: #888;
+            font-size: 13px;
+        }
+        .result-card .detail-row .value {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .result-card .detail-row .value.green {
+            color: #00ffaa;
+        }
+        .result-card .detail-row .value.yellow {
+            color: #ffaa00;
+        }
+        .result-card .detail-row .value.red {
+            color: #ff4444;
+        }
+        .result-card .detail-row .value.blue {
+            color: #00ccff;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #00ffaa10;
+        }
+
+        /* ===== REFILL STATUS ===== */
+        .refill-status-box {
+            background: #0d0d0d;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-top: 12px;
+            border: 1px solid #ffaa0033;
+            display: none;
+        }
+        .refill-status-box.show {
+            display: block;
+            animation: fadeUp 0.3s ease both;
+        }
+        .refill-status-box .refill-id {
+            color: #ffaa00;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .refill-status-box .refill-status-badge {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .refill-status-box .refill-status-badge.pending {
+            background: #ffaa0022;
+            color: #ffaa00;
+            border: 1px solid #ffaa0044;
+        }
+        .refill-status-box .refill-status-badge.processing {
+            background: #00ccff22;
+            color: #00ccff;
+            border: 1px solid #00ccff44;
+        }
+        .refill-status-box .refill-status-badge.completed {
+            background: #00ffaa22;
+            color: #00ffaa;
+            border: 1px solid #00ffaa44;
+        }
+        .refill-status-box .refill-status-badge.rejected {
+            background: #ff444422;
+            color: #ff4444;
+            border: 1px solid #ff444444;
+        }
+        .refill-status-box .refill-status-badge.failed {
+            background: #ff444422;
+            color: #ff4444;
+            border: 1px solid #ff444444;
+        }
+
+        /* ===== MASSAL ===== */
+        .massal-item {
+            background: #0d0d0d;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            border: 1px solid #00ffaa10;
+        }
+        .massal-item .order-id {
+            color: #ffaa00;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .massal-item .order-status {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .massal-item .order-detail {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: #0d0d0d;
+            border-radius: 12px;
+            padding: 4px;
+            border: 1px solid #00ffaa15;
+        }
+        .tabs .tab {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: #888;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .tabs .tab:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+        .tabs .tab.active {
+            background: #00ffaa22;
+            color: #00ffaa;
+            border: 1px solid #00ffaa33;
+        }
+
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeUp 0.3s ease both;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ffaa33;
+            border-top-color: #00ffaa;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 20px 16px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .header-actions {
+                flex-direction: column;
+            }
+            .header-actions .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .result-card .detail-row {
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            .action-bar {
+                flex-direction: column;
+            }
+            .action-bar .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .tabs {
+                flex-direction: column;
+            }
+            .tabs .tab {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ===== HEADER ===== -->
+        <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
+                <div>
+                    <h2>📦 Cek Status Pesanan</h2>
+                    <div class="sub">Cek status pesanan & refill dari Sosmed 2</div>
+                    <p style="font-family: Arial, sans-serif; font-size: 15px; line-height: 1.5; color: #1a202c; background-color: #ebf8ff; border-left: 4px solid #3182ce; padding: 15px; border-radius: 4px; margin: 15px 0;">
+  <strong>Catatan Penting:</strong> <br>Success/Completed = Sukses (pesanan telah selesai)<br> Processing = Pesanan dalam proses <br> Pending = Pesanan dalam Antrian 
+         <br> Partial Atau Canceled = Pesanan dibatalkan dan dapat direffund <br> Customer service dapat dihubungi melalui <br> WhatsApp: +62 895-1810-3883<br>Instagram: onivla_</p>
+                    
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-back" onclick="location.href='/'">🏠 Home</button>
+                </div>
+            </div>
+            <div class="env-status" id="envStatus">🔌 Memuat konfigurasi...</div>
+        </div>
+
+        <!-- ===== TABS ===== -->
+        <div class="card">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('order')" id="tabOrder">📦 Cek Pesanan</button>
+                <button class="tab" onclick="switchTab('refill')" id="tabRefill">🔄 Cek Refill</button>
+            </div>
+
+            <!-- ===== TAB 1: CEK PESANAN ===== -->
+            <div class="tab-content active" id="tabOrderContent">
+                <div class="sub" style="margin-bottom:16px;">Masukkan ID pesanan untuk cek status</div>
+
+                <div class="form-group">
+                    <label>🆔 ID Pesanan <span class="required">*</span></label>
+                    <input type="text" id="orderIdInput" placeholder="Contoh: 1107 atau 1107,1108,1109" oninput="toggleMassalMode()">
+                    <div class="hint">💡 Pisahkan dengan koma (,) untuk cek massal (maks 50 ID)</div>
+                </div>
+
+                <div id="massalInfo" style="display:none;background:#00ccff08;border:1px solid #00ccff33;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#00ccff;">
+                    📋 Mode <strong>Massal</strong> terdeteksi. Akan mengecek semua ID yang dimasukkan.
+                </div>
+
+                <button class="btn btn-primary" id="checkBtn" onclick="checkStatus()">
+                    ✅ Cek Status
+                </button>
+            </div>
+
+            <!-- ===== TAB 2: CEK REFILL ===== -->
+            <div class="tab-content" id="tabRefillContent">
+                <div class="sub" style="margin-bottom:16px;">Masukkan ID Refill untuk cek status</div>
+
+                <div class="form-group">
+                    <label>🔄 ID Refill <span class="required">*</span></label>
+                    <input type="text" id="refillIdInput" placeholder="Contoh: 12345">
+                    <div class="hint">💡 Masukkan ID refill yang ingin dicek statusnya</div>
+                </div>
+
+                <button class="btn btn-primary" id="checkRefillBtnMain" onclick="checkRefillStatusDirect()">
+                    🔄 Cek Status Refill
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== HASIL ===== -->
+        <div class="card" id="resultCard" style="display:none;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                <h2>📊 Hasil Pengecekan</h2>
+                <button class="btn btn-refresh" onclick="resetForm()" style="padding:6px 16px;font-size:11px;">🔄 Cek Lagi</button>
+            </div>
+            <div id="resultContainer"></div>
+        </div>
+
+        <div class="text-muted" style="text-align:center;margin-top:20px;">
+            © Shine Shop · Cek Status Pesanan & Refill
+        </div>
+        <div class="security-badge">🔒 Data dari Shine Shop API</div>
+    </div>
+
+    <script>
+        // ===================== KONFIGURASI =====================
+        const FAYUPEDIA_URL = 'https://fayupedia.id/api/status';
+        const FAYUPEDIA_REFILL_URL = 'https://fayupedia.id/api/refill';
+        const FAYUPEDIA_REFILL_STATUS_URL = 'https://fayupedia.id/api/refill/status';
+        const CONFIG_API = '/api/qris-config';
+
+        let FAYUPEDIA_API_ID = 5522;
+        let FAYUPEDIA_API_KEY = '';
+        let configLoaded = false;
+
+        // ===================== SWITCH TAB =====================
+        function switchTab(tab) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+
+            if (tab === 'order') {
+                document.getElementById('tabOrderContent').classList.add('active');
+                document.getElementById('tabOrder').classList.add('active');
+                document.getElementById('resultCard').style.display = 'none';
+                document.getElementById('resultContainer').innerHTML = '';
+            } else {
+                document.getElementById('tabRefillContent').classList.add('active');
+                document.getElementById('tabRefill').classList.add('active');
+                document.getElementById('resultCard').style.display = 'none';
+                document.getElementById('resultContainer').innerHTML = '';
+            }
+        }
+
+        // ===================== AMBIL KONFIGURASI DARI ENV =====================
+        async function fetchConfig() {
+            const statusEl = document.getElementById('envStatus');
+            try {
+                statusEl.textContent = '⏳ Mengambil konfigurasi...';
+                statusEl.style.color = '#888';
+
+                const res = await fetch(CONFIG_API + '?t=' + Date.now());
+                if (!res.ok) throw new Error('Gagal mengambil konfigurasi');
+
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message || 'Format data tidak valid');
+
+                if (data.fayupedia_api_key) {
+                    FAYUPEDIA_API_KEY = data.fayupedia_api_key;
+                }
+                if (data.fayupedia_api_id) {
+                    FAYUPEDIA_API_ID = data.fayupedia_api_id;
+                }
+
+                if (!FAYUPEDIA_API_KEY) {
+                    FAYUPEDIA_API_KEY = '';
+                    console.warn('⚠️ FAYUPEDIA_API_KEY tidak ditemukan di ENV');
+                }
+
+                configLoaded = true;
+                statusEl.textContent = '✅ Konfigurasi berhasil dimuat';
+                statusEl.style.color = '#00ffaa';
+                console.log('✅ Fayupedia Config loaded');
+                console.log('📌 API ID:', FAYUPEDIA_API_ID);
+                console.log('📌 API Key:', FAYUPEDIA_API_KEY ? FAYUPEDIA_API_KEY.substring(0, 10) + '...' : '❌ Tidak ada');
+
+                return true;
+
+            } catch (err) {
+                console.error('Error fetch config:', err);
+                statusEl.textContent = '❌ ' + err.message;
+                statusEl.style.color = '#ff6666';
+                return false;
+            }
+        }
+
+        // ===================== TOGGLE MASSAL MODE =====================
+        function toggleMassalMode() {
+            const input = document.getElementById('orderIdInput');
+            const massalInfo = document.getElementById('massalInfo');
+            const value = input.value.trim();
+
+            if (value.includes(',')) {
+                massalInfo.style.display = 'block';
+            } else {
+                massalInfo.style.display = 'none';
+            }
+        }
+
+        // ===================== FORMAT STATUS =====================
+        function getStatusBadge(status) {
+            const statusMap = {
+                'pending': { class: 'pending', label: '⏳ Pending' },
+                'processing': { class: 'processing', label: '🔄 Processing' },
+                'completed': { class: 'completed', label: '✅ Completed' },
+                'canceled': { class: 'canceled', label: '❌ Canceled' },
+                'partial': { class: 'partial', label: '⚠️ Partial' },
+                'not-found': { class: 'not-found', label: '❓ Tidak Ditemukan' }
+            };
+            const s = statusMap[status] || statusMap['not-found'];
+            return `<span class="status-badge ${s.class}">${s.label}</span>`;
+        }
+
+        function getRefillStatusBadge(status) {
+            const statusMap = {
+                'pending': { class: 'pending', label: '⏳ Pending' },
+                'processing': { class: 'processing', label: '🔄 Processing' },
+                'completed': { class: 'completed', label: '✅ Completed' },
+                'rejected': { class: 'rejected', label: '❌ Rejected' },
+                'failed': { class: 'failed', label: '❌ Failed' }
+            };
+            const s = statusMap[status] || { class: 'pending', label: '⏳ Pending' };
+            return `<span class="refill-status-badge ${s.class}">${s.label}</span>`;
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                'pending': '⏳',
+                'processing': '🔄',
+                'completed': '✅',
+                'canceled': '❌',
+                'partial': '⚠️'
+            };
+            return icons[status] || '❓';
+        }
+
+        // ===================== CEK STATUS PESANAN =====================
+        async function checkStatus() {
+            const input = document.getElementById('orderIdInput');
+            const checkBtn = document.getElementById('checkBtn');
+            const resultCard = document.getElementById('resultCard');
+            const resultContainer = document.getElementById('resultContainer');
+
+            const orderIds = input.value.trim();
+
+            if (!orderIds) {
+                Swal.fire({
+                    title: '⚠️ Masukkan ID Pesanan',
+                    text: 'Silakan masukkan ID pesanan yang ingin dicek.',
+                    icon: 'warning',
+                    confirmButtonColor: '#ffaa00'
+                });
+                input.focus();
+                return;
+            }
+
+            if (!configLoaded) {
+                const loaded = await fetchConfig();
+                if (!loaded) {
+                    Swal.fire({
+                        title: '❌ Gagal Memuat Konfigurasi',
+                        text: 'Tidak dapat mengambil konfigurasi API. Hubungi admin.',
+                        icon: 'error',
+                        confirmButtonColor: '#ff4444'
+                    });
+                    return;
+                }
+            }
+
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = '<span class="loading-spinner"></span> Mengecek...';
+
+            resultCard.style.display = 'none';
+            resultContainer.innerHTML = '';
+
+            try {
+                const ids = orderIds.split(',').map(id => id.trim()).filter(id => id !== '');
+                const isMassal = ids.length > 1;
+
+                const validIds = ids.filter(id => /^\d+$/.test(id));
+                if (validIds.length === 0) {
+                    throw new Error('ID pesanan harus berupa angka.');
+                }
+
+                if (validIds.length > 50) {
+                    throw new Error('Maksimal 50 ID pesanan dalam satu permintaan.');
+                }
+
+                const idParam = validIds.join(',');
+
+                const payload = {
+                    api_id: FAYUPEDIA_API_ID,
+                    api_key: FAYUPEDIA_API_KEY,
+                    id: idParam
+                };
+
+                console.log('📡 Sending request to Fayupedia:', payload);
+
+                const response = await fetch(FAYUPEDIA_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                console.log('📦 Fayupedia Response:', data);
+
+                resultCard.style.display = 'block';
+
+                if (data.status === true) {
+                    if (isMassal) {
+                        renderMassalResult(data, validIds);
+                    } else {
+                        renderSingleResult(data, validIds[0]);
+                    }
+                } else {
+                    renderErrorResult(data, validIds);
+                }
+
+            } catch (err) {
+                console.error('Error:', err);
+                resultCard.style.display = 'block';
+                resultContainer.innerHTML = `
+                    <div style="background:#ff444415;border:1px solid #ff444455;border-radius:12px;padding:20px;text-align:center;color:#ff6666;">
+                        <div style="font-size:36px;margin-bottom:8px;">❌</div>
+                        <div style="font-size:15px;font-weight:600;">Terjadi Error</div>
+                        <div style="font-size:13px;color:#888;margin-top:4px;">${err.message}</div>
+                        <button class="btn btn-refresh" onclick="checkStatus()" style="margin-top:12px;">🔄 Coba Lagi</button>
+                    </div>
+                `;
+            }
+
+            checkBtn.disabled = false;
+            checkBtn.innerHTML = '✅ Cek Status';
+        }
+
+        // ===================== CEK STATUS REFILL LANGSUNG =====================
+        async function checkRefillStatusDirect() {
+            const input = document.getElementById('refillIdInput');
+            const checkBtn = document.getElementById('checkRefillBtnMain');
+            const resultCard = document.getElementById('resultCard');
+            const resultContainer = document.getElementById('resultContainer');
+
+            const refillId = input.value.trim();
+
+            if (!refillId) {
+                Swal.fire({
+                    title: '⚠️ Masukkan ID Refill',
+                    text: 'Silakan masukkan ID refill yang ingin dicek.',
+                    icon: 'warning',
+                    confirmButtonColor: '#ffaa00'
+                });
+                input.focus();
+                return;
+            }
+
+            if (!configLoaded) {
+                const loaded = await fetchConfig();
+                if (!loaded) {
+                    Swal.fire({
+                        title: '❌ Gagal Memuat Konfigurasi',
+                        text: 'Tidak dapat mengambil konfigurasi API. Hubungi admin.',
+                        icon: 'error',
+                        confirmButtonColor: '#ff4444'
+                    });
+                    return;
+                }
+            }
+
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = '<span class="loading-spinner"></span> Mengecek...';
+
+            resultCard.style.display = 'none';
+            resultContainer.innerHTML = '';
+
+            try {
+                const payload = {
+                    api_id: FAYUPEDIA_API_ID,
+                    api_key: FAYUPEDIA_API_KEY,
+                    id: refillId
+                };
+
+                console.log('📡 Check Refill Status:', payload);
+
+                const response = await fetch(FAYUPEDIA_REFILL_STATUS_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                console.log('📦 Refill Status Response:', data);
+
+                resultCard.style.display = 'block';
+
+                if (data.status === true) {
+                    const status = data.refill_status || 'pending';
+                    const statusBadge = getRefillStatusBadge(status);
+
+                    const statusMap = {
+                        'pending': '⏳ Refill sedang menunggu diproses...',
+                        'processing': '🔄 Refill sedang diproses...',
+                        'completed': '✅ Refill selesai!',
+                        'rejected': '❌ Refill ditolak.',
+                        'failed': '❌ Refill gagal.'
+                    };
+
+                    resultContainer.innerHTML = `
+                        <div class="result-card show">
+                            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+                                <div style="font-size:16px;font-weight:700;color:#fff;">
+                                    🔄 Status Refill
+                                </div>
+                                <button class="btn btn-copy btn-small" onclick="copyResult('${refillId}')">📋 Salin ID</button>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">🆔 Refill ID</span>
+                                <span class="value" style="color:#ffaa00;">${data.refill_id || refillId}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">📊 Status</span>
+                                <span class="value">${statusBadge}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">📝 Pesan</span>
+                                <span class="value" style="color:#888;font-weight:400;">${statusMap[status] || data.msg || 'Tidak ada pesan'}</span>
+                            </div>
+                            <div style="margin-top:12px;padding:10px;background:#00ffaa08;border-radius:10px;border:1px solid #00ffaa15;text-align:center;font-size:12px;color:#888;">
+                                📅 Terakhir diperbarui: ${new Date().toLocaleString('id-ID')}
+                            </div>
+                        </div>
+                    `;
+
+                } else {
+                    resultContainer.innerHTML = `
+                        <div style="background:#ff444415;border:1px solid #ff444455;border-radius:12px;padding:20px;text-align:center;color:#ff6666;">
+                            <div style="font-size:36px;margin-bottom:8px;">❌</div>
+                            <div style="font-size:15px;font-weight:600;">${data.msg || 'Refill tidak ditemukan'}</div>
+                            <div style="font-size:13px;color:#888;margin-top:4px;">ID: ${refillId}</div>
+                            <button class="btn btn-refresh" onclick="checkRefillStatusDirect()" style="margin-top:12px;">🔄 Coba Lagi</button>
+                        </div>
+                    `;
+                }
+
+            } catch (err) {
+                console.error('Error check refill:', err);
+                resultCard.style.display = 'block';
+                resultContainer.innerHTML = `
+                    <div style="background:#ff444415;border:1px solid #ff444455;border-radius:12px;padding:20px;text-align:center;color:#ff6666;">
+                        <div style="font-size:36px;margin-bottom:8px;">❌</div>
+                        <div style="font-size:15px;font-weight:600;">Terjadi Error</div>
+                        <div style="font-size:13px;color:#888;margin-top:4px;">${err.message}</div>
+                        <button class="btn btn-refresh" onclick="checkRefillStatusDirect()" style="margin-top:12px;">🔄 Coba Lagi</button>
+                    </div>
+                `;
+            }
+
+            checkBtn.disabled = false;
+            checkBtn.innerHTML = '🔄 Cek Status Refill';
+        }
+
+        // ===================== RENDER SINGLE RESULT =====================
+        function renderSingleResult(data, orderId) {
+            const container = document.getElementById('resultContainer');
+
+            const status = data.order_status || 'not-found';
+            const isFound = status !== 'not-found';
+
+            let statusBadge = getStatusBadge(status);
+
+            let detailsHtml = '';
+            if (isFound) {
+                detailsHtml = `
+                    <div class="detail-row">
+                        <span class="label">🆔 Order ID</span>
+                        <span class="value" style="color:#ffaa00;">${data.order_id || orderId}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">📊 Status</span>
+                        <span class="value">${statusBadge}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">📊 Start Count</span>
+                        <span class="value blue">${data.start_count || 0}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">📉 Remains</span>
+                        <span class="value ${(data.remains || 0) > 0 ? 'yellow' : 'green'}">${data.remains || 0}</span>
+                    </div>
+                `;
+            } else {
+                detailsHtml = `
+                    <div class="detail-row">
+                        <span class="label">🆔 Order ID</span>
+                        <span class="value" style="color:#ff4444;">${orderId}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">📊 Status</span>
+                        <span class="value">${statusBadge}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">📝 Pesan</span>
+                        <span class="value" style="color:#888;font-weight:400;">${data.msg || 'Pesanan tidak ditemukan'}</span>
+                    </div>
+                `;
+            }
+
+            let refillHtml = '';
+            if (isFound) {
+                refillHtml = `
+                    <div class="action-bar">
+                        <button class="btn btn-refill" id="refillBtn" onclick="requestRefill('${data.order_id || orderId}')">
+                            🔄 Refill Pesanan
+                        </button>
+                        <button class="btn btn-refresh btn-small" id="checkRefillBtn" onclick="checkRefillStatus('${data.order_id || orderId}')" style="display:none;">
+                            📊 Cek Status Refill
+                        </button>
+                        <button class="btn btn-copy btn-small" onclick="copyResult('${data.order_id || orderId}')">📋 Salin ID</button>
+                    </div>
+                    <div class="refill-status-box" id="refillStatusBox_${data.order_id || orderId}">
+                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
+                            <span>🔄 Refill ID: <span class="refill-id" id="refillIdDisplay_${data.order_id || orderId}">-</span></span>
+                            <span id="refillStatusDisplay_${data.order_id || orderId}">${getRefillStatusBadge('pending')}</span>
+                        </div>
+                        <div style="margin-top:6px;font-size:12px;color:#888;" id="refillMsgDisplay_${data.order_id || orderId}"></div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div class="result-card show">
+                    ${isFound ? `
+                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+                            <div style="font-size:16px;font-weight:700;color:#fff;">
+                                ${getStatusIcon(status)} Status: ${status.toUpperCase()}
+                            </div>
+                        </div>
+                    ` : `
+                        <div style="text-align:center;padding:8px 0;color:#ff6666;font-size:15px;font-weight:600;">
+                            ${getStatusIcon('not-found')} Pesanan Tidak Ditemukan
+                        </div>
+                    `}
+                    <div style="margin-top:12px;">
+                        ${detailsHtml}
+                    </div>
+                    ${refillHtml}
+                    ${isFound ? `
+                        <div style="margin-top:12px;padding:10px;background:#00ffaa08;border-radius:10px;border:1px solid #00ffaa15;text-align:center;font-size:12px;color:#888;">
+                            📅 Terakhir diperbarui: ${new Date().toLocaleString('id-ID')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // ===================== RENDER MASSAL RESULT =====================
+        function renderMassalResult(data, orderIds) {
+            const container = document.getElementById('resultContainer');
+
+            const orders = data.orders || {};
+            const totalFound = Object.keys(orders).length;
+
+            let html = `
+                <div style="margin-bottom:12px;color:#888;font-size:13px;">
+                    📊 Menampilkan ${totalFound} dari ${orderIds.length} ID pesanan
+                </div>
+                <div style="max-height:400px;overflow-y:auto;">
+            `;
+
+            orderIds.forEach(id => {
+                const orderData = orders[id] || null;
+                const isFound = orderData !== null && orderData.order_status !== undefined;
+
+                let statusBadge = '';
+                let details = '';
+
+                if (isFound) {
+                    const status = orderData.order_status || 'pending';
+                    statusBadge = getStatusBadge(status);
+                    details = `
+                        <div style="font-size:12px;color:#888;margin-top:4px;">
+                            📊 ${orderData.start_count || 0} | 
+                            📉 ${orderData.remains || 0}
+                        </div>
+                    `;
+                } else {
+                    statusBadge = getStatusBadge('not-found');
+                    details = `
+                        <div style="font-size:12px;color:#888;margin-top:4px;">
+                            ${orderData?.msg || 'Pesanan tidak ditemukan'}
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="massal-item">
+                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                            <span class="order-id">🆔 ${id}</span>
+                            <span class="order-status">${statusBadge}</span>
+                        </div>
+                        ${details}
+                    </div>
+                `;
+            });
+
+            html += `
+                </div>
+                <div style="margin-top:12px;padding:10px;background:#00ffaa08;border-radius:10px;border:1px solid #00ffaa15;text-align:center;font-size:12px;color:#888;">
+                    📅 Terakhir diperbarui: ${new Date().toLocaleString('id-ID')}
+                    <br>
+                    <button class="btn-copy" onclick="copyMassalResult('${orderIds.join(',')}')" style="margin-top:6px;">📋 Salin Semua ID</button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // ===================== RENDER ERROR RESULT =====================
+        function renderErrorResult(data, orderIds) {
+            const container = document.getElementById('resultContainer');
+
+            const msg = data.msg || 'Pesanan tidak ditemukan.';
+
+            let html = `
+                <div style="background:#ff444415;border:1px solid #ff444455;border-radius:12px;padding:20px;text-align:center;color:#ff6666;">
+                    <div style="font-size:36px;margin-bottom:8px;">❌</div>
+                    <div style="font-size:15px;font-weight:600;">${msg}</div>
+                    <div style="font-size:13px;color:#888;margin-top:4px;">ID: ${orderIds.join(', ')}</div>
+                    <button class="btn btn-refresh" onclick="checkStatus()" style="margin-top:12px;">🔄 Coba Lagi</button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // ===================== REQUEST REFILL =====================
+        async function requestRefill(orderId) {
+            if (!configLoaded) {
+                const loaded = await fetchConfig();
+                if (!loaded) {
+                    Swal.fire({
+                        title: '❌ Gagal Memuat Konfigurasi',
+                        text: 'Tidak dapat mengambil konfigurasi API.',
+                        icon: 'error',
+                        confirmButtonColor: '#ff4444'
+                    });
+                    return;
+                }
+            }
+
+            const btn = document.getElementById('refillBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '⏳ Memproses...';
+            }
+
+            try {
+                const payload = {
+                    api_id: FAYUPEDIA_API_ID,
+                    api_key: FAYUPEDIA_API_KEY,
+                    id: orderId
+                };
+
+                console.log('📡 Request Refill:', payload);
+
+                const response = await fetch(FAYUPEDIA_REFILL_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                console.log('📦 Refill Response:', data);
+
+                if (data.status === true) {
+                    const refillId = data.refill || 'N/A';
+                    Swal.fire({
+                        title: '✅ Refill Berhasil!',
+                        html: `
+                            Refill dengan ID <strong>#${refillId}</strong> berhasil dibuat.<br>
+                            <span style="color:#888;font-size:13px;">${data.msg || ''}</span>
+                            <br><br>
+                            <button onclick="checkRefillStatus('${orderId}', '${refillId}')" 
+                                    style="background:#ffaa0044;color:#ffaa00;border:1px solid #ffaa0055;padding:8px 20px;border-radius:20px;cursor:pointer;">
+                                📊 Cek Status Refill
+                            </button>
+                        `,
+                        icon: 'success',
+                        confirmButtonColor: '#00ffaa',
+                        confirmButtonText: 'OK'
+                    });
+
+                    const box = document.getElementById(`refillStatusBox_${orderId}`);
+                    if (box) {
+                        box.classList.add('show');
+                        document.getElementById(`refillIdDisplay_${orderId}`).textContent = refillId;
+                        document.getElementById(`refillStatusDisplay_${orderId}`).innerHTML = getRefillStatusBadge('pending');
+                        document.getElementById(`refillMsgDisplay_${orderId}`).textContent = '🔄 Refill sedang diproses...';
+                    }
+
+                    const checkRefillBtn = document.getElementById('checkRefillBtn');
+                    if (checkRefillBtn) {
+                        checkRefillBtn.style.display = 'inline-block';
+                        checkRefillBtn.onclick = function() {
+                            checkRefillStatus(orderId, refillId);
+                        };
+                    }
+
+                } else {
+                    const errorMsg = data.msg || 'Gagal membuat refill.';
+                    Swal.fire({
+                        title: '❌ Refill Gagal',
+                        text: errorMsg,
+                        icon: 'error',
+                        confirmButtonColor: '#ff4444'
+                    });
+                }
+
+            } catch (err) {
+                console.error('Error refill:', err);
+                Swal.fire({
+                    title: '❌ Error',
+                    text: err.message || 'Terjadi kesalahan saat request refill.',
+                    icon: 'error',
+                    confirmButtonColor: '#ff4444'
+                });
+            }
+
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '🔄 Refill Pesanan';
+            }
+        }
+
+        // ===================== CEK STATUS REFILL (DARI TOMBOL) =====================
+        async function checkRefillStatus(orderId, refillId) {
+            if (!configLoaded) {
+                const loaded = await fetchConfig();
+                if (!loaded) {
+                    Swal.fire({
+                        title: '❌ Gagal Memuat Konfigurasi',
+                        text: 'Tidak dapat mengambil konfigurasi API.',
+                        icon: 'error',
+                        confirmButtonColor: '#ff4444'
+                    });
+                    return;
+                }
+            }
+
+            if (!refillId) {
+                const idDisplay = document.getElementById(`refillIdDisplay_${orderId}`);
+                if (idDisplay) {
+                    refillId = idDisplay.textContent.trim();
+                }
+                if (!refillId || refillId === '-') {
+                    Swal.fire({
+                        title: '⚠️ Belum Ada Refill',
+                        text: 'Pesanan ini belum memiliki refill. Silakan request refill terlebih dahulu.',
+                        icon: 'warning',
+                        confirmButtonColor: '#ffaa00'
+                    });
+                    return;
+                }
+            }
+
+            try {
+                const payload = {
+                    api_id: FAYUPEDIA_API_ID,
+                    api_key: FAYUPEDIA_API_KEY,
+                    id: refillId
+                };
+
+                console.log('📡 Check Refill Status:', payload);
+
+                const response = await fetch(FAYUPEDIA_REFILL_STATUS_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                console.log('📦 Refill Status Response:', data);
+
+                if (data.status === true) {
+                    const status = data.refill_status || 'pending';
+                    const statusBadge = getRefillStatusBadge(status);
+
+                    const display = document.getElementById(`refillStatusDisplay_${orderId}`);
+                    if (display) {
+                        display.innerHTML = statusBadge;
+                    }
+
+                    const msgDisplay = document.getElementById(`refillMsgDisplay_${orderId}`);
+                    if (msgDisplay) {
+                        const statusMap = {
+                            'pending': '⏳ Refill sedang menunggu diproses...',
+                            'processing': '🔄 Refill sedang diproses...',
+                            'completed': '✅ Refill selesai!',
+                            'rejected': '❌ Refill ditolak.',
+                            'failed': '❌ Refill gagal.'
+                        };
+                        msgDisplay.textContent = statusMap[status] || `Status: ${status}`;
+                    }
+
+                    const box = document.getElementById(`refillStatusBox_${orderId}`);
+                    if (box) {
+                        box.classList.add('show');
+                    }
+
+                    Swal.fire({
+                        title: '📊 Status Refill',
+                        html: `
+                            <div style="text-align:center;">
+                                <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;">
+                                    Refill ID: <span style="color:#ffaa00;">#${refillId}</span>
+                                </div>
+                                <div style="font-size:14px;">
+                                    ${statusBadge}
+                                </div>
+                                <div style="font-size:13px;color:#888;margin-top:8px;">
+                                    ${data.msg || 'Tidak ada pesan tambahan.'}
+                                </div>
+                            </div>
+                        `,
+                        icon: 'info',
+                        confirmButtonColor: '#00ccff',
+                        confirmButtonText: 'OK'
+                    });
+
+                } else {
+                    Swal.fire({
+                        title: '❌ Refill Tidak Ditemukan',
+                        text: data.msg || 'Refill dengan ID tersebut tidak ditemukan.',
+                        icon: 'error',
+                        confirmButtonColor: '#ff4444'
+                    });
+                }
+
+            } catch (err) {
+                console.error('Error check refill status:', err);
+                Swal.fire({
+                    title: '❌ Error',
+                    text: err.message || 'Terjadi kesalahan saat cek status refill.',
+                    icon: 'error',
+                    confirmButtonColor: '#ff4444'
+                });
+            }
+        }
+
+        // ===================== COPY FUNCTIONS =====================
+        function copyResult(text) {
+            navigator.clipboard.writeText(String(text)).then(() => {
+                Swal.fire({
+                    title: '✅ Berhasil Disalin!',
+                    text: `ID ${text} telah disalin ke clipboard.`,
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                Swal.fire({
+                    title: '✅ Berhasil Disalin!',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            });
+        }
+
+        function copyMassalResult(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({
+                    title: '✅ Berhasil Disalin!',
+                    text: 'Semua ID pesanan telah disalin.',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                Swal.fire({
+                    title: '✅ Berhasil Disalin!',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            });
+        }
+
+        // ===================== RESET FORM =====================
+        function resetForm() {
+            document.getElementById('orderIdInput').value = '';
+            document.getElementById('refillIdInput').value = '';
+            document.getElementById('resultCard').style.display = 'none';
+            document.getElementById('resultContainer').innerHTML = '';
+            document.getElementById('massalInfo').style.display = 'none';
+            document.getElementById('orderIdInput').focus();
+        }
+
+        // ===================== ENTER KEY =====================
+        document.getElementById('orderIdInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                checkStatus();
+            }
+        });
+
+        document.getElementById('refillIdInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                checkRefillStatusDirect();
+            }
+        });
+
+        // ===================== INIT =====================
+        document.addEventListener('DOMContentLoaded', async function() {
+            await fetchConfig();
+
+            console.log('📦 Cek Status Pesanan + Refill siap!');
+            console.log('📌 API ID:', FAYUPEDIA_API_ID);
+            console.log('📌 API Key:', FAYUPEDIA_API_KEY ? '✅ Terdeteksi' : '❌ Tidak ada');
+        });
+
+        // ===================== ANTI INSPECT =====================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && ['I', 'C', 'J'].includes(e.key)) ||
+                (e.ctrlKey && e.key === 'u')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        setInterval(() => {
+            const threshold = 160;
+            if (window.devtoolsOpen) return;
+            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+            if (widthThreshold && !/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+                document.body.innerHTML = "<h1 style='color:gold;text-align:center;margin-top:40vh;'>🚫 Developer Tools Terdeteksi</h1>";
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
