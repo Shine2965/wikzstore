@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ Wikz Store - Suntik Sosmed Terpercaya se-Indonesia</title>
+
+<meta name="description" content="Wikz Store adalah penyedia layanan Suntik Sosmed terpercaya se-Indonesia. Tingkatkan follower, like, view, dan engagement Instagram, TikTok, YouTube, dan lainnya dengan cepat, aman, dan harga bersaing. Dapatkan promo setiap hari!" />
+
+<meta property="og:title" content="Wikz Store - Suntik Sosmed Terpercaya se-Indonesia" />
+<meta property="og:description" content="Wikz Store - Penyedia layanan Suntik Sosmed terpercaya se-Indonesia. Follower, like, view, dan engagement untuk Instagram, TikTok, YouTube, dan lainnya. Cepat, aman, dan harga terjangkau." />
+<meta property="og:image" content="https://shinedomain.my.id/home/logo.png" />
+<meta property="og:url" content="https://shinedomain.my.id/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Wikz Store" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Wikz Store - Suntik Sosmed Terpercaya se-Indonesia" />
+<meta name="twitter:description" content="Wikz Store - Penyedia layanan Suntik Sosmed terpercaya se-Indonesia. Follower, like, view, dan engagement untuk Instagram, TikTok, YouTube, dan lainnya." />
+<meta name="twitter:image" content="https://shinedomain.my.id/home/logo.png" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Wikz Store",
+  "url": "https://wikzstore.my.id/",
+  "description": "Wikz Store adalah penyedia layanan Suntik Sosmed terpercaya se-Indonesia.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://shinedomain.my.id/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<link rel="icon" href="/home/logo.png" type="image/png">
+<link rel="shortcut icon" href="/home/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="/home/logo.png">
+<meta name="theme-color" content="#2e7d32">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Quicksand', 'Poppins', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #1b3a1b;
+  position: relative;
+  overflow-x: hidden;
+  /* Sky → Hills gradient inspired by the photo */
+  background: linear-gradient(180deg, 
+    #4fc3f7 0%, 
+    #81d4fa 25%, 
+    #a5d6a7 55%, 
+    #66bb6a 75%, 
+    #2e7d32 100%);
+}
+
+/* Soft white clouds */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  background: 
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.85) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 45% at 70% 15%, rgba(255,255,255,0.7) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 45% 30%, rgba(255,255,255,0.6) 0%, transparent 45%),
+    radial-gradient(ellipse 90% 50% at 85% 25%, rgba(255,255,255,0.75) 0%, transparent 50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Soft rolling hills overlay */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  background: 
+    radial-gradient(ellipse 120% 80% at 10% 100%, #43a047 0%, transparent 60%),
+    radial-gradient(ellipse 100% 70% at 50% 100%, #2e7d32 0%, transparent 55%),
+    radial-gradient(ellipse 110% 75% at 90% 100%, #1b5e20 0%, transparent 60%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Floating soft orbs (green glow) */
+.anime-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  animation: orbFloat 10s ease-in-out infinite alternate;
+}
+
+.anime-orb-1 {
+  width: 320px;
+  height: 320px;
+  top: -60px;
+  right: -60px;
+  background: rgba(129, 199, 132, 0.35);
+}
+
+.anime-orb-2 {
+  width: 260px;
+  height: 260px;
+  bottom: -40px;
+  left: -40px;
+  background: rgba(76, 175, 80, 0.3);
+  animation-delay: 2s;
+}
+
+.anime-orb-3 {
+  width: 200px;
+  height: 200px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.25);
+  animation-delay: 4s;
+}
+
+@keyframes orbFloat {
+  0% { transform: scale(0.9) translate(0, 0); opacity: 0.6; }
+  100% { transform: scale(1.15) translate(12px, -12px); opacity: 1; }
+}
+
+/* ========== CONTAINER ========== */
+.container {
+  width: 90%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-radius: 28px;
+  padding: 40px 30px;
+  text-align: center;
+  border: 2px solid rgba(46, 125, 50, 0.25);
+  box-shadow: 0 25px 60px rgba(27, 94, 32, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 35px 80px rgba(27, 94, 32, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #66bb6a, #a5d6a7, #66bb6a, transparent);
+  border-radius: 100%;
+  filter: blur(1px);
+  opacity: 0.9;
+}
+
+.logo-wrapper {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.25), rgba(165, 214, 167, 0.15));
+  padding: 5px;
+  position: relative;
+  animation: logoPulse 3s ease-in-out infinite;
+  border: 3px solid rgba(46, 125, 50, 0.35);
+}
+
+.logo-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #66bb6a, #a5d6a7, #66bb6a);
+  opacity: 0.2;
+  filter: blur(14px);
+  z-index: -1;
+  animation: logoGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes logoGlow {
+  0% { opacity: 0.15; transform: scale(0.95); }
+  100% { opacity: 0.35; transform: scale(1.1); }
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.logo-wrapper img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 30%, #43a047 55%, #66bb6a 80%, #a5d6a7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 12px rgba(46, 125, 50, 0.2);
+}
+
+.anime-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #2e7d32, #43a047);
+  color: #fff;
+  padding: 5px 18px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  animation: badgePulse 2s ease-in-out infinite;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3); }
+  50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(46, 125, 50, 0.45); }
+}
+
+.tagline {
+  font-size: 14px;
+  color: #2e7d32;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 18px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.tagline .pink {
+  color: #1b5e20;
+  font-weight: 800;
+}
+.tagline .white {
+  color: #43a047;
+  font-weight: 700;
+}
+
+/* ========== STATS ========== */
+.stats-container {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 18px;
+  padding: 18px 14px;
+  text-align: center;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(27, 94, 32, 0.1);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(46, 125, 50, 0.4);
+  box-shadow: 0 12px 35px rgba(46, 125, 50, 0.15);
+}
+
+.stat-card .stat-icon {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-card .stat-number {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #1b5e20, #43a047);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.2;
+}
+
+.stat-card .stat-label {
+  font-size: 11px;
+  color: #2e7d32;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* ========== LEADERBOARD ========== */
+.leaderboard-container {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.leaderboard-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 22px;
+  padding: 22px 20px;
+  border: 2px solid rgba(46, 125, 50, 0.3);
+  box-shadow: 0 20px 50px rgba(27, 94, 32, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.leaderboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #66bb6a, #a5d6a7, #66bb6a, transparent);
+  border-radius: 100%;
+  opacity: 0.9;
+}
+
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.leaderboard-header .trophy {
+  font-size: 26px;
+  animation: trophyBounce 2s ease-in-out infinite;
+}
+
+@keyframes trophyBounce {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-4px) rotate(3deg); }
+}
+
+.leaderboard-header h2 {
+  font-size: 17px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #1b5e20, #43a047);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.leaderboard-subtitle {
+  font-size: 11.5px;
+  color: #2e7d32;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 3px solid #43a047;
+  border-radius: 8px;
+}
+
+.leaderboard-subtitle .info-icon {
+  color: #2e7d32;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.leaderboard-list::-webkit-scrollbar {
+  width: 5px;
+}
+.leaderboard-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.leaderboard-list::-webkit-scrollbar-thumb {
+  background: rgba(46, 125, 50, 0.35);
+  border-radius: 10px;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  border: 1px solid rgba(46, 125, 50, 0.12);
+  transition: all 0.3s ease;
+}
+
+.leaderboard-item:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateX(4px);
+  border-color: rgba(46, 125, 50, 0.35);
+}
+
+.leaderboard-item .rank {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+  background: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  border: 2px solid rgba(46, 125, 50, 0.2);
+}
+
+.leaderboard-item.rank-1 .rank {
+  background: linear-gradient(135deg, #ffd700, #ffb300);
+  color: #1b3a1b;
+  border-color: #ffed4e;
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.45);
+}
+
+.leaderboard-item.rank-2 .rank {
+  background: linear-gradient(135deg, #e0e0e0, #b0b0b0);
+  color: #1b3a1b;
+  border-color: #ffffff;
+}
+
+.leaderboard-item.rank-3 .rank {
+  background: linear-gradient(135deg, #cd7f32, #a0522d);
+  color: #fff;
+  border-color: #daa06d;
+}
+
+.leaderboard-item.rank-1 {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 179, 0, 0.08));
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.leaderboard-item .info {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.leaderboard-item .gmail-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1b5e20;
+  word-break: break-all;
+  margin-bottom: 2px;
+}
+
+.leaderboard-item.rank-1 .gmail-name { color: #b8860b; }
+.leaderboard-item.rank-2 .gmail-name { color: #555; }
+.leaderboard-item.rank-3 .gmail-name { color: #8b5a2b; }
+
+.leaderboard-item .order-count-label {
+  font-size: 10px;
+  color: #43a047;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.leaderboard-item .order-count {
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1b5e20, #43a047);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-left: 8px;
+}
+
+.leaderboard-item.rank-1 .order-count {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.leaderboard-empty {
+  text-align: center;
+  padding: 25px 15px;
+  color: #2e7d32;
+  font-size: 12.5px;
+  font-style: italic;
+}
+
+.leaderboard-empty .empty-icon {
+  font-size: 38px;
+  display: block;
+  margin-bottom: 8px;
+  opacity: 0.5;
+}
+
+.leaderboard-loading {
+  text-align: center;
+  padding: 20px;
+  color: #2e7d32;
+  font-size: 12px;
+}
+
+.leaderboard-loading .spinner {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(46, 125, 50, 0.15);
+  border-top-color: #43a047;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ========== ANNOUNCEMENT ========== */
+.announcement-dropdown {
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  border-radius: 14px;
+  margin: 8px 0 14px 0;
+  overflow: hidden;
+  display: none;
+}
+
+.announcement-dropdown.show {
+  display: block;
+  animation: fadeSlide 0.5s ease both;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.announcement-dropdown .dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s;
+}
+
+.announcement-dropdown .dropdown-header:hover {
+  background: rgba(76, 175, 80, 0.08);
+}
+
+.announcement-dropdown .dropdown-header .title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1b5e20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.announcement-dropdown .dropdown-header .badge-count {
+  background: #2e7d32;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 10px;
+  border-radius: 30px;
+  margin-left: 6px;
+}
+
+.announcement-dropdown .dropdown-header .arrow {
+  font-size: 14px;
+  color: #43a047;
+  transition: transform 0.4s ease;
+}
+
+.announcement-dropdown .dropdown-header .arrow.open {
+  transform: rotate(180deg);
+}
+
+.announcement-dropdown .dropdown-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  padding: 0 16px;
+}
+
+.announcement-dropdown .dropdown-body.open {
+  max-height: 600px;
+  padding: 0 16px 16px 16px;
+  overflow-y: auto;
+}
+
+.announcement-dropdown .dropdown-body .announce-item {
+  padding: 12px 14px;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  border-left: 3px solid #43a047;
+  font-size: 13px;
+  color: #1b3a1b;
+  line-height: 1.7;
+}
+
+.announcement-dropdown .dropdown-body .announce-item a {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.announcement-dropdown .dropdown-body .announce-item .item-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #2e7d32;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.announcement-dropdown .dropdown-body .announce-item .item-label .badge {
+  background: rgba(46, 125, 50, 0.15);
+  padding: 0 8px;
+  border-radius: 4px;
+  font-size: 9px;
+}
+
+.announcement-dropdown .dropdown-body .announce-item .item-label .badge.all {
+  color: #2e7d32;
+}
+.announcement-dropdown .dropdown-body .announce-item .item-label .badge.user {
+  color: #e65100;
+  background: rgba(230, 81, 0, 0.15);
+}
+
+/* ========== GMAIL DISPLAY ========== */
+.gmail-display {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(46, 125, 50, 0.25);
+  border-radius: 14px;
+  padding: 10px 16px;
+  margin: 8px 0 14px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gmail-display .gmail-label {
+  color: #2e7d32;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gmail-display .gmail-value {
+  color: #1b5e20;
+  font-size: 14px;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.gmail-display .gmail-value.not-set {
+  color: #c62828;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.gmail-display .btn-change-gmail {
+  background: rgba(46, 125, 50, 0.15);
+  color: #1b5e20;
+  border: 1px solid rgba(46, 125, 50, 0.3);
+  padding: 4px 16px;
+  border-radius: 30px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+}
+
+.gmail-display .btn-change-gmail:hover {
+  background: rgba(46, 125, 50, 0.3);
+  transform: scale(1.02);
+}
+
+/* ========== STATUS ========== */
+.status-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #2e7d32;
+  margin-top: 10px;
+}
+
+#status-ref {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(46, 125, 50, 0.15);
+  margin: 4px 0 16px 0;
+  color: #1b3a1b;
+}
+
+#status-ref strong {
+  color: #1b5e20;
+  font-weight: 700;
+}
+
+/* ========== BUTTONS ========== */
+.nav-btn {
+  width: 100%;
+  padding: 14px 20px;
+  margin: 7px 0;
+  border-radius: 16px;
+  border: 2px solid rgba(46, 125, 50, 0.15);
+  background: rgba(255, 255, 255, 0.75);
+  color: #1b5e20;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Quicksand', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.nav-btn::after {
+  content: '✦';
+  position: absolute;
+  right: 16px;
+  font-size: 12px;
+  color: rgba(46, 125, 50, 0.2);
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px) scale(1.01);
+  border-color: rgba(46, 125, 50, 0.4);
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.15);
+}
+
+.nav-btn:active {
+  transform: scale(0.97);
+}
+
+.nav-btn .icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.nav-btn.primary {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.15), rgba(67, 160, 71, 0.12));
+  border-color: rgba(46, 125, 50, 0.25);
+}
+
+.nav-btn.primary:hover {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.25), rgba(67, 160, 71, 0.2));
+  border-color: rgba(46, 125, 50, 0.4);
+}
+
+.nav-btn.purple {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.1), rgba(76, 175, 80, 0.1));
+  border-color: rgba(46, 125, 50, 0.15);
+}
+
+.nav-btn.green {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.12), rgba(129, 199, 132, 0.12));
+  border-color: rgba(76, 175, 80, 0.2);
+}
+
+.nav-btn.green:hover {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(129, 199, 132, 0.18));
+  border-color: rgba(76, 175, 80, 0.35);
+}
+
+.nav-btn.gold {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(255, 235, 59, 0.1));
+  border-color: rgba(255, 193, 7, 0.25);
+}
+
+.nav-btn.gold:hover {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 235, 59, 0.18));
+  border-color: rgba(255, 193, 7, 0.4);
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  margin: 10px auto;
+  background: linear-gradient(90deg, transparent, #66bb6a, #a5d6a7, #66bb6a, transparent);
+  border-radius: 100%;
+}
+
+.footer {
+  margin-top: 16px;
+  font-size: 11px;
+  color: #2e7d32;
+  letter-spacing: 0.5px;
+}
+
+.footer span {
+  background: linear-gradient(135deg, #1b5e20, #43a047);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.user-bubble {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(46, 125, 50, 0.25);
+  padding: 14px 20px;
+  border-radius: 18px;
+  font-size: 12px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.4s ease;
+  max-width: 260px;
+  box-shadow: 0 15px 40px rgba(27, 94, 32, 0.2);
+  color: #1b3a1b;
+}
+
+.user-bubble.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.user-bubble b {
+  color: #1b5e20;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.user-bubble .user-id {
+  font-size: 11px;
+  color: #2e7d32;
+  word-break: break-all;
+  font-family: 'Courier New', monospace;
+  background: rgba(76, 175, 80, 0.1);
+  padding: 4px 10px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 4px;
+  border: 1px solid rgba(46, 125, 50, 0.15);
+}
+
+.user-bubble .gmail-mini {
+  font-size: 10px;
+  color: #43a047;
+  display: block;
+  margin-top: 3px;
+}
+
+/* Marquee warning */
+.marquee-box {
+  background: #1b5e20;
+  color: #fff;
+  padding: 8px 0;
+  margin: 10px 0 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.marquee-box marquee {
+  color: #fff;
+}
+
+.marquee-box b {
+  color: #ffeb3b;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  .logo-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+  .nav-btn {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+  .anime-orb-1 { width: 180px; height: 180px; }
+  .anime-orb-2 { width: 140px; height: 140px; }
+  .user-bubble {
+    bottom: 12px;
+    right: 12px;
+    padding: 10px 14px;
+    font-size: 10px;
+    max-width: 180px;
+  }
+  .gmail-display {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .stat-card .stat-number { font-size: 22px; }
+  .stat-card { padding: 14px 10px; }
+  .stats-grid { gap: 8px; }
+  .leaderboard-card { padding: 18px 14px; }
+  .leaderboard-header h2 { font-size: 15px; }
+  .leaderboard-item { padding: 9px 11px; gap: 9px; }
+  .leaderboard-item .rank { width: 30px; height: 30px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<div class="anime-orb anime-orb-1"></div>
+<div class="anime-orb anime-orb-2"></div>
+<div class="anime-orb anime-orb-3"></div>
+
+<!-- ========== STATS ========== -->
+<div class="stats-container">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-icon">👥</span>
+      <div class="stat-number" id="statUsers">0</div>
+      <div class="stat-label">Total User</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">📦</span>
+      <div class="stat-number" id="statOrders">0</div>
+      <div class="stat-label">Total Transaksi</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== LEADERBOARD ========== -->
+<div class="leaderboard-container">
+  <div class="leaderboard-card">
+    <div class="leaderboard-header">
+      <span class="trophy">🏆</span>
+      <h2>Transaksi Terbanyak Bulan ini</h2>
+    </div>
+    <div class="leaderboard-subtitle">
+      <span class="info-icon">ℹ️</span> Data ini kami ambil dari pengguna yang ikut event · 3 Pengguna dengan transaksi terbanyak akan mendapatkan hadiah diskon sampai dengan 100k selama 1 bulan
+    </div>
+    <div class="leaderboard-list" id="leaderboardList">
+      <div class="leaderboard-loading">
+        <div class="spinner"></div>
+        <div>Memuat data transaksi...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CONTAINER 1 ========== -->
+<div class="container">
+  <div class="logo-wrapper">
+    <img src="/home/logo.png" alt="Wikz Store">
+  </div>
+  
+  <div class="anime-badge">✦ WIKZSTR ✦</div>
+
+  <div class="marquee-box">
+    <marquee scrollamount="5">
+      Jika ada Kendala hubungi WhatsApp +62 881-0382-03194 
+      <b style="margin-left: 12px;">HARAP BERHATI HATI TERHADAP PENIPUAN YANG MENGATASNAMAKAN WIKZSTORE.</b>
+    </marquee>
+  </div>
+
+  <h1>Wikz Store</h1>
+  <p class="tagline">✦ <span class="pink">Suntik Sosmed</span> <span class="white">Terpercaya</span> se-Indonesia ✦</p>
+  
+  <div class="divider"></div>
+
+  <div class="announcement-dropdown" id="announcementDropdown">
+    <div class="dropdown-header" id="dropdownHeader" onclick="toggleAnnouncement()">
+      <div class="title">
+        <span class="icon">📢</span> Pengumuman
+        <span class="badge-count" id="announcementCount">0</span>
+      </div>
+      <span class="arrow" id="dropdownArrow">▼</span>
+    </div>
+    <div class="dropdown-body" id="dropdownBody"></div>
+  </div>
+
+  <div class="gmail-display" id="gmailDisplayContainer">
+    <span class="gmail-label">📧 Gmail:</span>
+    <span class="gmail-value" id="gmailDisplay">Belum diatur</span>
+    <button class="btn-change-gmail" id="changeGmailBtn">✏️ Ubah</button>
+  </div>
+  
+  <p class="status-label">📌 Status Referral</p>
+  <p id="status-ref">Memeriksa data...</p>
+        
+  <button class="nav-btn primary" onclick="handleButtonClick('global')">
+    <span class="icon">🛒</span> Belanja Suntik Sosmed
+  </button>
+  <button class="nav-btn gold" onclick="handleButtonClick('info')">
+    <span class="icon">‼️</span> Pengumuman Penting
+  </button>
+  
+  <button class="nav-btn green" onclick="handleButtonClick('tutorial')">
+    <span class="icon">📕</span> Tutorial Suntik Sosmed
+  </button>
+   
+  <div class="footer">© <span>Wikz Store</span> · 2023</div>
+</div>
+
+<!-- ========== CONTAINER 2 ========== -->
+<div class="container">
+  <button class="nav-btn gold" onclick="handleButtonClick('cekstatus2')">
+    <span class="icon">📜</span> Cek Status Pesanan Sosmed-2
+  </button>
+  <button class="nav-btn green" onclick="handleButtonClick('whatsapp')">
+    <span class="icon">✉️</span> Customer Service (WhatsApp)
+  </button>
+  
+  <button class="nav-btn" onclick="handleButtonClick('syarat')">
+    <span class="icon">📰</span> Syarat & Ketentuan
+  </button>
+  <div class="footer">© <span>Wikz Store</span> · 2023</div>
+</div>
+
+<div id="userBubble" class="user-bubble"></div>
+
+<script>
+// ============================================================
+// 🔒 SHINE PROTOCOL
+// ============================================================
+
+function generateUserID() {
+  return 'user-' + Math.random().toString(36).substring(2, 10) + '-' + Date.now().toString(36);
+}
+
+function getOrCreateUserID() {
+  let id = localStorage.getItem('user_id');
+  if (!id) {
+    id = generateUserID();
+    localStorage.setItem('user_id', id);
+  }
+  return id;
+}
+
+const userID = getOrCreateUserID();
+const GMAIL_KEY = 'user_gmail';
+let gmailPromptActive = false;
+
+// ============================================================
+// 🔥 FUNGSI GMAIL
+// ============================================================
+function saveGmailToStorage(newGmail) {
+  try {
+    if (!newGmail || !validateEmail(newGmail)) return false;
+    localStorage.setItem(GMAIL_KEY, newGmail);
+    const saved = localStorage.getItem(GMAIL_KEY);
+    return saved === newGmail;
+  } catch (e) {
+    console.error('❌ Error simpan Gmail:', e);
+    return false;
+  }
+}
+
+function updateGmailDisplay() {
+  try {
+    const gmail = localStorage.getItem(GMAIL_KEY) || null;
+    const displayEl = document.getElementById('gmailDisplay');
+    if (!displayEl) return;
+    
+    if (gmail && validateEmail(gmail)) {
+      displayEl.textContent = gmail;
+      displayEl.className = 'gmail-value';
+      displayEl.style.color = '#1b5e20';
+    } else {
+      displayEl.textContent = '⚠️ Wajib diatur!';
+      displayEl.className = 'gmail-value not-set';
+      displayEl.style.color = '#c62828';
+    }
+  } catch (e) {
+    console.error('❌ Error update display:', e);
+  }
+}
+
+function updateUserBubble() {
+  try {
+    const gmail = localStorage.getItem(GMAIL_KEY) || 'Belum diatur';
+    const bubble = document.getElementById('userBubble');
+    if (bubble) {
+      bubble.innerHTML = `
+        <b>🌿 Selamat Datang</b>
+        <span class="user-id">${userID}</span>
+        <span class="gmail-mini">📧 ${gmail}</span>
+      `;
+    }
+  } catch (e) {}
+}
+
+function validateEmail(email) {
+  return email && typeof email === 'string' && email.includes('@') && email.includes('.') && email.length > 5;
+}
+
+function getStoredGmail() {
+  try {
+    return localStorage.getItem(GMAIL_KEY) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// ============================================================
+// 🔥 LOAD STATS DARI /ok.json
+// ============================================================
+async function loadStatsFromOkJson() {
+  let usersTarget = 250;
+  let ordersTarget = 4152;
+  
+  try {
+    const res = await fetch('/ok.json?t=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      usersTarget = data.User || data.user || data.users || usersTarget;
+      ordersTarget = data.Transaksi || data.transaksi || data.orders || ordersTarget;
+      console.log('✅ Stats loaded dari ok.json:', { users: usersTarget, orders: ordersTarget });
+    } else {
+      console.log('ℹ️ ok.json tidak ditemukan, pakai default');
+    }
+  } catch (e) {
+    console.log('ℹ️ Gagal load ok.json, pakai default:', e.message);
+  }
+  
+  setTimeout(() => {
+    animateCounter('statUsers', parseInt(usersTarget) || 250, 2000);
+  }, 300);
+  
+  setTimeout(() => {
+    animateCounter('statOrders', parseInt(ordersTarget) || 4152, 2200, '+');
+  }, 600);
+}
+
+function animateCounter(elementId, target, duration = 2000, suffix = '') {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  
+  const startTime = performance.now();
+  
+  function updateCounter(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(eased * target);
+    
+    el.textContent = current.toLocaleString('id-ID') + suffix;
+    
+    if (progress < 1) {
+      requestAnimationFrame(updateCounter);
+    } else {
+      el.textContent = target.toLocaleString('id-ID') + suffix;
+    }
+  }
+  
+  requestAnimationFrame(updateCounter);
+}
+
+// ============================================================
+// 🔥 LOAD LEADERBOARD DARI /event/data.json
+// ============================================================
+async function loadLeaderboard() {
+  const listEl = document.getElementById('leaderboardList');
+  if (!listEl) return;
+  
+  try {
+    const res = await fetch('/event/data.json?t=' + Date.now());
+    
+    if (!res.ok) {
+      listEl.innerHTML = `
+        <div class="leaderboard-empty">
+          <span class="empty-icon">📭</span>
+          Belum ada data transaksi.<br>
+          <span style="font-size:11px;opacity:0.7;">Data akan muncul setelah event dimulai.</span>
+        </div>
+      `;
+      return;
+    }
+    
+    const data = await res.json();
+    
+    const entries = Object.entries(data)
+      .map(([gmail, count]) => ({ gmail, count: parseInt(count) || 0 }))
+      .filter(item => item.count > 0)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+    
+    if (entries.length === 0) {
+      listEl.innerHTML = `
+        <div class="leaderboard-empty">
+          <span class="empty-icon">📭</span>
+          Belum ada data transaksi.<br>
+          <span style="font-size:11px;opacity:0.7;">Data akan muncul setelah event dimulai.</span>
+        </div>
+      `;
+      return;
+    }
+    
+    let html = '';
+    entries.forEach((item, index) => {
+      const rank = index + 1;
+      const rankClass = rank <= 3 ? `rank-${rank}` : '';
+      const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+      
+      html += `
+        <div class="leaderboard-item ${rankClass}" style="animation-delay: ${index * 0.06}s;">
+          <div class="rank">${medal}</div>
+          <div class="info">
+            <div class="gmail-name">${item.gmail}</div>
+            <div class="order-count-label">Transaksi</div>
+          </div>
+          <div class="order-count">${item.count}x</div>
+        </div>
+      `;
+    });
+    
+    listEl.innerHTML = html;
+    console.log(`🏆 Leaderboard loaded: ${entries.length} peserta`);
+    
+  } catch (e) {
+    console.error('❌ Error load leaderboard:', e);
+    listEl.innerHTML = `
+      <div class="leaderboard-empty">
+        <span class="empty-icon">⚠️</span>
+        Gagal memuat data transaksi.<br>
+        <span style="font-size:11px;opacity:0.7;">Coba refresh halaman.</span>
+      </div>
+    `;
+  }
+}
+
+// ============================================================
+// 🔥 LOAD PENGUMUMAN
+// ============================================================
+let announcementCount = 0;
+let isDropdownOpen = false;
+
+async function loadAnnouncement() {
+  try {
+    const res = await fetch('/home2/pesan.json?t=' + Date.now());
+    if (!res.ok) return;
+    
+    const data = await res.json();
+    const dropdown = document.getElementById('announcementDropdown');
+    const body = document.getElementById('dropdownBody');
+    const countEl = document.getElementById('announcementCount');
+    
+    const userGmail = getStoredGmail();
+    const items = [];
+
+    if (userGmail && data[userGmail]) {
+      items.push({
+        key: userGmail,
+        priority: 9999,
+        type: 'user',
+        label: '📩 Pesan Khusus (Gmail)',
+        content: data[userGmail]
+      });
+    }
+
+    if (data && data[userID]) {
+      items.push({
+        key: userID,
+        priority: 9998,
+        type: 'user',
+        label: '📩 Pesan Pribadi (ID)',
+        content: data[userID]
+      });
+    }
+
+    for (const key in data) {
+      if (key.startsWith('all')) {
+        let priority = 0;
+        if (key !== 'all') {
+          const num = parseInt(key.replace('all', ''));
+          if (!isNaN(num)) priority = num;
+        }
+        items.push({
+          key: key,
+          priority: priority,
+          type: 'all',
+          label: '📢 Pengumuman',
+          content: data[key]
+        });
+      }
+    }
+
+    if (items.length === 0) return;
+
+    items.sort((a, b) => b.priority - a.priority);
+
+    let html = '';
+    items.forEach((item, index) => {
+      const badgeClass = item.type === 'user' ? 'user' : 'all';
+      const badgeLabel = item.type === 'user' ? '🔒 Pribadi' : '🌐 Semua';
+      const priorityLabel = (item.type === 'all' && item.priority > 0) ? ` #${item.priority}` : '';
+      
+      html += `
+        <div class="announce-item" style="animation-delay: ${index * 0.05}s;">
+          <span class="item-label">
+            \( {item.label} \){priorityLabel}
+            <span class="badge \( {badgeClass}"> \){badgeLabel}</span>
+          </span>
+          ${item.content}
+        </div>
+      `;
+    });
+
+    body.innerHTML = html;
+    announcementCount = items.length;
+    countEl.textContent = announcementCount;
+    dropdown.classList.add('show');
+
+    if (announcementCount > 3) {
+      toggleAnnouncement(true);
+    }
+  } catch (e) {
+    console.log('ℹ️ Gagal memuat pengumuman:', e.message);
+  }
+}
+
+function toggleAnnouncement(forceOpen) {
+  const body = document.getElementById('dropdownBody');
+  const arrow = document.getElementById('dropdownArrow');
+
+  if (forceOpen === true) {
+    body.classList.add('open');
+    arrow.classList.add('open');
+    isDropdownOpen = true;
+    return;
+  }
+  if (forceOpen === false) {
+    body.classList.remove('open');
+    arrow.classList.remove('open');
+    isDropdownOpen = false;
+    return;
+  }
+
+  if (isDropdownOpen) {
+    body.classList.remove('open');
+    arrow.classList.remove('open');
+    isDropdownOpen = false;
+  } else {
+    body.classList.add('open');
+    arrow.classList.add('open');
+    isDropdownOpen = true;
+  }
+}
+
+// ============================================================
+// 🔥 PROSES UPDATE GMAIL
+// ============================================================
+function processGmailUpdate(newGmail) {
+  const saved = saveGmailToStorage(newGmail);
+  if (!saved) return false;
+  
+  updateGmailDisplay();
+  updateUserBubble();
+  loadAnnouncement();
+  
+  try {
+    localStorage.setItem('gmail_updated', Date.now().toString());
+  } catch(e) {}
+  
+  return true;
+}
+
+async function ensureGmail() {
+  if (gmailPromptActive) return false;
+  
+  const gmail = getStoredGmail();
+  
+  if (gmail && validateEmail(gmail)) {
+    updateGmailDisplay();
+    updateUserBubble();
+    return true;
+  }
+
+  gmailPromptActive = true;
+  
+  const result = await Swal.fire({
+    title: '📧 Wajib Login Terlebih Dahulu',
+    text: 'Masukkan Gmail untuk melanjutkan. Hal ini dilakukan agar mempermudah pelacakan transaksi Anda.',
+    input: 'email',
+    inputPlaceholder: 'contoh: email@gmail.com',
+    inputAttributes: { autocomplete: 'email' },
+    showCancelButton: true,
+    cancelButtonText: '❌ Batal',
+    confirmButtonText: '✅ Simpan',
+    confirmButtonColor: '#2e7d32',
+    cancelButtonColor: '#78909c',
+    allowOutsideClick: false,
+    background: '#e8f5e9',
+    color: '#1b3a1b',
+    preConfirm: (email) => {
+      if (!validateEmail(email)) {
+        Swal.showValidationMessage('⚠️ Format Gmail tidak valid!');
+        return false;
+      }
+      return email;
+    }
+  });
+
+  gmailPromptActive = false;
+
+  if (result.isDismissed) return false;
+
+  if (result.isConfirmed && result.value) {
+    const newGmail = result.value.trim();
+    const saved = processGmailUpdate(newGmail);
+    
+    if (saved) {
+      await Swal.fire({
+        title: '✅ Gmail Tersimpan!',
+        text: `Gmail ${newGmail} berhasil disimpan. Hubungi admin +6289518103883 jika ingin merubah Gmail.`,
+        icon: 'success',
+        confirmButtonColor: '#2e7d32',
+        background: '#e8f5e9',
+        color: '#1b3a1b',
+        timer: 3000,
+        timerProgressBar: true
+      });
+      return true;
+    }
+    return false;
+  }
+
+  return false;
+}
+
+// ============================================================
+// 🔥 NAVIGASI
+// ============================================================
+const buttonDestinations = {
+  'global': '/global/',
+  'tutorial': 'https://drive.google.com/file/d/1bdH15aqnLdFasFkJ0KLFIeoLBlgEenzX/view?usp=drivesdk',
+  'cekstatus2': '/sosmed-2/cekstatus',
+  'whatsapp': 'https://wa.me/62881038203194',
+  'syarat': '/rules/',
+  'info': '/informasi/'
+};
+
+async function handleButtonClick(destination) {
+  const gmailOk = await ensureGmail();
+  
+  if (!gmailOk && !getStoredGmail()) return;
+  
+  const url = buttonDestinations[destination];
+  if (url) {
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      window.open(url, '_blank');
+    } else {
+      window.location.href = url;
+    }
+  }
+}
+
+// ============================================================
+// 🔥 UBAH GMAIL DENGAN PASSWORD
+// ============================================================
+async function changeGmailWithPassword() {
+  const currentGmail = getStoredGmail();
+  
+  let correctPassword = '';
+  try {
+    const res = await fetch('/pass.json?t=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      correctPassword = data.password || '';
+    }
+  } catch (e) {}
+
+  if (!correctPassword) {
+    correctPassword = 'ALb17';
+  }
+
+  const { value: password } = await Swal.fire({
+    title: '🔑 Verifikasi Password',
+    text: 'Masukkan password yang diberikan admin untuk mengubah Gmail:',
+    input: 'password',
+    inputPlaceholder: 'Masukkan password...',
+    showCancelButton: true,
+    confirmButtonText: '✅ Verifikasi',
+    cancelButtonText: '❌ Batal',
+    confirmButtonColor: '#2e7d32',
+    cancelButtonColor: '#78909c',
+    background: '#e8f5e9',
+    color: '#1b3a1b',
+    preConfirm: (pass) => {
+      if (!pass || pass.trim() === '') {
+        Swal.showValidationMessage('⚠️ Password tidak boleh kosong!');
+        return false;
+      }
+      return pass.trim();
+    }
+  });
+
+  if (!password) return;
+
+  if (password !== correctPassword) {
+    Swal.fire({
+      title: '❌ Password Salah!',
+      text: 'Password yang Anda masukkan tidak valid.',
+      icon: 'error',
+      confirmButtonColor: '#c62828',
+      background: '#e8f5e9',
+      color: '#1b3a1b'
+    });
+    return;
+  }
+
+  const { value: newGmail } = await Swal.fire({
+    title: '📧 Ganti Gmail',
+    text: `Gmail saat ini: ${currentGmail || 'Belum diatur'}`,
+    input: 'email',
+    inputPlaceholder: 'Masukkan Gmail baru...',
+    inputValue: currentGmail || '',
+    showCancelButton: true,
+    confirmButtonText: '✅ Ganti',
+    cancelButtonText: '❌ Batal',
+    confirmButtonColor: '#2e7d32',
+    cancelButtonColor: '#78909c',
+    background: '#e8f5e9',
+    color: '#1b3a1b',
+    preConfirm: (email) => {
+      if (!validateEmail(email)) {
+        Swal.showValidationMessage('⚠️ Format Gmail tidak valid!');
+        return false;
+      }
+      return email.trim();
+    }
+  });
+
+  if (newGmail && newGmail !== currentGmail) {
+    const saved = processGmailUpdate(newGmail);
+    
+    if (saved) {
+      Swal.fire({
+        title: '✅ Gmail Diubah!',
+        text: `Gmail berhasil diubah menjadi: ${newGmail}`,
+        icon: 'success',
+        confirmButtonColor: '#2e7d32',
+        background: '#e8f5e9',
+        color: '#1b3a1b',
+        timer: 2000,
+        timerProgressBar: true
+      });
+    }
+  }
+}
+
+// ---------- REFERRAL ----------
+function getReferralFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('ref') || null;
+}
+
+function getStoredReferral() {
+  return localStorage.getItem('referral_code') || null;
+}
+
+function setReferralIfNotExists(code) {
+  if (!code) return false;
+  const existing = getStoredReferral();
+  if (!existing) {
+    localStorage.setItem('referral_code', code);
+    return true;
+  }
+  return false;
+}
+
+// ---------- LOCK localStorage ----------
+(function lockLocalStorage() {
+  const originalSetItem = Storage.prototype.setItem;
+  const originalRemoveItem = Storage.prototype.removeItem;
+  
+  Storage.prototype.setItem = function(key, value) {
+    if (key === GMAIL_KEY) {
+      const current = localStorage.getItem(GMAIL_KEY);
+      if (current !== null && current === value) return;
+      return originalSetItem.call(this, key, value);
+    }
+    
+    if (key === 'referral_code' && localStorage.getItem('referral_code') !== null) {
+      return;
+    }
+    if (key === 'user_id' && localStorage.getItem('user_id') !== null) {
+      return;
+    }
+    
+    return originalSetItem.call(this, key, value);
+  };
+  
+  Storage.prototype.removeItem = function(key) {
+    if (key === 'referral_code' || key === 'user_id' || key === GMAIL_KEY) return;
+    originalRemoveItem.call(this, key);
+  };
+})();
+
+// ---------- AUDIO ----------
+function playAudio() {
+  const audio = document.getElementById('bgm');
+  if (audio) {
+    audio.volume = 0.4;
+    audio.muted = false;
+    audio.play().catch(() => {
+      document.addEventListener('click', function playOnClick() {
+        audio.play().catch(() => {});
+        document.removeEventListener('click', playOnClick);
+      }, { once: true });
+    });
+  }
+}
+
+// ---------- EXECUTE ----------
+const urlRef = getReferralFromURL();
+if (urlRef) {
+  const isNew = setReferralIfNotExists(urlRef);
+  if (isNew) console.log('✅ Referral code tersimpan: ' + urlRef);
+}
+
+const statusElement = document.getElementById('status-ref');
+const storedRef = getStoredReferral();
+if (storedRef) {
+  statusElement.innerHTML = `✅ Terdeteksi! Kode referral Anda: <strong>${storedRef}</strong>`;
+} else {
+  statusElement.innerHTML = `❌ Tidak ada kode referral tersimpan.`;
+}
+
+document.getElementById('changeGmailBtn').addEventListener('click', changeGmailWithPassword);
+
+function showUserBubble() {
+  const gmail = getStoredGmail() || 'Belum diatur';
+  const bubble = document.getElementById('userBubble');
+  if (bubble) {
+    bubble.innerHTML = `
+      <b>🌿 Selamat Datang</b>
+      <span class="user-id">${userID}</span>
+      <span class="gmail-mini">📧 ${gmail}</span>
+    `;
+    bubble.classList.add('show');
+    setTimeout(() => {
+      bubble.classList.remove('show');
+    }, 5000);
+  }
+}
+
+window.addEventListener('storage', function(e) {
+  if (e.key === 'gmail_updated' || e.key === GMAIL_KEY) {
+    setTimeout(() => {
+      updateGmailDisplay();
+      updateUserBubble();
+      loadAnnouncement();
+    }, 100);
+  }
+});
+
+setInterval(() => {
+  try {
+    const currentGmail = getStoredGmail();
+    const displayEl = document.getElementById('gmailDisplay');
+    if (displayEl && currentGmail && validateEmail(currentGmail)) {
+      const displayed = displayEl.textContent;
+      if (displayed !== currentGmail && displayed !== '⚠️ Wajib diatur!') {
+        updateGmailDisplay();
+        updateUserBubble();
+      }
+    }
+  } catch(e) {}
+}, 5000);
+
+// ============================================================
+// 🔥 INIT
+// ============================================================
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    updateGmailDisplay();
+    updateUserBubble();
+    playAudio();
+    
+    loadAnnouncement();
+    loadStatsFromOkJson();
+    loadLeaderboard();
+    
+    setInterval(loadLeaderboard, 60000);
+    
+    console.log('🌿 Wikz Store Green Theme Active! ✨');
+  }, 100);
+});
+
+// ---------- ANTI DEVTOOLS ----------
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'F12') e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && ['I', 'C', 'J'].includes(e.key)) e.preventDefault();
+  if (e.ctrlKey && e.key === 'u') e.preventDefault();
+});
+
+setInterval(() => {
+  const threshold = 160;
+  if (window.devtoolsOpen) return;
+  const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+  if (widthThreshold && !/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+    document.body.innerHTML = "<h1 style='color:#1b5e20;text-align:center;margin-top:40vh;'>🚫 Developer Tools Terdeteksi</h1>";
+  }
+}, 2000);
+</script>
+</body>
+</html>
