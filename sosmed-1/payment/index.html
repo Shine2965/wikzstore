@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Pembayaran QRIS - Shine Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Poppins',sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  color:#fff;
+  background:#0a0e1a;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,198,255,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(0,114,255,0.10) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(168,85,247,0.06) 0%, transparent 60%);
+  animation:bgFloat 20s ease-in-out infinite alternate;
+  z-index:0;
+  pointer-events:none;
+}
+@keyframes bgFloat{
+  0%{transform:translate(0,0) rotate(0deg)}
+  33%{transform:translate(2%,-2%) rotate(2deg)}
+  66%{transform:translate(-1%,3%) rotate(-1deg)}
+  100%{transform:translate(1%,-1%) rotate(1deg)}
+}
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(80px);
+  pointer-events:none;
+  z-index:0;
+  animation:orbPulse 6s ease-in-out infinite alternate;
+}
+.orb-1{width:400px;height:400px;top:-100px;right:-100px;background:rgba(0,198,255,0.10);animation-delay:0s}
+.orb-2{width:300px;height:300px;bottom:-50px;left:-50px;background:rgba(168,85,247,0.08);animation-delay:2s}
+.orb-3{width:200px;height:200px;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,114,255,0.06);animation-delay:4s}
+@keyframes orbPulse{
+  0%{transform:scale(0.8);opacity:0.6}
+  100%{transform:scale(1.2);opacity:1}
+}
+.card{
+  width:100%;
+  max-width:480px;
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-radius:28px;
+  padding:32px 28px;
+  border:1px solid rgba(255,255,255,0.06);
+  box-shadow:0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  position:relative;
+  z-index:1;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 40px 100px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:20%;
+  right:20%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#00c6ff,#0072ff,#8b5cf6,transparent);
+  border-radius:100%;
+  filter:blur(2px);
+  opacity:0.5;
+}
+h2{
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:-0.5px;
+  background:linear-gradient(135deg,#f0f9ff 0%,#b6d4fe 40%,#a5b4fc 70%,#c4b5fd 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:2px;
+}
+.subtitle{
+  font-size:13px;
+  color:#94a3b8;
+  font-weight:300;
+  letter-spacing:0.5px;
+  margin-top:2px;
+}
+.qr-wrapper{
+  background:#fff;
+  border-radius:20px;
+  padding:20px;
+  margin:18px auto;
+  width:fit-content;
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+  position:relative;
+}
+.qr-wrapper:hover{
+  transform:scale(1.02);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4);
+}
+.qr-wrapper.expired .qr-overlay{
+  display:flex;
+}
+.qr-wrapper .qr-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  border-radius:20px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:8px;
+  backdrop-filter:blur(8px);
+}
+.qr-wrapper .qr-overlay .overlay-icon{
+  font-size:40px;
+}
+.qr-wrapper .qr-overlay .overlay-text{
+  font-size:16px;
+  font-weight:700;
+  color:#ff4444;
+}
+.qr-wrapper .qr-overlay .overlay-sub{
+  font-size:12px;
+  color:#94a3b8;
+}
+#qrisCanvas{
+  display:block;
+  border-radius:12px;
+}
+.unique-code{
+  background:rgba(30,41,59,0.6);
+  backdrop-filter:blur(8px);
+  padding:12px 16px;
+  border-radius:14px;
+  text-align:center;
+  font-size:20px;
+  font-weight:700;
+  color:#facc15;
+  margin:14px 0 10px 0;
+  border:1px solid rgba(250,204,21,0.15);
+  box-shadow:0 4px 20px rgba(250,204,21,0.05);
+  letter-spacing:1px;
+}
+.unique-code span{
+  background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-weight:800;
+}
+.unique-code.expired{
+  opacity:0.4;
+  text-decoration:line-through;
+}
+.timer-display{
+  text-align:center;
+  font-size:14px;
+  color:#94a3b8;
+  margin:4px 0 8px 0;
+  padding:8px 12px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.06);
+}
+.timer-display .time{
+  font-weight:700;
+  font-size:18px;
+  color:#facc15;
+}
+.timer-display .time.warning{
+  color:#ffaa00;
+}
+.timer-display .time.danger{
+  color:#ff4444;
+  animation:blink 1s infinite;
+}
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:0.3}
+}
+.details{
+  font-size:13.5px;
+  line-height:1.8;
+  background:rgba(255,255,255,0.04);
+  padding:14px 16px;
+  border-radius:14px;
+  border-left:3px solid #00c6ff;
+  margin:8px 0 12px 0;
+  color:#e2e8f0;
+}
+.details strong{color:#f8fafc;font-weight:600}
+.details .discount-text{color:#22c55e;font-weight:600}
+.details .voucher-text{color:#facc15;font-weight:600}
+.details .admin-fee-text{color:#ffaa00;font-weight:600}
+.details .order-item-detail{
+  font-size:12px;
+  color:#94a3b8;
+  padding:4px 0 4px 12px;
+  border-left:2px solid rgba(0,198,255,0.2);
+  margin:2px 0;
+}
+.gmail-display{
+  background:rgba(255,255,255,0.04);
+  padding:10px 16px;
+  border-radius:12px;
+  margin:8px 0 4px 0;
+  border:1px solid rgba(0,198,255,0.12);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.gmail-display .label{
+  color:#94a3b8;
+  font-size:12px;
+  font-weight:500;
+}
+.gmail-display .value{
+  color:#00ffaa;
+  font-size:14px;
+  font-weight:600;
+  word-break:break-all;
+}
+.gmail-display .value.not-set{
+  color:#ff6666;
+  font-style:italic;
+  font-weight:400;
+}
+input{
+  width:100%;
+  padding:14px 16px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.05);
+  margin-top:12px;
+  font-size:14px;
+  color:#f1f5f9;
+  transition:all 0.25s ease;
+  outline:none;
+  backdrop-filter:blur(4px);
+  font-family:'Poppins',sans-serif;
+}
+input::placeholder{color:#94a3b8;font-weight:300}
+input:focus{
+  border-color:#00c6ff;
+  background:rgba(255,255,255,0.08);
+  box-shadow:0 0 0 4px rgba(0,198,255,0.10);
+}
+input:disabled{opacity:0.4;cursor:not-allowed}
+p.alert-text{
+  color:#fca5a5;
+  font-size:13px;
+  line-height:1.7;
+  margin-top:16px;
+  margin-bottom:0;
+  padding:12px 14px;
+  background:rgba(239,68,68,0.06);
+  border-radius:14px;
+  border-left:3px solid #ef4444;
+  text-align:left;
+}
+.btn{
+  width:100%;
+  margin-top:16px;
+  padding:16px;
+  border-radius:999px;
+  border:none;
+  font-size:15px;
+  font-weight:700;
+  color:#fff;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
+  cursor:pointer;
+  transition:all 0.25s ease;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  box-shadow:0 8px 24px rgba(0,114,255,0.25);
+  font-family:'Poppins',sans-serif;
+}
+.btn:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(0,114,255,0.35);
+  background:linear-gradient(135deg,#00d4ff,#0066ff);
+}
+.btn:active:not(:disabled){transform:scale(0.97)}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.btn-regenerate{
+  background:linear-gradient(135deg,#f59e0b,#d97706);
+  box-shadow:0 8px 24px rgba(245,158,11,0.25);
+  margin-top:8px;
+}
+.btn-regenerate:hover:not(:disabled){
+  background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  box-shadow:0 12px 32px rgba(245,158,11,0.35);
+}
+#applyVoucher{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  box-shadow:0 8px 24px rgba(34,197,94,0.25);
+}
+#applyVoucher:hover:not(:disabled){
+  background:linear-gradient(135deg,#2dd4bf,#059669);
+  box-shadow:0 12px 32px rgba(34,197,94,0.35);
+}
+.muted{
+  text-align:center;
+  font-size:12px;
+  color:#94a3b8;
+  margin-top:16px;
+  font-weight:300;
+  letter-spacing:0.2px;
+}
+.voucher-status{
+  font-size:12px;
+  margin-top:8px;
+  text-align:center;
+  min-height:24px;
+}
+.voucher-status .active{color:#22c55e}
+.voucher-status .used{color:#ef4444}
+.voucher-status .info{color:#94a3b8}
+
+.banned-page{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:20px;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
+  text-align:center;
+}
+.banned-card{
+  max-width:460px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px);
+  padding:40px 30px;
+  border-radius:24px;
+  border:1px solid rgba(255,68,68,0.3);
+  box-shadow:0 0 60px rgba(255,68,68,0.1);
+}
+.banned-card .icon{font-size:64px;display:block;margin-bottom:16px}
+.banned-card h1{color:#ff4444;font-size:28px;margin-bottom:8px}
+.banned-card .banned-gmail{color:#00ffaa;font-size:16px;font-weight:600;word-break:break-all;margin:8px 0}
+.banned-card .banned-reason{
+  color:#f1f5f9;
+  font-size:14px;
+  line-height:1.8;
+  background:rgba(255,68,68,0.08);
+  padding:14px 18px;
+  border-radius:12px;
+  border-left:3px solid #ff4444;
+  text-align:left;
+  margin:12px 0;
+}
+.banned-card .banned-until{
+  color:#ffaa00;
+  font-size:13px;
+  font-weight:600;
+  margin:8px 0;
+}
+.banned-card .banned-current-time{
+  color:#94a3b8;
+  font-size:12px;
+  margin:4px 0 16px 0;
+}
+.banned-card .btn-appeal{
+  display:inline-block;
+  background:#ffaa0044;
+  color:#ffaa00;
+  border:1px solid #ffaa0055;
+  padding:12px 30px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:600;
+  font-size:14px;
+  transition:0.3s;
+  font-family:'Poppins',sans-serif;
+  margin-top:8px;
+}
+.banned-card .btn-appeal:hover{
+  background:#ffaa0066;
+  transform:scale(1.02);
+}
+.banned-card .banned-id{
+  color:#666;
+  font-size:11px;
+  margin-top:12px;
+  word-break:break-all;
+}
+
+.wib-time-display{
+  text-align:center;
+  color:#94a3b8;
+  font-size:11px;
+  margin-top:6px;
+  padding:4px 0;
+  border-top:1px solid rgba(255,255,255,0.04);
+}
+.wib-time-display .wib-label{
+  color:#666;
+  font-weight:300;
+}
+.wib-time-display .wib-value{
+  color:#00ffaa;
+  font-weight:500;
+  font-variant-numeric:tabular-nums;
+}
+
+.payment-status{
+  margin-top:12px;
+  padding:12px 16px;
+  border-radius:12px;
+  text-align:center;
+  font-size:13px;
+  font-weight:600;
+  display:none;
+}
+.payment-status.loading{
+  display:block;
+  background:rgba(255,170,0,0.15);
+  color:#ffaa00;
+  border:1px solid rgba(255,170,0,0.3);
+}
+.payment-status.success{
+  display:block;
+  background:rgba(34,197,94,0.15);
+  color:#22c55e;
+  border:1px solid rgba(34,197,94,0.3);
+}
+.payment-status.failed{
+  display:block;
+  background:rgba(239,68,68,0.15);
+  color:#ef4444;
+  border:1px solid rgba(239,68,68,0.3);
+}
+.order-status{
+  margin-top:8px;
+  padding:10px 14px;
+  border-radius:10px;
+  text-align:center;
+  font-size:12px;
+  display:none;
+}
+.order-status.success{
+  display:block;
+  background:rgba(34,197,94,0.12);
+  color:#22c55e;
+  border:1px solid rgba(34,197,94,0.2);
+}
+.order-status.failed{
+  display:block;
+  background:rgba(239,68,68,0.12);
+  color:#ef4444;
+  border:1px solid rgba(239,68,68,0.2);
+}
+.order-status.loading{
+  display:block;
+  background:rgba(255,170,0,0.12);
+  color:#ffaa00;
+  border:1px solid rgba(255,170,0,0.2);
+}
+.order-id-box{
+  background:rgba(0,0,0,0.3);
+  padding:8px 12px;
+  border-radius:8px;
+  margin-top:6px;
+  font-family:'Courier New',monospace;
+  font-size:14px;
+  color:#ffaa00;
+  word-break:break-all;
+  border:1px solid rgba(255,170,0,0.2);
+}
+.order-id-box .copy-btn{
+  background:rgba(255,170,0,0.2);
+  color:#ffaa00;
+  border:1px solid rgba(255,170,0,0.3);
+  padding:2px 12px;
+  border-radius:6px;
+  font-size:11px;
+  cursor:pointer;
+  transition:0.3s;
+  margin-left:8px;
+}
+.order-id-box .copy-btn:hover{
+  background:rgba(255,170,0,0.4);
+}
+
+@media(max-width:480px){
+  .card{padding:20px 16px;border-radius:20px}
+  h2{font-size:20px}
+  .qr-wrapper{padding:12px;margin:14px auto}
+  #qrisCanvas{width:200px;height:200px}
+  .unique-code{font-size:17px;padding:10px 12px}
+  .btn{font-size:14px;padding:14px}
+  input{font-size:13px;padding:12px 14px}
+  .banned-card{padding:28px 20px}
+  .banned-card h1{font-size:22px}
+  .timer-display .time{font-size:15px}
+}
+</style>
+</head>
+<body>
+    
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- BANNED CONTAINER -->
+<div id="bannedContainer" style="display:none;" class="banned-page">
+  <div class="banned-card">
+    <span class="icon">🚫</span>
+    <h1>Akses Diblokir</h1>
+    <p style="color:#94a3b8;font-size:14px;border:none;background:none;padding:0;margin:0;">Akun Anda telah diblokir</p>
+    <div class="banned-gmail" id="bannedGmail">-</div>
+    <div class="banned-reason" id="bannedReason">-</div>
+    <div class="banned-until" id="bannedUntil">-</div>
+    <div class="banned-current-time" id="bannedCurrentTime">-</div>
+    <a href="https://wa.me/6289518103883?text=Halo%20Admin%2C%20saya%20ingin%20mengajukan%20banding%20atas%20ban%20akun%20saya.%20Gmail%3A%20" 
+       target="_blank" 
+       class="btn-appeal">
+       📱 Ajukan Banding
+    </a>
+    <div class="banned-id" id="bannedUserId">-</div>
+  </div>
+</div>
+
+<!-- QRIS CARD -->
+<div id="qrisCard" class="card">
+  <h2>💳 Pembayaran QRIS</h2>
+  <p class="alert-text"><b>Jangan tutup halaman saat sedang melakukan pembayaran atau pembayaran terverifikasi sampai muncul pop up id pesanan</b></p>
+  
+  <div class="subtitle">✦ Wikz Store - Sosmed 1 ✦</div>
+  
+  <!-- GMAIL DISPLAY -->
+  <div class="gmail-display">
+    <span class="label">📧 Gmail:</span>
+    <span class="value" id="gmailDisplay">Belum diatur</span>
+  </div>
+  
+  <!-- QRIS WRAPPER -->
+  <div class="qr-wrapper" id="qrWrapper">
+    <canvas id="qrisCanvas" width="240" height="240"></canvas>
+    <div class="qr-overlay" id="qrOverlay">
+      <span class="overlay-icon">⏰</span>
+      <span class="overlay-text">QRIS Expired</span>
+      <span class="overlay-sub">Klik tombol di bawah untuk generate ulang</span>
+    </div>
+  </div>
+  
+  <!-- TIMER -->
+  <div class="timer-display" id="timerDisplay">
+    ⏳ Sisa Waktu: <span class="time" id="timerTime">59:59</span>
+  </div>
+  
+  <div class="unique-code" id="uniqueCodeContainer">🔑 Kode Unik: <span id="uniqueCode">-</span></div>
+  
+  <!-- TOMBOL REGENERATE -->
+  <button class="btn btn-regenerate" id="regenerateBtn" style="display:none;">
+    🔄 Generate Ulang QRIS
+  </button>
+  
+  <div class="details" id="orderDetails"></div>
+  
+  <input type="text" id="voucherInput" placeholder="Kode Voucher (opsional)">
+  <button id="applyVoucher" class="btn">🎫 Gunakan Voucher</button>
+  <div class="voucher-status" id="voucherStatus"></div>
+  
+  <!-- PAYMENT STATUS -->
+  <div id="paymentStatus" class="payment-status"></div>
+  
+  <!-- ORDER STATUS -->
+  <div id="orderStatus" class="order-status"></div>
+  
+  <button id="confirmBtn" class="btn">✅ Cek Status Pembayaran</button>
+  
+  <div class="muted">⏳ Sistem memproses pesanan secara otomatis</div>
+  
+  <!-- WIB REAL-TIME -->
+  <div class="wib-time-display">
+    <span class="wib-label">🕐 WIB (GMT+7):</span>
+    <span class="wib-value" id="wibTimeDisplay">--:--:--</span>
+  </div>
+  
+  <p class="alert-text">‼️Pastikan melakukan transfer ke Qris yang bernama Shine Shop</p>
+</div>
+
+<script>
+// ===================== KONFIGURASI =====================
+const discordWebhook = "https://discord.com/api/webhooks/1482244992725553164/k6boQq7vBc3184RxiPtG6-obIKDZQWBu0f8cHQnLTevnwo8wFuaUKzhWzRkJ3Hl0_yne";
+const GMAIL_BAN_URL = "/sosmed-2/payment/gmail.json";
+const WHATSAPP_NUMBER = "6289518103883";
+const MERCHANT_CODE = "QP052692";
+
+let QIOSPAY_API_KEY = '';
+const ADMIN_FEE_PERCENT = 1;
+const ADMIN_FEE_THRESHOLD = 1000;
+const QRIS_EXPIRY_MINUTES = 10;
+
+// ===== ROUNDING HELPER =====
+// Normalisasi total bayar agar selalu integer (bulat ke atas, tanpa koma/desimal)
+function normalizeTotal(amount) {
+  const n = Number(amount) || 0;
+  return Math.ceil(n);
+}
+
+// ===== AMBIL PARAMETER DARI URL =====
+const p = new URLSearchParams(location.search);
+const trx = p.get("trx") || "-";
+// ✅ Pastikan total dari URL selalu integer
+const total = normalizeTotal(p.get("total") || 0);
+const isMass = p.get("mass") === "1";
+let ordersData = [];
+let layanan = "-";
+let target = "-";
+let jumlah = 0;
+let serviceId = null;
+
+try {
+  const ordersParam = p.get("orders");
+  if (ordersParam) {
+    ordersData = JSON.parse(decodeURIComponent(ordersParam));
+    if (ordersData.length > 0) {
+      const firstOrder = ordersData[0];
+      layanan = firstOrder.serviceName || "-";
+      target = firstOrder.target || "-";
+      jumlah = firstOrder.jumlah || 0;
+      serviceId = firstOrder.serviceId || null;
+    }
+  }
+} catch (e) {
+  console.warn('Gagal parse orders data:', e);
+}
+
+if (layanan === "-" || layanan === "") {
+  layanan = p.get("layanan") || "-";
+  target = p.get("target") || "-";
+  jumlah = Number(p.get("jumlah") || 0);
+  serviceId = p.get("serviceId") || null;
+}
+
+// ===== NOTIFIKASI DISCORD =====
+function getDiscordSentKey() { return `discord_sent_${trx}`; }
+
+function isDiscordAlreadySent() {
+  try { return localStorage.getItem(getDiscordSentKey()) === 'true'; } 
+  catch { return false; }
+}
+
+function markDiscordSent() {
+  try {
+    localStorage.setItem(getDiscordSentKey(), 'true');
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ===== ORDER SENT KEY =====
+function getOrderSentKey() { return `order_sent_${trx}`; }
+
+function isOrderAlreadySent() {
+  try { return localStorage.getItem(getOrderSentKey()) === 'true'; } 
+  catch { return false; }
+}
+
+function markOrderSent() {
+  try {
+    localStorage.setItem(getOrderSentKey(), 'true');
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ================= PERSISTENT STATE =================
+function getPaymentStateKey() { return `payment_state_${trx}`; }
+
+function getPaymentState() {
+  try {
+    const data = localStorage.getItem(getPaymentStateKey());
+    return data ? JSON.parse(data) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function savePaymentState(state) {
+  try {
+    localStorage.setItem(getPaymentStateKey(), JSON.stringify(state));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function clearPaymentState() {
+  try {
+    localStorage.removeItem(getPaymentStateKey());
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ================= AMBIL KONFIGURASI DARI ENV =================
+async function fetchConfigFromEnv() {
+  try {
+    const res = await fetch('/api/qris-config');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.qiospay_api_key) QIOSPAY_API_KEY = data.qiospay_api_key;
+      return true;
+    }
+  } catch (e) {
+    console.warn('⚠️ Gagal mengambil config dari API server:', e);
+  }
+  return false;
+}
+
+const QIOSPAY_MUTASI_URL = () => `https://qiospay.id/api/mutasi/qris/${MERCHANT_CODE}/${QIOSPAY_API_KEY}`;
+
+let originalTotal = total;
+let finalTotal = total;
+let appliedVoucher = null;
+let appliedDiscount = 0;
+let uniqueCode = 0;
+let transactionLocked = false;
+let isPaymentVerified = false;
+let verificationInterval = null;
+let adminFee = 0;
+let isSendingDiscord = false;
+let isSendingOrder = false;
+let orderResultData = null;
+let configLoaded = false;
+let currentTotalBayar = 0;
+let isProcessingPayment = false;
+let verificationAttempts = 0;
+
+let qrisExpiryTime = null;
+let qrisTimerInterval = null;
+let isQrisExpired = false;
+let qrisRegenerationCount = 0;
+
+function getUniqueCodeKey() { return `unique_code_${trx}`; }
+
+function getStoredUniqueCode() {
+  try {
+    const stored = localStorage.getItem(getUniqueCodeKey());
+    if (stored !== null) {
+      const parsed = parseInt(stored, 10);
+      if (!isNaN(parsed) && parsed >= 1 && parsed <= 99) return parsed;
+    }
+  } catch (e) {}
+  return null;
+}
+
+function saveUniqueCode(code) {
+  try {
+    localStorage.setItem(getUniqueCodeKey(), String(code));
+    return true;
+  } catch (e) { return false; }
+}
+
+function generateUniqueCode() {
+  const existingCode = getStoredUniqueCode();
+  if (existingCode !== null) return existingCode;
+  const newCode = Math.floor(Math.random() * 99) + 1;
+  saveUniqueCode(newCode);
+  return newCode;
+}
+
+function regenerateUniqueCode() {
+  const newCode = Math.floor(Math.random() * 99) + 1;
+  saveUniqueCode(newCode);
+  return newCode;
+}
+
+function calculateAdminFee(amount) {
+  if (amount > ADMIN_FEE_THRESHOLD) {
+    return Math.round(amount * (ADMIN_FEE_PERCENT / 100));
+  }
+  return 0;
+}
+
+function generateUserID(){
+  return 'user-' + Math.random().toString(36).substring(2,10) + '-' + Date.now().toString(36);
+}
+
+async function getUserID(){
+  let id = localStorage.getItem("user_id");
+  if(!id){
+    id = generateUserID();
+    localStorage.setItem("user_id", id);
+  }
+  return id;
+}
+
+function getStoredGmail() {
+  return localStorage.getItem('user_gmail') || null;
+}
+
+function validateEmail(email) {
+  return email && email.includes('@') && email.includes('.') && email.length > 5;
+}
+
+function getWIBTime() { return new Date(); }
+
+function formatWIB(date) {
+  return new Intl.DateTimeFormat('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }).format(date);
+}
+
+function formatWIBTime(date) {
+  return new Intl.DateTimeFormat('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }).format(date);
+}
+
+function updateWIBDisplay() {
+  const displayEl = document.getElementById('wibTimeDisplay');
+  if (displayEl) displayEl.textContent = formatWIBTime(getWIBTime());
+}
+
+function updateBannedWIBDisplay() {
+  const timeEl = document.getElementById('bannedCurrentTime');
+  const containerEl = document.getElementById('bannedContainer');
+  if (timeEl && containerEl && containerEl.style.display !== 'none') {
+    timeEl.textContent = '🕐 WIB (GMT+7): ' + formatWIB(getWIBTime());
+  }
+}
+
+function startWIBClock() {
+  if (window.wibInterval) clearInterval(window.wibInterval);
+  if (window.bannedInterval) clearInterval(window.bannedInterval);
+  updateWIBDisplay();
+  updateBannedWIBDisplay();
+  window.wibInterval = setInterval(updateWIBDisplay, 1000);
+  window.bannedInterval = setInterval(updateBannedWIBDisplay, 1000);
+}
+startWIBClock();
+
+async function checkGmailBanned(gmail) {
+  if (!gmail || !validateEmail(gmail)) return null;
+  try {
+    const res = await fetch(GMAIL_BAN_URL + '?t=' + Date.now(), { cache: "no-store" });
+    if (!res.ok) return null;
+    const list = await res.json();
+    if (!Array.isArray(list)) return null;
+    const banned = list.find(item => 
+      item.Gmail && item.Gmail.toLowerCase() === gmail.toLowerCase()
+    );
+    if (!banned) return null;
+    if (banned["Dibanned sampai"]) {
+      const untilDate = new Date(banned["Dibanned sampai"]);
+      if (getWIBTime() > untilDate) return null;
+    }
+    return banned;
+  } catch (err) {
+    return null;
+  }
+}
+
+function showBannedPage(bannedData, userID, gmail) {
+  document.getElementById('bannedContainer').style.display = 'flex';
+  document.getElementById('qrisCard').style.display = 'none';
+  document.getElementById('bannedGmail').textContent = gmail || '-';
+  document.getElementById('bannedReason').textContent = bannedData.Alasan || 'Tidak ada keterangan';
+  document.getElementById('bannedUserId').textContent = '🆔 User ID: ' + (userID || '-');
+  let untilText = '-';
+  if (bannedData["Dibanned sampai"]) {
+    untilText = formatWIB(new Date(bannedData["Dibanned sampai"]));
+  }
+  document.getElementById('bannedUntil').textContent = '⏳ Dibanned sampai: ' + untilText;
+  updateBannedWIBDisplay();
+  const appealLink = document.querySelector('.btn-appeal');
+  if (appealLink && gmail) {
+    appealLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Admin%2C%20saya%20ingin%20mengajukan%20banding%20atas%20ban%20akun%20saya.%20Gmail%3A%20${encodeURIComponent(gmail)}%0AUser%20ID%3A%20${encodeURIComponent(userID || '-')}`;
+  }
+}
+
+async function checkAndHandleBan() {
+  const gmail = getStoredGmail();
+  const userID = await getUserID();
+  const gmailDisplay = document.getElementById('gmailDisplay');
+  if (gmailDisplay) {
+    if (gmail && validateEmail(gmail)) {
+      gmailDisplay.textContent = gmail;
+      gmailDisplay.className = 'value';
+    } else {
+      gmailDisplay.textContent = '⚠️ Belum diatur!';
+      gmailDisplay.className = 'value not-set';
+    }
+  }
+  if (!gmail || !validateEmail(gmail)) return false;
+  const bannedData = await checkGmailBanned(gmail);
+  if (bannedData) {
+    showBannedPage(bannedData, userID, gmail);
+    return true;
+  }
+  return false;
+}
+
+function startQrisTimer() {
+  if (qrisTimerInterval) clearInterval(qrisTimerInterval);
+  
+  qrisExpiryTime = Date.now() + (QRIS_EXPIRY_MINUTES * 60 * 1000);
+  isQrisExpired = false;
+  
+  document.getElementById('qrOverlay').style.display = 'none';
+  document.getElementById('qrWrapper').classList.remove('expired');
+  document.getElementById('uniqueCodeContainer').classList.remove('expired');
+  document.getElementById('regenerateBtn').style.display = 'none';
+  
+  updateTimerDisplay();
+  
+  qrisTimerInterval = setInterval(function() {
+    const remaining = qrisExpiryTime - Date.now();
+    if (remaining <= 0) {
+      clearInterval(qrisTimerInterval);
+      qrisTimerInterval = null;
+      expireQris();
+      return;
+    }
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const timerEl = document.getElementById('timerTime');
+  if (!timerEl) return;
+  if (!qrisExpiryTime) {
+    timerEl.textContent = '--:--';
+    return;
+  }
+  const remaining = qrisExpiryTime - Date.now();
+  if (remaining <= 0) {
+    timerEl.textContent = '00:00';
+    timerEl.className = 'time danger';
+    return;
+  }
+  const minutes = Math.floor(remaining / 60000);
+  const seconds = Math.floor((remaining % 60000) / 1000);
+  timerEl.textContent = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+  
+  if (remaining < 60000) timerEl.className = 'time danger';
+  else if (remaining < 300000) timerEl.className = 'time warning';
+  else timerEl.className = 'time';
+}
+
+function expireQris() {
+  isQrisExpired = true;
+  document.getElementById('qrOverlay').style.display = 'flex';
+  document.getElementById('qrWrapper').classList.add('expired');
+  document.getElementById('uniqueCodeContainer').classList.add('expired');
+  document.getElementById('regenerateBtn').style.display = 'block';
+  
+  if (verificationInterval) {
+    clearInterval(verificationInterval);
+    verificationInterval = null;
+  }
+  
+  const statusEl = document.getElementById('paymentStatus');
+  statusEl.className = 'payment-status failed';
+  statusEl.textContent = '⏰ QRIS telah expired. Silakan generate ulang.';
+  statusEl.style.display = 'block';
+}
+
+function regenerateQris() {
+  uniqueCode = regenerateUniqueCode();
+  qrisRegenerationCount++;
+  
+  isQrisExpired = false;
+  isPaymentVerified = false;
+  transactionLocked = false;
+  verificationAttempts = 0;
+  
+  try {
+    const confirmed = JSON.parse(localStorage.getItem('confirmed_transactions') || '[]');
+    const index = confirmed.indexOf(trx);
+    if (index > -1) {
+      confirmed.splice(index, 1);
+      localStorage.setItem('confirmed_transactions', JSON.stringify(confirmed));
+    }
+  } catch(e) {}
+  
+  clearPaymentState();
+  try { localStorage.removeItem(`discord_sent_${trx}`); } catch(e) {}
+  try { localStorage.removeItem(`order_sent_${trx}`); } catch(e) {}
+  
+  document.getElementById('qrOverlay').style.display = 'none';
+  document.getElementById('qrWrapper').classList.remove('expired');
+  document.getElementById('uniqueCodeContainer').classList.remove('expired');
+  document.getElementById('regenerateBtn').style.display = 'none';
+  
+  const statusEl = document.getElementById('paymentStatus');
+  statusEl.className = '';
+  statusEl.textContent = '';
+  statusEl.style.display = 'none';
+  
+  document.getElementById('orderStatus').className = 'order-status';
+  document.getElementById('orderStatus').textContent = '';
+  document.getElementById('orderStatus').style.display = 'none';
+  
+  updateDisplay();
+  startQrisTimer();
+  
+  if (verificationInterval) clearInterval(verificationInterval);
+  setTimeout(() => {
+    checkPaymentStatus();
+    verificationInterval = setInterval(checkPaymentStatus, 10000);
+  }, 2000);
+  
+  // ✅ Total bayar dijamin integer
+  const totalBaru = normalizeTotal(finalTotal + uniqueCode + adminFee);
+  
+  Swal.fire({
+    title: '🔄 QRIS Regenerated!',
+    html: `
+      <div style="text-align:left;color:#ddd;font-size:14px;">
+        <p>QRIS baru telah dibuat dengan:</p>
+        <p><b>🔑 Kode Unik:</b> ${uniqueCode}</p>
+        <p><b>💰 Total Bayar:</b> Rp ${totalBaru.toLocaleString('id-ID')}</p>
+        <p style="margin-top:8px;color:#ffaa00;">⏳ QRIS berlaku 1 jam</p>
+      </div>
+    `,
+    icon: 'success',
+    confirmButtonColor: '#f59e0b',
+    confirmButtonText: '✅ OK'
+  });
+}
+
+// ===== KIRIM ORDER KE LOLLIPOP VIA /api/lollipop-services =====
+async function sendOrdersToLollipop() {
+  if (isOrderAlreadySent()) return true;
+  if (isSendingOrder) return false;
+  
+  const orderStatus = document.getElementById('orderStatus');
+  
+  if (!ordersData || ordersData.length === 0) {
+    orderStatus.className = 'order-status failed';
+    orderStatus.textContent = '❌ Tidak ada data pesanan.';
+    orderStatus.style.display = 'block';
+    return false;
+  }
+  
+  isSendingOrder = true;
+  orderStatus.className = 'order-status loading';
+  orderStatus.textContent = `⏳ Mengirim ${ordersData.length} pesanan ke Lollipop...`;
+  orderStatus.style.display = 'block';
+  
+  let successCount = 0;
+  let failedOrders = [];
+  let orderIds = [];
+  
+  try {
+    for (let i = 0; i < ordersData.length; i++) {
+      const order = ordersData[i];
+      
+      const payloadData = {
+        action: 'add',
+        service: parseInt(order.serviceId, 10),
+        link: order.target.trim(),
+        quantity: parseInt(order.jumlah, 10)
+      };
+      
+      if (order.comment && order.comment.trim() !== '') {
+        const comments = order.comment.split('\n').filter(l => l.trim()).join('\n');
+        if (comments) payloadData.comments = comments;
+      }
+      
+      const response = await fetch('/api/lollipop-services', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payloadData)
+      });
+      
+      let result;
+      try { 
+        result = await response.json(); 
+      } catch (e) {
+        result = { error: 'Invalid JSON response', status: response.status };
+      }
+      
+      const extractedOrderId = result.order || (result.data && result.data.order);
+
+      if (extractedOrderId) {
+        successCount++;
+        orderIds.push(extractedOrderId);
+      } else {
+        failedOrders.push({
+          index: i,
+          order: order,
+          error: result.msg || result.error || result.message || ('HTTP ' + response.status)
+        });
+      }
+      orderStatus.textContent = `⏳ Mengirim ${i+1}/${ordersData.length} pesanan... (${successCount} berhasil)`;
+    }
+    
+    markOrderSent();
+    
+    if (successCount === ordersData.length) {
+      const orderIdStr = orderIds.join(', ');
+      orderResultData = { orderIds, message: `${successCount} pesanan berhasil dibuat.` };
+      
+      orderStatus.className = 'order-status success';
+      orderStatus.innerHTML = `
+        ✅ ${successCount} pesanan berhasil dibuat!
+        <div class="order-id-box">
+          🆔 ID Pesanan: <strong>${orderIdStr}</strong>
+          <button class="copy-btn" onclick="copyOrderId('${orderIdStr}')">📋 Salin</button>
+        </div>
+        <div style="margin-top:6px;font-size:11px;color:#888;">
+          ⚠️ Simpan ID pesanan ini untuk cek status order.
+        </div>
+      `;
+      
+      isSendingOrder = false;
+      await sendMassOrderNotificationToDiscord(orderIds, successCount, failedOrders);
+      
+      await Swal.fire({
+        title: '🎉 Pesanan Berhasil Diproses!',
+        html: `
+          <div style="text-align:center;color:#ddd;font-size:14px;">
+            <p>Transaksi Anda telah terverifikasi dan pesanan sudah diteruskan.</p>
+            <div style="background:#1e293b;padding:15px;border-radius:12px;margin:15px 0;border:1px solid #00c6ff;">
+              <span style="color:#94a3b8;font-size:12px;">ID PESANAN Anda:</span><br>
+              <span style="color:#00ffaa;font-size:22px;font-weight:800;font-family:monospace;letter-spacing:1px;">${orderIdStr}</span>
+              <br><br>
+              <button onclick="copyOrderId('${orderIdStr}')" style="background:linear-gradient(135deg,#00c6ff,#0072ff);color:#fff;border:none;padding:8px 18px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;">
+                📋 Salin ID Pesanan
+              </button>
+            </div>
+            <p style="font-size:12px;color:#facc15;">⚠️ Catat atau simpan ID Pesanan di atas untuk keperluan komplain/tracking!</p>
+          </div>
+        `,
+        icon: 'success',
+        confirmButtonColor: '#00c6ff',
+        confirmButtonText: '✅ Saya Sudah Menyimpannya'
+      });
+      return true;
+    } else {
+      const failedMsg = failedOrders.map(f => `#${f.index+1} ${f.order.serviceName}: ${f.error}`).join('\n');
+      orderStatus.className = 'order-status failed';
+      orderStatus.innerHTML = `
+        ❌ ${successCount}/${ordersData.length} pesanan berhasil.<br>
+        <span style="font-size:11px;color:#f87171;">Gagal: ${failedMsg}</span>
+      `;
+      isSendingOrder = false;
+      await sendMassOrderNotificationToDiscord(orderIds, successCount, failedOrders);
+      
+      Swal.fire({
+        title: '⚠️ Sebagian Pesanan Gagal',
+        html: `
+          <div style="text-align:left;color:#ddd;font-size:14px;">
+            <p>Berhasil: <b>${successCount}</b> dari <b>${ordersData.length}</b> pesanan.</p>
+            ${orderIds.length > 0 ? `<p>ID Berhasil: <b style="color:#00ffaa;">${orderIds.join(', ')}</b></p>` : ''}
+            <div style="background:rgba(239,68,68,0.1);padding:12px;border-radius:10px;margin:10px 0;border:1px solid rgba(239,68,68,0.3);">
+              <b style="color:#f87171;">Detail Gagal:</b><br>
+              ${failedMsg.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+        `,
+        icon: 'warning',
+        confirmButtonColor: '#f59e0b'
+      });
+      return false;
+    }
+  } catch (err) {
+    orderStatus.className = 'order-status failed';
+    orderStatus.textContent = `❌ Error: ${err.message}`;
+    isSendingOrder = false;
+    return false;
+  }
+}
+
+window.copyOrderId = function(orderId) {
+  navigator.clipboard.writeText(String(orderId)).then(() => {
+    Swal.fire({
+      title: '✅ Berhasil Disalin!',
+      text: `ID Pesanan ${orderId} telah disalin ke clipboard.`,
+      icon: 'success',
+      timer: 2000,
+      showConfirmButton: false,
+      toast: true,
+      position: 'top-end'
+    });
+  }).catch(() => {
+    const textarea = document.createElement('textarea');
+    textarea.value = orderId;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+  });
+};
+
+async function sendMassOrderNotificationToDiscord(orderIds, successCount, failedOrders) {
+  try {
+    let orderList = '';
+    ordersData.forEach((o, i) => {
+      orderList += `\n  ${i+1}. ${o.serviceName} (ID: ${o.serviceId}) x${o.jumlah} → ${o.target}`;
+    });
+    
+    const orderIdStr = orderIds.join(', ') || '-';
+    const failedMsg = failedOrders.length > 0 ? `\n⚠️ Gagal: ${failedOrders.length} pesanan` : '';
+    
+    const message = `📦 **ORDER MASSAL LOLLIPOP**
+━━━━━━━━━━━━━━━━━━━━━
+🆔 **ID Transaksi:** ${trx}
+📊 **Total Pesanan:** ${ordersData.length}
+✅ **Berhasil:** ${successCount}${failedMsg}
+🆔 **Order IDs:** ${orderIdStr}
+📅 **Waktu:** ${formatWIB(new Date())}
+━━━━━━━━━━━━━━━━━━━━━
+📋 **Detail Pesanan:**
+${orderList}
+━━━━━━━━━━━━━━━━━━━━━
+✅ **${successCount === ordersData.length ? 'Semua pesanan berhasil dibuat!' : 'Beberapa pesanan gagal, cek manual.'}**`;
+
+    await fetch(discordWebhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: message })
+    });
+  } catch (err) {}
+}
+
+async function sendToDiscord(gmail, userID) {
+  if (isDiscordAlreadySent()) return true;
+  if (isSendingDiscord) return false;
+  
+  isSendingDiscord = true;
+  
+  try {
+    // ✅ Total bayar dijamin integer
+    const totalDenganUnik = normalizeTotal(finalTotal + uniqueCode + adminFee);
+    const refCode = localStorage.getItem('referral_code') || "-";
+    
+    let orderList = '';
+    if (isMass && ordersData.length > 0) {
+      ordersData.forEach((o, i) => {
+        orderList += `\n  ${i+1}. ${o.serviceName} (ID: ${o.serviceId}) x${o.jumlah} → ${o.target}`;
+      });
+    } else if (!isMass && ordersData.length === 1) {
+      const o = ordersData[0];
+      orderList = `\n  ${o.serviceName} (ID: ${o.serviceId}) x${o.jumlah} → ${o.target}`;
+    }
+    
+    let adminFeeText = adminFee > 0 ? `\n📊 **Biaya Admin (1%):** Rp ${adminFee.toLocaleString('id-ID')}` : '';
+    
+    const message = `💰 **PEMBAYARAN BERHASIL DIVERIFIKASI**
+━━━━━━━━━━━━━━━━━━━━━
+🆔 **ID Transaksi:** ${trx}
+📊 **Jenis:** ${isMass ? 'MASSAL ('+ordersData.length+' pesanan)' : 'Single'}
+💵 **Total Bayar:** Rp ${totalDenganUnik.toLocaleString('id-ID')}
+🔑 **Kode Unik:** ${uniqueCode}${adminFeeText}
+🎫 **Voucher:** ${appliedVoucher || "-"}
+📉 **Diskon:** ${appliedVoucher ? `Rp ${appliedDiscount.toLocaleString('id-ID')}` : "-"}
+📧 **Gmail:** ${gmail}
+🆔 **User ID:** ${userID}
+🔗 **Referral:** ${refCode}
+📅 **Waktu:** ${formatWIB(new Date())}
+━━━━━━━━━━━━━━━━━━━━━
+📋 **Detail Pesanan:**
+${orderList || '  -'}
+━━━━━━━━━━━━━━━━━━━━━
+✅ **Status: LUNAS**`;
+
+    const response = await fetch(discordWebhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: message })
+    });
+    
+    if (response.ok) {
+      markDiscordSent();
+      isSendingDiscord = false;
+      return true;
+    } else {
+      isSendingDiscord = false;
+      return false;
+    }
+  } catch (err) {
+    isSendingDiscord = false;
+    return false;
+  }
+}
+
+function isTransactionValid(transaction, targetAmount) {
+  // ✅ Pastikan target selalu integer
+  targetAmount = Math.ceil(Number(targetAmount) || 0);
+  
+  let rawAmount = String(transaction.amount || '');
+  let amountNumber = parseInt(rawAmount.replace(/[^0-9]/g, ''), 10) || 0;
+  
+  if (amountNumber !== targetAmount) return false;
+  if (!['CR', 'credit', 'Credit'].includes(transaction.type)) return false;
+  
+  if (transaction.time) {
+    try {
+      const txTime = new Date(transaction.time);
+      const diffMinutes = (new Date() - txTime) / 1000 / 60;
+      if (diffMinutes > 120) return false;
+    } catch (e) {}
+  }
+  return true;
+}
+
+async function checkPaymentStatus() {
+  if (isProcessingPayment) return;
+  
+  const statusEl = document.getElementById('paymentStatus');
+  const confirmBtn = document.getElementById('confirmBtn');
+  
+  if (isQrisExpired) {
+    statusEl.className = 'payment-status failed';
+    statusEl.textContent = '⏰ QRIS telah expired. Silakan generate ulang.';
+    statusEl.style.display = 'block';
+    return;
+  }
+  
+  const savedState = getPaymentState();
+  if (savedState && savedState.verified === true && savedState.verifiedAt) {
+    const verifiedAt = new Date(savedState.verifiedAt).getTime();
+    const diffMinutes = (Date.now() - verifiedAt) / 1000 / 60;
+    
+    if (diffMinutes < 60) {
+      isPaymentVerified = true;
+      transactionLocked = true;
+      statusEl.className = 'payment-status success';
+      statusEl.textContent = '✅ Pembayaran sudah terverifikasi!';
+      statusEl.style.display = 'block';
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = '✅ Pembayaran Terverifikasi';
+      
+      if (savedState.orderSent === false && ordersData.length > 0) {
+        await sendOrdersToLollipop();
+        savedState.orderSent = true;
+        savePaymentState(savedState);
+      }
+      return;
+    } else {
+      clearPaymentState();
+    }
+  }
+  
+  if (isPaymentVerified || checkTransactionLockLocal() || isDiscordAlreadySent()) {
+    isPaymentVerified = true;
+    statusEl.className = 'payment-status success';
+    statusEl.textContent = '✅ Pembayaran sudah terverifikasi!';
+    statusEl.style.display = 'block';
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = '✅ Pembayaran Terverifikasi';
+    savePaymentState({ verified: true, orderSent: isOrderAlreadySent(), verifiedAt: new Date().toISOString() });
+    return;
+  }
+  
+  if (!QIOSPAY_API_KEY) {
+    await fetchConfigFromEnv();
+    if (!QIOSPAY_API_KEY) {
+      statusEl.className = 'payment-status failed';
+      statusEl.textContent = '❌ Konfigurasi API tidak tersedia';
+      statusEl.style.display = 'block';
+      return;
+    }
+  }
+  
+  isProcessingPayment = true;
+  statusEl.className = 'payment-status loading';
+  statusEl.textContent = '⏳ Mengecek pembayaran...';
+  statusEl.style.display = 'block';
+  confirmBtn.disabled = true;
+  confirmBtn.textContent = '⏳ Mengecek...';
+  
+  try {
+    const gmail = getStoredGmail();
+    const userID = await getUserID();
+    
+    const bannedData = await checkGmailBanned(gmail);
+    if (bannedData) {
+      statusEl.className = 'payment-status failed';
+      statusEl.textContent = '🚫 Akun Anda diblokir!';
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = '✅ Cek Status Pembayaran';
+      isProcessingPayment = false;
+      return;
+    }
+    
+    // ✅ Total yang dicek = sudah dibulatkan integer
+    const totalBayar = normalizeTotal(finalTotal + uniqueCode + adminFee);
+    currentTotalBayar = totalBayar;
+    
+    console.log('💰 Nominal yang dicek ke QIOSPAY:', totalBayar);
+    
+    const res = await fetch(QIOSPAY_MUTASI_URL() + '?t=' + Date.now());
+    if (!res.ok) throw new Error('Gagal koneksi mutasi: ' + res.status);
+    
+    const data = await res.json();
+    let foundTransaction = null;
+    
+    if (data.status === 'success' && data.data) {
+      const transactions = Array.isArray(data.data) ? data.data : [data.data];
+      for (const t of transactions) {
+        if (isTransactionValid(t, totalBayar)) {
+          foundTransaction = t;
+          break;
+        }
+      }
+    }
+    
+    if (foundTransaction) {
+      isPaymentVerified = true;
+      transactionLocked = true;
+      statusEl.className = 'payment-status success';
+      statusEl.textContent = `✅ Pembayaran Rp ${totalBayar.toLocaleString('id-ID')} terverifikasi!`;
+      
+      savePaymentState({ 
+        verified: true, 
+        orderSent: false, 
+        verifiedAt: new Date().toISOString(),
+        totalBayar: totalBayar,
+        trx: trx
+      });
+      
+      const sent = await sendToDiscord(gmail, userID);
+      if (sent && ordersData.length > 0) {
+        await sendOrdersToLollipop();
+        const currentState = getPaymentState();
+        if (currentState) {
+          currentState.orderSent = true;
+          savePaymentState(currentState);
+        }
+        saveTransactionLockLocal();
+      }
+      
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = '✅ Pembayaran Terverifikasi';
+      if (verificationInterval) {
+        clearInterval(verificationInterval);
+        verificationInterval = null;
+      }
+    } else {
+      verificationAttempts++;
+      statusEl.className = 'payment-status loading';
+      statusEl.textContent = `⏳ Belum ada pembayaran Rp ${totalBayar.toLocaleString('id-ID')} terdeteksi.`;
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = '✅ Cek Status Pembayaran';
+    }
+  } catch (err) {
+    statusEl.className = 'payment-status failed';
+    statusEl.textContent = '❌ Gagal mengecek pembayaran: ' + err.message;
+    confirmBtn.disabled = false;
+    confirmBtn.textContent = '✅ Cek Status Pembayaran';
+  }
+  isProcessingPayment = false;
+}
+
+function checkTransactionLockLocal() {
+  try {
+    const confirmed = JSON.parse(localStorage.getItem('confirmed_transactions') || '[]');
+    return confirmed.includes(trx);
+  } catch { return false; }
+}
+
+function saveTransactionLockLocal() {
+  try {
+    const confirmed = JSON.parse(localStorage.getItem('confirmed_transactions') || '[]');
+    if (!confirmed.includes(trx)) {
+      confirmed.push(trx);
+      localStorage.setItem('confirmed_transactions', JSON.stringify(confirmed));
+    }
+  } catch(e) {}
+}
+
+function getUsedVouchers() {
+  try { return JSON.parse(localStorage.getItem('used_vouchers_' + trx) || '[]'); } 
+  catch { return []; }
+}
+
+function markVoucherUsed(code) {
+  try {
+    const used = getUsedVouchers();
+    if (!used.includes(code)) {
+      used.push(code);
+      localStorage.setItem('used_vouchers_' + trx, JSON.stringify(used));
+    }
+  } catch(e) {}
+}
+
+function isVoucherUsed(code) {
+  return getUsedVouchers().includes(code);
+}
+
+function crc16(s){
+  let c=0xFFFF;
+  for(let i=0;i<s.length;i++){
+    c^=s.charCodeAt(i)<<8;
+    for(let j=0;j<8;j++){
+      c=c&0x8000?(c<<1)^0x1021:c<<1;
+    }
+  }
+  return (c&0xFFFF).toString(16).toUpperCase().padStart(4,'0');
+}
+
+function buildQR(a){
+  const str=String(parseInt(a, 10));
+  const tag="54"+String(str.length).padStart(2,"0")+str;
+  const base="00020101021126670016COM.NOBUBANK.WWW01189360050300000907180214260818000016290303UMI51440014ID.CO.QRIS.WWW0215ID10265728797100303UMI5204481253033605802ID5918SHINE SHOP ID CELL6008SURABAYA61056011162070703A016304743A";
+  return base+tag+"6304"+crc16(base+tag+"6304");
+}
+
+function updateDisplay(){
+  uniqueCode = generateUniqueCode();
+  document.getElementById('uniqueCode').textContent = uniqueCode;
+  
+  // ✅ Bulatkan finalTotal & adminFee agar selalu integer
+  finalTotal = normalizeTotal(finalTotal);
+  adminFee = calculateAdminFee(originalTotal);
+  
+  // ✅ Total bayar dijamin integer
+  const totalDenganUnik = normalizeTotal(finalTotal + uniqueCode + adminFee);
+  currentTotalBayar = totalDenganUnik;
+  
+  let detailHtml = `
+  <strong>ID Transaksi:</strong> ${trx}<br>
+  <strong>Tipe:</strong> ${isMass ? '📦 MASSAL ('+ordersData.length+' pesanan)' : '📋 Single'}<br>
+  <strong>Total:</strong> <s>Rp ${normalizeTotal(originalTotal).toLocaleString("id-ID")}</s><br>
+  `;
+  
+  if (isMass && ordersData.length > 0) {
+    detailHtml += `<strong>📋 Detail Pesanan:</strong><br>`;
+    ordersData.forEach((o, i) => {
+      detailHtml += `<div class="order-item-detail">
+        ${i+1}. ${o.serviceName} (ID: ${o.serviceId}) x${o.jumlah.toLocaleString('id-ID')} → ${o.target}
+      </div>`;
+    });
+  } else if (!isMass && ordersData.length === 1) {
+    const o = ordersData[0];
+    detailHtml += `
+    <strong>Layanan:</strong> ${o.serviceName}<br>
+    <strong>Service ID:</strong> ${o.serviceId}<br>
+    <strong>Target:</strong> ${o.target}<br>
+    <strong>Jumlah:</strong> ${o.jumlah.toLocaleString('id-ID')}<br>
+    `;
+  }
+  
+  if (appliedVoucher) {
+    detailHtml += `<strong>🎫 Voucher:</strong> <span class="voucher-text">${appliedVoucher}</span> <span class="discount-text">(Diskon Rp ${appliedDiscount.toLocaleString("id-ID")})</span><br>`;
+  }
+  
+  if (adminFee > 0) {
+    detailHtml += `<strong>📊 Biaya Admin 1%:</strong> <span class="admin-fee-text">Rp ${adminFee.toLocaleString("id-ID")}</span><br>`;
+  }
+  
+  detailHtml += `<strong>Total Bayar:</strong> Rp ${totalDenganUnik.toLocaleString("id-ID")}`;
+  document.getElementById('orderDetails').innerHTML = detailHtml;
+  
+  QRCode.toCanvas(document.getElementById('qrisCanvas'), buildQR(totalDenganUnik), { width:240 }, function(err){
+    if(err) return console.error(err);
+    const ctx = document.getElementById('qrisCanvas').getContext("2d");
+    const logo = new Image();
+    logo.src = "/home/logo.png";
+    logo.onload = function(){
+      const size = 50;
+      const x = (240 - size)/2;
+      const y = (240 - size)/2;
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(x-5,y-5,size+10,size+10);
+      ctx.drawImage(logo,x,y,size,size);
+    };
+  });
+  
+  console.log('🔄 QRIS & nominal cek di-update ke:', totalDenganUnik);
+}
+
+async function loadVoucher(){
+  try{
+    const r = await fetch("/sosmed-3/payment/voucher.json",{cache:"no-store"});
+    if(!r.ok) return [];
+    const data = await r.json();
+    return Array.isArray(data) ? data : [];
+  }catch{return []}
+}
+
+document.getElementById('applyVoucher').onclick = async function() {
+  const code = document.getElementById('voucherInput').value.trim().toUpperCase();
+  if(!code) return Swal.fire("Isi kode voucher","","warning");
+  
+  if (isVoucherUsed(code)) {
+    return Swal.fire({
+      title: "❌ Voucher Sudah Dipakai",
+      text: `Kode voucher "${code}" sudah digunakan untuk transaksi ini.`,
+      icon: "error"
+    });
+  }
+  
+  const list = await loadVoucher();
+  if(!list || list.length === 0) {
+    return Swal.fire("Error", "Gagal memuat data voucher", "error");
+  }
+  
+  const v = list.find(x => x.code && x.code.toUpperCase() === code);
+  if(!v) return Swal.fire("❌ Voucher tidak valid","","error");
+  
+  if (originalTotal < (v.min_purchase || 0)) {
+    return Swal.fire({
+      title: "❌ Minimal Pembelian",
+      text: `Minimal pembelian voucher ini adalah Rp ${(v.min_purchase||0).toLocaleString("id-ID")}`,
+      icon: "warning"
+    });
+  }
+  
+  let discount = 0;
+  if (v.type === "percent") {
+    discount = originalTotal * (v.value / 100);
+    if (v.max_discount) discount = Math.min(discount, v.max_discount);
+  } else if (v.type === "fixed") {
+    discount = v.value;
+  } else {
+    return Swal.fire("❌ Tipe voucher tidak valid","","error");
+  }
+  
+  // ✅ BULATKAN DISKON KE ATAS (hilangkan koma)
+  discount = Math.ceil(Math.max(0, discount));
+  finalTotal = Math.max(normalizeTotal(originalTotal) - discount, 0);
+  appliedVoucher = v.code;
+  appliedDiscount = discount;
+  
+  markVoucherUsed(v.code);
+  
+  document.getElementById('voucherStatus').innerHTML = `<span class="active">✅ Voucher ${v.code} berhasil digunakan! Diskon: Rp ${discount.toLocaleString('id-ID')}</span>`;
+  document.getElementById('voucherInput').disabled = true;
+  this.disabled = true;
+  
+  updateDisplay();
+  
+  // Update text status loading agar nominalnya sinkron
+  const statusEl = document.getElementById('paymentStatus');
+  if (statusEl.className === 'payment-status loading') {
+    statusEl.textContent = `⏳ Mengecek pembayaran Rp ${normalizeTotal(finalTotal + uniqueCode + adminFee).toLocaleString('id-ID')}...`;
+  }
+  
+  Swal.fire({
+    title: "✅ Berhasil!",
+    html: `Voucher <b>${v.code}</b> berhasil digunakan!<br>Diskon: <b>Rp ${discount.toLocaleString('id-ID')}</b><br><span style="color:#888;font-size:12px;">QRIS & nominal cek otomatis diperbarui.</span>`,
+    icon: "success",
+    confirmButtonColor: "#22c55e"
+  });
+};
+
+document.getElementById('confirmBtn').onclick = function() {
+  checkPaymentStatus();
+};
+
+document.getElementById('regenerateBtn').onclick = function() {
+  Swal.fire({
+    title: '🔄 Generate Ulang QRIS?',
+    html: `
+      <div style="text-align:left;color:#ddd;font-size:14px;">
+        <p>QRIS saat ini sudah expired.</p>
+        <p>Generate ulang akan membuat:</p>
+        <ul style="margin-left:20px;margin-top:8px;">
+          <li>🔑 Kode unik <b>BARU</b></li>
+          <li>⏳ QRIS berlaku <b>1 jam</b> lagi</li>
+          <li>💰 Nominal tetap <b>Rp ${normalizeTotal(finalTotal + adminFee).toLocaleString('id-ID')} + kode unik</b></li>
+        </ul>
+      </div>
+    `,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: '✅ Ya, Generate Ulang',
+    cancelButtonText: '❌ Batal',
+    confirmButtonColor: '#f59e0b'
+  }).then((result) => {
+    if (result.isConfirmed) regenerateQris();
+  });
+};
+
+(async function() {
+  await fetchConfigFromEnv();
+  configLoaded = true;
+  
+  const isBanned = await checkAndHandleBan();
+  if (isBanned) return;
+  
+  const savedState = getPaymentState();
+  if (savedState && savedState.verified === true && savedState.verifiedAt) {
+    const verifiedAt = new Date(savedState.verifiedAt).getTime();
+    if ((Date.now() - verifiedAt) / 1000 / 60 < 60) {
+      isPaymentVerified = true;
+      transactionLocked = true;
+      document.getElementById('confirmBtn').disabled = true;
+      document.getElementById('confirmBtn').textContent = '✅ Pembayaran Terverifikasi';
+      document.getElementById('paymentStatus').className = 'payment-status success';
+      document.getElementById('paymentStatus').textContent = '✅ Pembayaran sudah terverifikasi!';
+      document.getElementById('paymentStatus').style.display = 'block';
+      return;
+    } else {
+      clearPaymentState();
+    }
+  }
+  
+  updateDisplay();
+  startQrisTimer();
+  
+  setTimeout(() => {
+    checkPaymentStatus();
+    verificationInterval = setInterval(checkPaymentStatus, 10000);
+  }, 3000);
+})();
+</script>
+</body>
+</html>
