@@ -1078,7 +1078,7 @@ async function sendOrdersToLollipop() {
   
   isSendingOrder = true;
   orderStatus.className = 'order-status loading';
-  orderStatus.textContent = `⏳ Mengirim ${ordersData.length} pesanan ke Lollipop...`;
+  orderStatus.textContent = `⏳ Mengirim ${ordersData.length} pesanan ke Shine Shop...`;
   orderStatus.style.display = 'block';
   
   let successCount = 0;
@@ -1239,7 +1239,8 @@ async function sendMassOrderNotificationToDiscord(orderIds, successCount, failed
     const orderIdStr = orderIds.join(', ') || '-';
     const failedMsg = failedOrders.length > 0 ? `\n⚠️ Gagal: ${failedOrders.length} pesanan` : '';
     
-    const message = `📦 **ORDER MASSAL LOLLIPOP**
+    const message = `📦 **ORDER MASSAL SOSMED 1 **
+wikzstore.my.id
 ━━━━━━━━━━━━━━━━━━━━━
 🆔 **ID Transaksi:** ${trx}
 📊 **Total Pesanan:** ${ordersData.length}
