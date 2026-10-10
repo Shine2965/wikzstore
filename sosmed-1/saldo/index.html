@@ -334,7 +334,6 @@
             fill: none;
         }
 
-        /* Responsive */
         @media (max-width: 480px) {
             .card {
                 padding: 1.8rem 1.2rem;
@@ -363,13 +362,11 @@
 <body>
 
     <div class="card">
-        <!-- Header -->
         <div class="header">
             <div class="logo-icon">🍭</div>
-            <h1>Saldo pusat <span>Suntik Sosmed 1</span></h1>
+            <h1>Cek Saldo <span>Suntik Sosmed 1</span></h1>
         </div>
 
-        <!-- Balance Display -->
         <div class="balance-box">
             <div class="balance-label">
                 <svg viewBox="0 0 24 24">
@@ -395,7 +392,6 @@
             </div>
         </div>
 
-        <!-- Actions -->
         <div class="action-area">
             <button class="btn btn-primary" id="refreshBtn">
                 <svg viewBox="0 0 24 24">
@@ -413,17 +409,15 @@
             </button>
         </div>
 
-        <!-- Footer -->
         <div class="footer-note">
             <svg viewBox="0 0 24 24">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            Dibuat Oleh • Shine Shop - 2023
+            Shine Shop • 2023
         </div>
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast">
         <svg viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10"/>
@@ -438,7 +432,7 @@
 
             // ===== KONFIGURASI =====
             const API_ENDPOINT = '/api/lollipop-services';
-            const AUTO_REFRESH_INTERVAL = 30000; // 30 detik
+            const AUTO_REFRESH_INTERVAL = 30000;
 
             // ===== DOM ELEMENTS =====
             const balanceDisplay = document.getElementById('balanceDisplay');
@@ -483,7 +477,6 @@
                 if (!badge) return;
                 badge.className = 'status-badge';
                 if (type === 'success') {
-                    badge.classList.add(''); // default green
                     badge.innerHTML = '<span class="dot"></span> ' + text;
                 } else if (type === 'error') {
                     badge.classList.add('error');
@@ -508,7 +501,7 @@
                 }
             }
 
-            // ===== UPDATE LAST UPDATED TIME =====
+            // ===== UPDATE TIMESTAMP =====
             function updateTimestamp() {
                 const now = new Date();
                 const timeStr = now.toLocaleTimeString('id-ID', {
@@ -520,18 +513,23 @@
                 lastUpdated.style.display = 'flex';
             }
 
-            // ===== FETCH BALANCE =====
+            // ===== FETCH BALANCE (METHOD POST) =====
             async function fetchBalance(showToastOnSuccess = false) {
                 if (isLoading) return;
 
                 setLoading(true);
 
                 try {
-                    const response = await fetch(API_ENDPOINT + '?action=balance', {
-                        method: 'GET',
+                    // ===== GUNAKAN METHOD POST =====
+                    const response = await fetch(API_ENDPOINT, {
+                        method: 'POST',
                         headers: {
+                            'Content-Type': 'application/json',
                             'Accept': 'application/json'
-                        }
+                        },
+                        body: JSON.stringify({
+                            action: 'balance'
+                        })
                     });
 
                     if (!response.ok) {
@@ -544,23 +542,17 @@
                         throw new Error(data?.msg || 'Respon tidak valid');
                     }
 
-                    // ===== TAMPILKAN SALDO =====
                     const balance = Number(data.balance) || 0;
                     balanceDisplay.textContent = formatRupiah(balance);
                     balanceDisplay.classList.remove('loading');
 
-                    // ===== STATUS BADGE =====
                     setStatusBadge('success', 'Saldo berhasil dimuat');
-
-                    // ===== TIMESTAMP =====
                     updateTimestamp();
 
-                    // ===== TOAST =====
                     if (showToastOnSuccess) {
                         showToast('Saldo berhasil diperbarui: Rp ' + formatRupiah(balance), false);
                     }
 
-                    // ===== SIMPAN KE LOCALSTORAGE =====
                     try {
                         localStorage.setItem('lollipop_balance', JSON.stringify({
                             balance: balance,
@@ -591,7 +583,6 @@
                     autoLabel.textContent = 'Auto: ON';
                     autoRefreshBtn.classList.add('btn-primary');
                     autoRefreshBtn.classList.remove('btn-secondary');
-                    // Mulai timer
                     if (autoRefreshTimer) clearInterval(autoRefreshTimer);
                     autoRefreshTimer = setInterval(() => {
                         fetchBalance(false);
@@ -609,14 +600,13 @@
                 }
             }
 
-            // ===== LOAD CACHED BALANCE (opsional, biar cepet tampil) =====
+            // ===== LOAD CACHED BALANCE =====
             function loadCachedBalance() {
                 try {
                     const cached = localStorage.getItem('lollipop_balance');
                     if (cached) {
                         const parsed = JSON.parse(cached);
                         if (parsed && typeof parsed.balance === 'number') {
-                            // Tampilkan sementara, nanti di-refresh
                             balanceDisplay.textContent = formatRupiah(parsed.balance);
                             balanceDisplay.classList.remove('loading');
                             setStatusBadge('loading', 'Memuat ulang...');
@@ -627,17 +617,12 @@
 
             // ===== INIT =====
             function init() {
-                // Coba tampilkan cache dulu
                 loadCachedBalance();
-
-                // Fetch balance pertama kali
                 fetchBalance(false);
 
-                // Event listeners
                 refreshBtn.addEventListener('click', () => fetchBalance(true));
                 autoRefreshBtn.addEventListener('click', toggleAutoRefresh);
 
-                // Keyboard shortcut: R untuk refresh
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'r' || e.key === 'R') {
                         if (!e.target.matches('input, textarea')) {
@@ -648,7 +633,6 @@
                 });
             }
 
-            // ===== JALANKAN =====
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', init);
             } else {
