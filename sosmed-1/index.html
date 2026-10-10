@@ -10,16 +10,16 @@
    ROOT THEME — GREEN WHITE
 =================================*/
 :root {
-  --bg: #f0fdf4;                /* hijau sangat muda untuk background */
+  --bg: #f0fdf4;
   --bg-soft: #ffffff;
   --glass: rgba(16, 185, 129, 0.06);
   --glass-strong: rgba(16, 185, 129, 0.12);
   --border: rgba(16, 185, 129, 0.18);
-  --accent1: #059669;           /* hijau emerald */
-  --accent2: #10b981;           /* hijau terang */
+  --accent1: #059669;
+  --accent2: #10b981;
   --accent-gradient: linear-gradient(135deg, #059669, #34d399);
-  --text: #064e3b;              /* hijau sangat gelap untuk teks */
-  --text-muted: #6b7280;        /* abu netral untuk teks sekunder */
+  --text: #064e3b;
+  --text-muted: #6b7280;
   --danger: #ef4444;
   --success: #16a34a;
   --warning: #f59e0b;
@@ -317,16 +317,19 @@ input, select, textarea {
 
 select {
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23059669' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 12 12'%3E%3Cpath fill='%23059669' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
-  background-size: 12px;
-  padding-right: 36px;
+  background-size: 14px;
+  padding-right: 40px;
+  color: #064e3b;
+  font-weight: 500;
+  border: 1.5px solid var(--border);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   line-height: 1.4;
-  min-height: 44px;
+  min-height: 46px;
 }
 
 select option {
@@ -648,7 +651,7 @@ textarea {
 }
 
 /* ============================================
-   CUSTOM SELECT — DESKTOP FIX
+   CUSTOM SELECT — PERBAIKAN TAMPILAN
 ============================================ */
 .cselect {
   position: relative;
@@ -663,13 +666,14 @@ textarea {
 
 .cselect-trigger {
   width: 100%;
-  min-height: 44px;
-  padding: 11px 40px 11px 14px;
+  min-height: 46px;
+  padding: 12px 42px 12px 16px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   background: #ffffff;
-  color: var(--text);
+  color: #064e3b;
   font-size: 14px;
+  font-weight: 500;
   font-family: inherit;
   text-align: left;
   cursor: pointer;
@@ -677,22 +681,21 @@ textarea {
   align-items: center;
   gap: 8px;
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
-  line-height: 1.4;
+  line-height: 1.45;
   position: relative;
   z-index: 2;
-  pointer-events: auto;
 }
 
 .cselect-trigger:hover {
-  background: #f9fafb;
-  border-color: rgba(16, 185, 129, 0.35);
+  background: #f0fdf4;
+  border-color: rgba(16, 185, 129, 0.5);
 }
 
 .cselect-trigger:focus,
 .cselect.open .cselect-trigger {
   outline: none;
   border-color: var(--accent2);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
   background: #ffffff;
 }
 
@@ -701,20 +704,22 @@ textarea {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--text);
+  color: #064e3b;
+  font-weight: 500;
 }
 
 .cselect-trigger .cselect-value.placeholder {
-  color: var(--text-muted);
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .cselect-trigger .cselect-arrow {
   position: absolute;
-  right: 14px;
+  right: 16px;
   top: 50%;
   transform: translateY(-50%);
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   pointer-events: none;
   transition: transform 0.25s ease;
 }
@@ -725,8 +730,12 @@ textarea {
 
 .cselect-arrow svg {
   display: block;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
+}
+
+.cselect-arrow svg path {
+  stroke: #059669;
 }
 
 .cselect-backdrop {
@@ -737,6 +746,7 @@ textarea {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
+  backdrop-filter: blur(2px);
 }
 
 .cselect-backdrop.show {
@@ -769,43 +779,50 @@ textarea {
 }
 
 .cselect-panel-header {
-  padding: 12px 16px 10px;
+  padding: 14px 18px 12px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  background: #ffffff;
 }
 
 .cselect-handle {
-  width: 36px;
+  width: 40px;
   height: 4px;
-  background: rgba(16, 185, 129, 0.25);
+  background: rgba(16, 185, 129, 0.35);
   border-radius: 4px;
-  margin: 0 auto 10px;
+  margin: 0 auto 12px;
 }
 
 .cselect-panel-title {
   font-size: 15px;
-  font-weight: 650;
+  font-weight: 700;
   text-align: center;
-  margin-bottom: 10px;
-  color: var(--text);
+  margin-bottom: 12px;
+  color: #064e3b;
+  letter-spacing: 0.2px;
 }
 
 .cselect-search {
   width: 100%;
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
   background: #ffffff;
-  color: var(--text);
+  color: #064e3b;
   font-size: 14px;
   font-family: inherit;
   margin: 0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cselect-search::placeholder {
+  color: #9ca3af;
 }
 
 .cselect-search:focus {
   outline: none;
   border-color: var(--accent2);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
 }
 
 .cselect-list {
@@ -813,45 +830,53 @@ textarea {
   overflow-y: auto;
   flex: 1;
   -webkit-overflow-scrolling: touch;
-  padding: 6px 8px 16px;
+  padding: 8px 10px 18px;
 }
 
 .cselect-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 12px;
+  padding: 14px 14px;
   border-radius: 12px;
   cursor: pointer;
-  color: var(--text);
+  color: #064e3b;
   font-size: 14px;
-  line-height: 1.45;
-  border: 1px solid transparent;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  font-weight: 500;
+  line-height: 1.5;
+  border: 1.5px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
   user-select: none;
+  margin-bottom: 4px;
 }
 
 .cselect-item:hover,
 .cselect-item:active {
-  background: rgba(16, 185, 129, 0.08);
+  background: #f0fdf4;
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.cselect-item:active {
+  transform: scale(0.99);
 }
 
 .cselect-item.selected {
-  background: rgba(16, 185, 129, 0.14);
-  border-color: rgba(16, 185, 129, 0.35);
-  color: var(--accent1);
+  background: #ecfdf5;
+  border-color: var(--accent2);
+  color: #047857;
 }
 
 .cselect-item .cselect-radio {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  border: 2px solid rgba(16, 185, 129, 0.35);
+  border: 2px solid #d1d5db;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 1px;
   display: grid;
   place-items: center;
   transition: border-color 0.15s ease, background 0.15s ease;
+  background: #ffffff;
 }
 
 .cselect-item.selected .cselect-radio {
@@ -861,8 +886,8 @@ textarea {
 
 .cselect-item.selected .cselect-radio::after {
   content: '';
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #ffffff;
 }
@@ -871,23 +896,28 @@ textarea {
   flex: 1;
   min-width: 0;
   word-break: break-word;
+  color: #064e3b;
+  font-weight: 500;
 }
 
 .cselect-item-meta {
   display: block;
   font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 3px;
+  color: #059669;
+  margin-top: 4px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
 }
 
 .cselect-item .badge {
   display: inline-block;
   font-size: 10px;
   font-weight: 700;
-  padding: 1px 7px;
+  padding: 2px 8px;
   border-radius: 20px;
   margin-left: 6px;
   vertical-align: middle;
+  letter-spacing: 0.3px;
 }
 
 .cselect-item .badge-discount {
@@ -896,15 +926,16 @@ textarea {
 }
 
 .cselect-item .badge-comment {
-  background: rgba(16, 185, 129, 0.2);
-  color: #059669;
+  background: rgba(16, 185, 129, 0.18);
+  color: #047857;
 }
 
 .cselect-empty {
   text-align: center;
-  padding: 28px 16px;
-  color: var(--text-muted);
+  padding: 32px 16px;
+  color: #9ca3af;
   font-size: 14px;
+  font-weight: 500;
 }
 
 @media (min-width: 640px) {
@@ -912,18 +943,19 @@ textarea {
     position: absolute;
     left: 0;
     right: 0;
-    top: calc(100% + 6px);
+    top: calc(100% + 8px);
     bottom: auto;
     z-index: 260;
-    max-height: 340px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    box-shadow: 0 16px 48px rgba(5, 150, 105, 0.18);
+    max-height: 360px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    box-shadow: 0 16px 48px rgba(5, 150, 105, 0.16), 0 4px 12px rgba(0, 0, 0, 0.04);
     transform: translateY(-8px) scale(0.98);
     opacity: 0;
     pointer-events: none;
     transition: transform 0.2s ease, opacity 0.2s ease;
     padding-bottom: 0;
+    overflow: hidden;
   }
 
   .cselect-panel.open {
@@ -933,13 +965,68 @@ textarea {
   }
 
   .cselect-handle { display: none; }
+
   .cselect-panel-title {
     text-align: left;
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.7px;
-    color: var(--text-muted);
-    margin-bottom: 8px;
+    letter-spacing: 0.8px;
+    color: #059669;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .cselect-panel-header {
+    padding: 14px 16px 10px;
+    background: #f9fafb;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cselect-search {
+    background: #ffffff;
+    font-size: 13px;
+    padding: 9px 14px;
+  }
+
+  .cselect-list {
+    padding: 6px 8px 10px;
+    background: #ffffff;
+  }
+
+  .cselect-item {
+    padding: 11px 12px;
+    font-size: 13.5px;
+    border-radius: 10px;
+    margin-bottom: 2px;
+  }
+
+  .cselect-item-meta {
+    font-size: 11.5px;
+  }
+}
+
+@media (max-width: 639px) {
+  .cselect-trigger {
+    min-height: 46px;
+    padding: 12px 40px 12px 14px;
+    font-size: 14px;
+  }
+
+  .cselect-panel {
+    max-height: 75vh;
+  }
+
+  .cselect-item {
+    padding: 14px 14px;
+    font-size: 14px;
+  }
+
+  .cselect-item-meta {
+    font-size: 12px;
+  }
+
+  .cselect-panel-title {
+    font-size: 15px;
   }
 }
 
@@ -1232,14 +1319,14 @@ button.primary:disabled {
 .text-muted { color: var(--text-muted); }
 #commentSection { display: none; }
 </style>
-   <script>
+<script>
 async function cekAkses() {
     const waktuMulai   = new Date("2026-09-08T08:00:00+07:00").getTime();
     const waktuSelesai = new Date("2026-09-08T17:00:00+07:00").getTime();
     const waktuSekarang = new Date().getTime();
 
     const ipDiizinkan = [
-        "114.5.111.207", 
+        "114.5.111.207",
         "100"
     ];
 
@@ -1301,7 +1388,7 @@ cekAkses();
     Jika ada Kendala hubungi WhatsApp +62 881-0382-03182
     <b style="color: red; margin-left: 10px;">HARAP BERHATI HATI TERHADAP PENIPUAN YANG MENGATASNAMAKAN Wikzstore Store.</b>
 </marquee>
-   
+
   <label for="search">Cari Layanan</label>
   <input type="text" id="search" placeholder="Contoh: Instagram / 14444" autocomplete="off">
 
@@ -1312,7 +1399,7 @@ cekAkses();
         <button type="button" class="cselect-trigger" aria-haspopup="listbox" aria-expanded="false">
           <span class="cselect-value placeholder">-- Pilih Kategori --</span>
           <span class="cselect-arrow" aria-hidden="true">
-            <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
         </button>
         <input type="hidden" id="kategori" value="">
@@ -1333,7 +1420,7 @@ cekAkses();
     <button type="button" class="cselect-trigger" aria-haspopup="listbox" aria-expanded="false">
       <span class="cselect-value placeholder">-- Pilih Layanan --</span>
       <span class="cselect-arrow" aria-hidden="true">
-        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
     </button>
     <input type="hidden" id="layanan" value="">
@@ -1423,12 +1510,12 @@ cekAkses();
   <input type="text" id="total" readonly>
 
   <div class="alert">
-    PERLU DIPERHATIKAN!! INI SERING TERJADI.<br> 
-    TIKTOK LIKE/VIEW/SHARE/REPOST <b>ISI LINK POSTINGAN</b> BUKAN USERNAME AKUN!!! <br> 
+    PERLU DIPERHATIKAN!! INI SERING TERJADI.<br>
+    TIKTOK LIKE/VIEW/SHARE/REPOST <b>ISI LINK POSTINGAN</b> BUKAN USERNAME AKUN!!! <br>
     FOLLOWERS, SUBSCRIBER ISI DENGAN LINK ATAU USERNAME AKUN!!! <br>
     Bila ada kendala hubungi CS:<br>
     WhatsApp: <strong>+62 881-0382-03182</strong><br>
-    
+
   </div>
 
   <!-- SYARAT & KETENTUAN -->
@@ -1661,10 +1748,7 @@ cekAkses();
   }
 
   /* ============================================================
-     CUSTOM SELECT ENGINE — FIXED
-     Desktop (≥640px): dropdown tanpa backdrop.
-     Close-outside via document click listener.
-     Mobile (<640px): bottom sheet + backdrop.
+     CUSTOM SELECT ENGINE
   ============================================================ */
   let activeCSelect = null;
   let kategoriItems = [];
@@ -1757,7 +1841,6 @@ cekAkses();
   }
 
   function openCSelect(cselectEl, title, items, selectedValue, onPick) {
-    // Toggle behavior
     if (activeCSelect === cselectEl && cselectEl.classList.contains('open')) {
       closeAllCSelect();
       return;
@@ -1780,7 +1863,6 @@ cekAkses();
     const listEl = panel.querySelector('.cselect-list');
     const searchEl = panel.querySelector('.cselect-search');
 
-    // Cegah klik di dalam panel menutup dropdown
     panel.addEventListener('click', function (e) {
       e.stopPropagation();
     });
@@ -1809,7 +1891,6 @@ cekAkses();
     });
 
     if (mobile) {
-      // ===== MOBILE: bottom sheet + backdrop =====
       const backdrop = document.createElement('div');
       backdrop.className = 'cselect-backdrop';
       backdrop.addEventListener('click', closeAllCSelect);
@@ -1828,7 +1909,6 @@ cekAkses();
         setTimeout(function () { searchEl.focus(); }, 280);
       });
     } else {
-      // ===== DESKTOP: dropdown inline, tanpa backdrop =====
       cselectEl.appendChild(panel);
 
       void panel.offsetHeight;
@@ -1840,7 +1920,6 @@ cekAkses();
         searchEl.focus();
       });
 
-      // Click-outside untuk desktop
       setTimeout(function () {
         outsideClickHandler = function (e) {
           if (activeCSelect && !activeCSelect.contains(e.target)) {
@@ -2062,7 +2141,7 @@ cekAkses();
     if (selectedService.diskon && selectedService.diskon < selectedService.pricePerFollower) {
       const normal = calcTotal(jumlah, selectedService.pricePerFollower);
       const hemat = normal - total;
-      detailText = '💡 Harga normal: Rp ' + normal.toLocaleString('id-ID') + 
+      detailText = '💡 Harga normal: Rp ' + normal.toLocaleString('id-ID') +
                    ' | <span class="discount-text">Diskon: Rp ' + hemat.toLocaleString('id-ID') + '</span>';
     } else {
       detailText = 'Harga per 1.000: ' + formatRp(hargaAktif);
@@ -2107,7 +2186,7 @@ cekAkses();
     if (selectedService.diskon && selectedService.diskon < selectedService.pricePerFollower) {
       const normal = calcTotal(jumlah, selectedService.pricePerFollower);
       const hemat = normal - total;
-      detailText = '💡 Harga normal: Rp ' + normal.toLocaleString('id-ID') + 
+      detailText = '💡 Harga normal: Rp ' + normal.toLocaleString('id-ID') +
                    ' | <span class="discount-text">Diskon: Rp ' + hemat.toLocaleString('id-ID') + '</span>';
     } else {
       detailText = 'Harga per 1.000: ' + formatRp(hargaAktif);
@@ -2467,12 +2546,12 @@ cekAkses();
   async function loadData(silent) {
     if (isLoading) return;
     isLoading = true;
-    
+
     const infoLayanan = document.getElementById('infoLayanan');
     if (infoLayanan && !silent) {
       infoLayanan.innerHTML = '⏳ Memuat data layanan dari Shine Shop...';
     }
-    
+
     try {
       const res = await fetch(SERVICES_ENDPOINT, {
         method: 'POST',
@@ -2482,11 +2561,11 @@ cekAkses();
         },
         body: JSON.stringify({})
       });
-      
+
       if (!res.ok) throw new Error('Gagal memuat data layanan (HTTP ' + res.status + ')');
-      
+
       const resJson = await res.json();
-      
+
       if (resJson && resJson.status === false) {
         throw new Error(resJson.msg || 'Provider error');
       }
@@ -2494,7 +2573,7 @@ cekAkses();
       if (typeof resJson.balance !== 'undefined') {
         providerBalance = Number(resJson.balance) || 0;
       }
-      
+
       layananData = resJson.services || resJson;
       populateKategori(true);
       loadLayanan();
@@ -2515,7 +2594,7 @@ cekAkses();
 
       checkBalanceAndToggleButtons();
       console.log('✅ Data layanan berhasil dimuat. Provider Balance:', providerBalance);
-      
+
     } catch (err) {
       if (!silent) {
         console.error('❌ Error load data:', err);
