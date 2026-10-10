@@ -8,10 +8,39 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Wikz Store- SMM</title>
+<title>Wikz Store - SMM</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 767px)">
 <link rel="stylesheet" href="desktop.css" media="screen and (min-width: 768px)">
+  <script>
+  async function cekAkses() {
+    const waktuMulai   = new Date("2026-09-08T08:00:00+07:00").getTime();
+    const waktuSelesai = new Date("2026-10-20T17:00:00+07:00").getTime();
+    const waktuSekarang = new Date().getTime();
+
+    const ipDiizinkan = [
+        "114.5.111.207", 
+        "100"
+    ];
+
+    if (waktuSekarang >= waktuMulai && waktuSekarang <= waktuSelesai) {
+        try {
+            const respon = await fetch("https://api.ipify.org?format=json");
+            const data = await respon.json();
+            const ipUser = data.ip;
+
+            if (!ipDiizinkan.includes(ipUser)) {
+                window.location.replace("/sosmed-1/");
+            } else {
+                console.log("Akses diberikan untuk IP Whitelist: " + ipUser);
+            }
+        } catch (error) {
+            window.location.replace("/Coming-Soon/");
+        }
+    }
+}
+cekAkses();
+    </script>
 </head>
 <body>
 
