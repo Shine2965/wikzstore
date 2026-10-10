@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Saldo — Suntik Sosmed 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b0f1c 0%, #141b2b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .card {
+            background: rgba(22, 28, 45, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 2.5rem;
+            padding: 2.5rem 2rem;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 215, 0, 0.1) inset;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #f5b042, #e08e1a);
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 20px -6px rgba(245, 176, 66, 0.3);
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, #c9d2e3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h1 span {
+            font-weight: 300;
+            color: #8f9bb3;
+            -webkit-text-fill-color: #8f9bb3;
+            background: none;
+        }
+
+        .balance-box {
+            background: rgba(12, 17, 29, 0.7);
+            border-radius: 2rem;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(245, 176, 66, 0.15);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .balance-box::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(245, 176, 66, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .balance-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #8f9bb3;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .balance-label svg {
+            width: 18px;
+            height: 18px;
+            stroke: #f5b042;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .balance-amount {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .currency {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #f5b042;
+            opacity: 0.9;
+        }
+
+        .amount-value {
+            font-size: 3.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            word-break: break-word;
+        }
+
+        .amount-value.loading {
+            color: #3a4459;
+            animation: pulse 1.4s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            background: rgba(44, 182, 125, 0.15);
+            color: #2cb67d;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(44, 182, 125, 0.2);
+        }
+
+        .status-badge.error {
+            background: rgba(229, 62, 62, 0.12);
+            color: #f56565;
+            border-color: rgba(229, 62, 62, 0.2);
+        }
+
+        .status-badge.loading-badge {
+            background: rgba(245, 176, 66, 0.1);
+            color: #f5b042;
+            border-color: rgba(245, 176, 66, 0.2);
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .action-area {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 140px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem 1.5rem;
+            border-radius: 1.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            letter-spacing: -0.01em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f5b042 0%, #e08e1a 100%);
+            color: #0b0f1c;
+            border: none;
+            box-shadow: 0 12px 24px -10px rgba(245, 176, 66, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #f7bc5c 0%, #e89b2a 100%);
+            transform: scale(1.02);
+            box-shadow: 0 16px 28px -10px rgba(245, 176, 66, 0.5);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .btn-primary svg {
+            stroke: #0b0f1c;
+        }
+
+        .footer-note {
+            margin-top: 1.8rem;
+            text-align: center;
+            color: #5a6478;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 1.5rem;
+        }
+
+        .footer-note svg {
+            width: 14px;
+            height: 14px;
+            stroke: #5a6478;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a2235;
+            border-left: 4px solid #f5b042;
+            padding: 1rem 1.8rem;
+            border-radius: 1rem;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.9);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999;
+            max-width: 90%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast svg {
+            width: 20px;
+            height: 20px;
+            stroke: #f5b042;
+            stroke-width: 2;
+            fill: none;
+            flex-shrink: 0;
+        }
+
+        .toast.error {
+            border-left-color: #f56565;
+        }
+
+        .toast.error svg {
+            stroke: #f56565;
+        }
+
+        .last-updated {
+            font-size: 0.72rem;
+            color: #5a6478;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .last-updated svg {
+            width: 12px;
+            height: 12px;
+            stroke: #5a6478;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card {
+                padding: 1.8rem 1.2rem;
+                border-radius: 2rem;
+            }
+            .amount-value {
+                font-size: 2.8rem;
+            }
+            .currency {
+                font-size: 1.4rem;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .btn {
+                min-width: 100%;
+                padding: 0.9rem 1.2rem;
+                font-size: 0.95rem;
+            }
+            .balance-box {
+                padding: 1.5rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-icon">🍭</div>
+            <h1>Saldo pusat <span>Suntik Sosmed 1</span></h1>
+        </div>
+
+        <!-- Balance Display -->
+        <div class="balance-box">
+            <div class="balance-label">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Saldo Tersedia
+            </div>
+            <div class="balance-amount">
+                <span class="currency">Rp</span>
+                <span class="amount-value loading" id="balanceDisplay">—</span>
+            </div>
+            <div id="statusBadgeContainer">
+                <span class="status-badge loading-badge">
+                    <span class="dot"></span> Memuat saldo...
+                </span>
+            </div>
+            <div class="last-updated" id="lastUpdated" style="display:none;">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span id="updatedTime"></span>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-area">
+            <button class="btn btn-primary" id="refreshBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M23 4v6h-6M1 20v-6h6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Refresh
+            </button>
+            <button class="btn btn-secondary" id="autoRefreshBtn">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span id="autoLabel">Auto: OFF</span>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-note">
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Dibuat Oleh • Shine Shop - 2023
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4M12 16h.01" stroke-linecap="round"/>
+        </svg>
+        <span id="toastMessage">Pesan</span>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== KONFIGURASI =====
+            const API_ENDPOINT = '/api/lollipop-services';
+            const AUTO_REFRESH_INTERVAL = 30000; // 30 detik
+
+            // ===== DOM ELEMENTS =====
+            const balanceDisplay = document.getElementById('balanceDisplay');
+            const statusBadgeContainer = document.getElementById('statusBadgeContainer');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const autoRefreshBtn = document.getElementById('autoRefreshBtn');
+            const autoLabel = document.getElementById('autoLabel');
+            const lastUpdated = document.getElementById('lastUpdated');
+            const updatedTime = document.getElementById('updatedTime');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            // ===== STATE =====
+            let isLoading = false;
+            let autoRefreshTimer = null;
+            let isAutoRefreshOn = false;
+            let toastTimeout = null;
+
+            // ===== FORMAT RUPIAH =====
+            function formatRupiah(value) {
+                const num = Number(value) || 0;
+                return num.toLocaleString('id-ID', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+            }
+
+            // ===== SHOW TOAST =====
+            function showToast(message, isError = false) {
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastMessage.textContent = message;
+                toast.classList.toggle('error', isError);
+                toast.classList.add('show');
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3500);
+            }
+
+            // ===== UPDATE STATUS BADGE =====
+            function setStatusBadge(type, text) {
+                const badge = statusBadgeContainer.querySelector('.status-badge');
+                if (!badge) return;
+                badge.className = 'status-badge';
+                if (type === 'success') {
+                    badge.classList.add(''); // default green
+                    badge.innerHTML = '<span class="dot"></span> ' + text;
+                } else if (type === 'error') {
+                    badge.classList.add('error');
+                    badge.innerHTML = '<span class="dot"></span> ' + text;
+                } else if (type === 'loading') {
+                    badge.classList.add('loading-badge');
+                    badge.innerHTML = '<span class="dot"></span> ' + text;
+                }
+            }
+
+            // ===== SET LOADING STATE =====
+            function setLoading(loading) {
+                isLoading = loading;
+                refreshBtn.disabled = loading;
+
+                if (loading) {
+                    balanceDisplay.classList.add('loading');
+                    balanceDisplay.textContent = '—';
+                    setStatusBadge('loading', 'Memuat saldo...');
+                } else {
+                    balanceDisplay.classList.remove('loading');
+                }
+            }
+
+            // ===== UPDATE LAST UPDATED TIME =====
+            function updateTimestamp() {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                updatedTime.textContent = 'Terakhir diperbarui: ' + timeStr;
+                lastUpdated.style.display = 'flex';
+            }
+
+            // ===== FETCH BALANCE =====
+            async function fetchBalance(showToastOnSuccess = false) {
+                if (isLoading) return;
+
+                setLoading(true);
+
+                try {
+                    const response = await fetch(API_ENDPOINT + '?action=balance', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('HTTP ' + response.status);
+                    }
+
+                    const data = await response.json();
+
+                    if (!data || data.status !== true) {
+                        throw new Error(data?.msg || 'Respon tidak valid');
+                    }
+
+                    // ===== TAMPILKAN SALDO =====
+                    const balance = Number(data.balance) || 0;
+                    balanceDisplay.textContent = formatRupiah(balance);
+                    balanceDisplay.classList.remove('loading');
+
+                    // ===== STATUS BADGE =====
+                    setStatusBadge('success', 'Saldo berhasil dimuat');
+
+                    // ===== TIMESTAMP =====
+                    updateTimestamp();
+
+                    // ===== TOAST =====
+                    if (showToastOnSuccess) {
+                        showToast('Saldo berhasil diperbarui: Rp ' + formatRupiah(balance), false);
+                    }
+
+                    // ===== SIMPAN KE LOCALSTORAGE =====
+                    try {
+                        localStorage.setItem('lollipop_balance', JSON.stringify({
+                            balance: balance,
+                            timestamp: Date.now()
+                        }));
+                    } catch (e) { /* ignore */ }
+
+                } catch (error) {
+                    console.error('❌ Gagal fetch balance:', error);
+                    balanceDisplay.textContent = '—';
+                    balanceDisplay.classList.remove('loading');
+                    setStatusBadge('error', 'Gagal memuat saldo');
+                    lastUpdated.style.display = 'none';
+
+                    if (showToastOnSuccess) {
+                        showToast('Gagal memuat saldo: ' + (error.message || 'Kesalahan jaringan'), true);
+                    }
+                } finally {
+                    setLoading(false);
+                }
+            }
+
+            // ===== TOGGLE AUTO REFRESH =====
+            function toggleAutoRefresh() {
+                isAutoRefreshOn = !isAutoRefreshOn;
+
+                if (isAutoRefreshOn) {
+                    autoLabel.textContent = 'Auto: ON';
+                    autoRefreshBtn.classList.add('btn-primary');
+                    autoRefreshBtn.classList.remove('btn-secondary');
+                    // Mulai timer
+                    if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+                    autoRefreshTimer = setInterval(() => {
+                        fetchBalance(false);
+                    }, AUTO_REFRESH_INTERVAL);
+                    showToast('Auto refresh aktif (setiap 30 detik)', false);
+                } else {
+                    autoLabel.textContent = 'Auto: OFF';
+                    autoRefreshBtn.classList.remove('btn-primary');
+                    autoRefreshBtn.classList.add('btn-secondary');
+                    if (autoRefreshTimer) {
+                        clearInterval(autoRefreshTimer);
+                        autoRefreshTimer = null;
+                    }
+                    showToast('Auto refresh dimatikan', false);
+                }
+            }
+
+            // ===== LOAD CACHED BALANCE (opsional, biar cepet tampil) =====
+            function loadCachedBalance() {
+                try {
+                    const cached = localStorage.getItem('lollipop_balance');
+                    if (cached) {
+                        const parsed = JSON.parse(cached);
+                        if (parsed && typeof parsed.balance === 'number') {
+                            // Tampilkan sementara, nanti di-refresh
+                            balanceDisplay.textContent = formatRupiah(parsed.balance);
+                            balanceDisplay.classList.remove('loading');
+                            setStatusBadge('loading', 'Memuat ulang...');
+                        }
+                    }
+                } catch (e) { /* ignore */ }
+            }
+
+            // ===== INIT =====
+            function init() {
+                // Coba tampilkan cache dulu
+                loadCachedBalance();
+
+                // Fetch balance pertama kali
+                fetchBalance(false);
+
+                // Event listeners
+                refreshBtn.addEventListener('click', () => fetchBalance(true));
+                autoRefreshBtn.addEventListener('click', toggleAutoRefresh);
+
+                // Keyboard shortcut: R untuk refresh
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'r' || e.key === 'R') {
+                        if (!e.target.matches('input, textarea')) {
+                            e.preventDefault();
+                            fetchBalance(true);
+                        }
+                    }
+                });
+            }
+
+            // ===== JALANKAN =====
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+
+</body>
+</html>
